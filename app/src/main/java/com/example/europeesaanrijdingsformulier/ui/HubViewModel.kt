@@ -7,7 +7,10 @@ import com.example.anthonyvannoppen.androidproject.base.InjectedViewModel
 
 import com.example.anthonyvannoppen.androidproject.network.HubApi
 import com.example.europeesaanrijdingsformulier.insurer.Insurer
+import com.example.europeesaanrijdingsformulier.profile.Profile
+import com.example.europeesaanrijdingsformulier.report.Report
 import com.orhanobut.logger.Logger
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -75,30 +78,39 @@ class HubViewModel: InjectedViewModel(){
         return insurers
     }
 
-    /*
-    fun postMeme(insurer:Insurer){
 
-        hubApi.addInsurer(meme.op,meme.titel,meme.categorie,meme.beschrijving,meme.afbeelding).
+    fun postProfile(profile: Profile): Observable<Profile> {
+        val returnedProfiel  = hubApi.addProfile(profile)
+        /* returnedProfiel.
             subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                { result -> Log.v("POSTED ARTICLE", "" + meme ) },
+                { result -> Log.v("POSTED ARTICLE", "" + profile ) },
                 { error -> Log.e("ERROR", error.message ) })
+*/
+        return returnedProfiel
+    }
 
-        memeApi.getAllMemes()
-            //we tell it to fetch the data on background by
-            .subscribeOn(Schedulers.io())
-            //we like the fetched data to be displayed on the MainTread (UI)
+    fun postReport(report: Report){
+/*
+        report.profiles.forEach{
+            hubApi.addProfile(it).
+                subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    { result -> Log.v("POSTED ARTICLE", "" + it ) },
+                    { error -> Log.e("ERROR", error.message ) })
+        }*/
+        hubApi.addReport(report).
+            subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { onRetrieveMemeStart() }
-            .doOnTerminate { onRetrieveMemeFinish() }
             .subscribe(
-                { result -> onRetrieveMemeSuccess(result) },
-                { error -> onRetrieveMemeError(error) }
-            )
+                { result -> Log.v("POSTED ARTICLE", "" + report ) },
+                { error -> Log.e("ERROR", error.message ) })
 
 
     }
+    /*
     fun postComment(comment: Comment){
         memeApi.addComment(comment.op,comment.tekst,comment.meme.toInt()).
             subscribeOn(Schedulers.io())

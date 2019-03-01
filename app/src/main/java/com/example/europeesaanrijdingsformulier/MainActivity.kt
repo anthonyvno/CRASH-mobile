@@ -31,8 +31,8 @@ class MainActivity : AppCompatActivity() {
             .addToBackStack("main")
             .commit()
 
-        val insurer1 = viewModel.getInsurers().value!!.get(0).name
-        Log.d("sander", insurer1)
+        //val insurer1 = viewModel.getInsurers().value!!.get(0).name
+        //Log.d("sander", insurer1)
         viewModel.getInsurers().observe(this, Observer{
             it!!.forEach { i -> Log.d("sander",i.name+i.country+i.id )}
         })
