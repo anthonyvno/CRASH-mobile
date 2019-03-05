@@ -7,6 +7,7 @@ import com.example.anthonyvannoppen.androidproject.base.InjectedViewModel
 
 import com.example.anthonyvannoppen.androidproject.network.HubApi
 import com.example.europeesaanrijdingsformulier.insurer.Insurer
+import com.example.europeesaanrijdingsformulier.profile.License
 import com.example.europeesaanrijdingsformulier.profile.Profile
 import com.example.europeesaanrijdingsformulier.report.Report
 import com.orhanobut.logger.Logger
@@ -79,8 +80,16 @@ class HubViewModel: InjectedViewModel(){
     }
 
 
+    fun postLicense(license:License):Observable<License>{
+        val returnedLicense = hubApi.addLicense(license)
+        Log.d("license tag",license.category+license.licenseNumber)
+
+        return returnedLicense
+    }
     fun postProfile(profile: Profile): Observable<Profile> {
         val returnedProfiel  = hubApi.addProfile(profile)
+        Log.d("dikke tag",profile.email+profile.firstName+profile.lastName)
+
         /* returnedProfiel.
             subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

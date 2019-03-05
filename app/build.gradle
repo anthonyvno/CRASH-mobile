@@ -20,7 +20,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.europeesaanrijdingsformulier"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -45,6 +45,8 @@ dependencies {
     implementation 'com.android.support:design:28.0.0'
     implementation 'com.android.support:support-v4:28.0.0'
 
+    implementation 'com.google.code.gson:gson:2.8.5'
+
     //Logger functionality with beautiful logging : https://github.com/orhanobut/logger
     implementation 'com.orhanobut:logger:2.2.0'
     //espresso & testing
@@ -55,8 +57,14 @@ dependencies {
     androidTestImplementation 'com.android.support.test:rules:1.0.2'
     testImplementation 'junit:junit:4.12'
 
+    //picasso
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
+    //implementation 'com.github.mukeshsolanki:Android-Shared-Preferences-TinyDB-:<latest-version>'
 
     implementation 'android.arch.lifecycle:extensions:1.1.1'
+    kapt 'android.arch.lifecycle:compiler:1.1.1'
+
 
 
     implementation 'com.android.support:recyclerview-v7:28.0.0'
@@ -83,6 +91,11 @@ dependencies {
     androidTestImplementation 'com.android.support.test:rules:1.0.2'
     //Moshi
     implementation "com.squareup.moshi:moshi-kotlin:$versions.moshi"
+
+    // Room components
+    implementation "android.arch.persistence.room:runtime:1.1.1"
+    kapt "android.arch.persistence.room:compiler:1.1.1"
+    androidTestImplementation "android.arch.persistence.room:testing:1.1.1"
 
     // Anko
     implementation 'org.jetbrains.anko:anko-common:0.10.4'

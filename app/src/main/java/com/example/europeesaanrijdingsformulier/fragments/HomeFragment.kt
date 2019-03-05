@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.europeesaanrijdingsformulier.R
+import com.example.europeesaanrijdingsformulier.profile.ProfileSummaryFragment
 import com.example.europeesaanrijdingsformulier.report.ReportAlgemeenAFragment
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -15,6 +16,9 @@ class HomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
+
 
     }
 
@@ -35,6 +39,23 @@ class HomeFragment : Fragment() {
                 .addToBackStack(null)
                 .commit()
         }
+
+        button_home_toProfile.setOnClickListener{
+            this.fragmentManager!!.beginTransaction()
+                .replace(R.id.container_main,ProfileSummaryFragment())
+                .addToBackStack(null)
+                .commit()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+    }
+
+    override fun onStop() {
+        super.onStop()
+        activity!!.actionBar?.show()
     }
 
 

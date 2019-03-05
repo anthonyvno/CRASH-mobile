@@ -17,28 +17,23 @@ import java.util.logging.Logger
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var viewModel :  HubViewModel
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(my_toolbar)
-        viewModel = ViewModelProviders.of(this).get(HubViewModel::class.java)
+
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setDisplayShowHomeEnabled(true)
+
 
         supportFragmentManager.beginTransaction()
             .add(R.id.container_main, HomeFragment())
             .addToBackStack("main")
             .commit()
 
-        //val insurer1 = viewModel.getInsurers().value!!.get(0).name
-        //Log.d("sander", insurer1)
-        viewModel.getInsurers().observe(this, Observer{
-            it!!.forEach { i -> Log.d("sander",i.name+i.country+i.id )}
-        })
 
     }
-
 
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -58,5 +53,12 @@ class MainActivity : AppCompatActivity() {
             R.id.action_formulieren -> true
             else -> super.onOptionsItemSelected(item)
         }
+
+
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 }
