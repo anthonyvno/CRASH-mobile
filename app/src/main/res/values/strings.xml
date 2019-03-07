@@ -22,4 +22,11 @@
         <item>D1</item>
         <item>D1E</item>
     </string-array>
+
+    <string-array name="vehicleCategory">
+        <item>Auto</item>
+        <item>Bus</item>
+        <item>Vrachtwagen</item>
+        <item>Motorfiets</item>
+    </string-array>
 </resources>

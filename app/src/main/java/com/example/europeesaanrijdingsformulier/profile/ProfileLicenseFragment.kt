@@ -56,7 +56,6 @@ class ProfileLicenseFragment : Fragment() {
         val gson: Gson = Gson()
 
         button_profile_license_confirm.setOnClickListener{
-            //val category = textedit_profile_license_category.text.toString()
             val expires = textedit_profile_license_expires.text.toString()
             val licenseNumber = textedit_profile_license_licenseNumber.text.toString()
 
@@ -91,7 +90,7 @@ class ProfileLicenseFragment : Fragment() {
         val option = activity!!.findViewById<Spinner>(R.id.spinner_profile_license_category)
         val adapter = ArrayAdapter(activity!!, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.licenseCategory))
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        option.setAdapter(adapter)
+        option.adapter = adapter
 
         option.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {

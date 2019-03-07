@@ -16,7 +16,6 @@
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginLeft="8dp" android:layout_marginStart="8dp" android:textSize="30dp"
             android:textStyle="bold"/>
-
     <Spinner
             android:id="@+id/spinner_profile_license_category"
             android:layout_width="100dp"
