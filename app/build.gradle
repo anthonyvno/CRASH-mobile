@@ -4,11 +4,23 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
+
 android {
     compileSdkVersion 28
+
+    dataBinding {
+        enabled = true
+    }
+
+    androidExtensions {
+        experimental = true
+    }
+
     defaultConfig {
         applicationId "com.example.europeesaanrijdingsformulier"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -20,6 +32,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    buildToolsVersion '28.0.3'
+
 }
 
 dependencies {
@@ -29,7 +44,73 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     implementation 'com.android.support:design:28.0.0'
     implementation 'com.android.support:support-v4:28.0.0'
-    testImplementation 'junit:junit:4.12'
+
+    implementation 'com.google.code.gson:gson:2.8.5'
+
+    //Logger functionality with beautiful logging : https://github.com/orhanobut/logger
+    implementation 'com.orhanobut:logger:2.2.0'
+    //espresso & testing
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-contrib:3.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-intents:3.0.2'
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
+    testImplementation 'junit:junit:4.12'
+
+    //picasso
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
+    //implementation 'com.github.mukeshsolanki:Android-Shared-Preferences-TinyDB-:<latest-version>'
+
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
+    kapt 'android.arch.lifecycle:compiler:1.1.1'
+
+
+
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
+    implementation 'com.android.support:design:28.0.0'
+    implementation 'com.android.support:cardview-v7:28.0.0'
+
+
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.3'
+    implementation 'io.reactivex.rxjava2:rxkotlin:2.2.0'
+    implementation 'com.jakewharton.rxbinding2:rxbinding-kotlin:2.1.1'
+
+    //retrofit
+    implementation "com.squareup.retrofit2:retrofit:$versions.retrofit"
+    implementation "com.squareup.retrofit2:converter-moshi:$versions.retrofit"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$versions.retrofit"
+    //OkHttp
+    implementation "com.squareup.okhttp3:okhttp:$versions.okHttp"
+    implementation "com.squareup.okhttp3:logging-interceptor:$versions.okHttp"
+    // LiveData & ViewModel
+    implementation "android.arch.lifecycle:extensions:$versions.architecture"
+    // Data binding
+    annotationProcessor "com.android.databinding:compiler:3.1.4"
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
+    //Moshi
+    implementation "com.squareup.moshi:moshi-kotlin:$versions.moshi"
+
+    // Room components
+    implementation "android.arch.persistence.room:runtime:1.1.1"
+    kapt "android.arch.persistence.room:compiler:1.1.1"
+    androidTestImplementation "android.arch.persistence.room:testing:1.1.1"
+
+    // Anko
+    implementation 'org.jetbrains.anko:anko-common:0.10.4'
+
+    implementation "com.google.dagger:dagger:$versions.dagger"
+    implementation "com.google.dagger:dagger-android-support:$versions.dagger"
+
+    // Adds the annotation processor dependency to the annotation processor classpath.
+    //Android Studio by default will not allow you to navigate to generated Dagger 2
+    // code as legitimate classes because they are not normally added to the source path.
+    // Adding the annotationProcessor plugin will add these files into the IDE classpath
+    // and enable you to have more visibility.
+    annotationProcessor "com.google.dagger:dagger-compiler:$versions.dagger"
+    kapt "com.google.dagger:dagger-compiler:$versions.dagger"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$versions.dagger"
+
+
 }
