@@ -9,6 +9,7 @@ import com.example.anthonyvannoppen.androidproject.network.HubApi
 import com.example.europeesaanrijdingsformulier.insurer.Insurer
 import com.example.europeesaanrijdingsformulier.profile.License
 import com.example.europeesaanrijdingsformulier.profile.Profile
+import com.example.europeesaanrijdingsformulier.profile.Vehicle
 import com.example.europeesaanrijdingsformulier.report.Report
 import com.orhanobut.logger.Logger
 import io.reactivex.Observable
@@ -86,9 +87,15 @@ class HubViewModel: InjectedViewModel(){
 
         return returnedLicense
     }
+
+    fun postVehicle(vehicle:Vehicle):Observable<Vehicle>{
+        val returnedVehicle = hubApi.addVehicle(vehicle)
+        return returnedVehicle
+    }
+
     fun postProfile(profile: Profile): Observable<Profile> {
         val returnedProfiel  = hubApi.addProfile(profile)
-        Log.d("dikke tag",profile.email+profile.firstName+profile.lastName)
+        //Log.d("dikke tag",profile.email+profile.firstName+profile.lastName)
 
         /* returnedProfiel.
             subscribeOn(Schedulers.io())

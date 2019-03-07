@@ -42,7 +42,7 @@ class ReportAlgemeenBFragment : Fragment() {
 
 
 
-            val profielb = viewModel.postProfile(Profile(1,firstName,lastName,email, License())).blockingFirst()
+            val profielb = viewModel.postProfile(Profile(1,firstName,lastName,email)).blockingFirst()
             val profiela = viewModel.postProfile(this.report.profiles.first()).blockingFirst()
             val profiles = listOf(profiela,profielb)
 

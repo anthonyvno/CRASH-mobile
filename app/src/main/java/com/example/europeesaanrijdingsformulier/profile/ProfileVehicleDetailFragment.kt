@@ -1,9 +1,11 @@
 package com.example.europeesaanrijdingsformulier.profile
 
 
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +13,7 @@ import com.example.anthonyvannoppen.androidproject.ui.HubViewModel
 
 import com.example.europeesaanrijdingsformulier.R
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.fragment_profile_vehicle_detail.*
 
 
@@ -24,6 +27,8 @@ class ProfileVehicleDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        viewModel = ViewModelProviders.of(activity!!).get(HubViewModel::class.java)
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_profile_vehicle_detail, container, false)
     }
@@ -43,7 +48,19 @@ class ProfileVehicleDetailFragment : Fragment() {
             val licensePlate = textedit_vehicle_detail_licensePlate.text.toString()
 
             vehicle = Vehicle(1,country,licensePlate,brand,model,type)
-            val vehicles = mutableListOf<Vehicle>(vehicle)
+            val vehicle2 = viewModel.postVehicle(vehicle).blockingFirst()
+
+
+            val jsonAlles = sharedPref!!.getString("My_Vehicles","")
+            val itemType = object : TypeToken<List<Vehicle>>() {}.type
+
+            var vehicles = gson.fromJson<MutableList<Vehicle>>(jsonAlles, itemType)
+
+            if(vehicles!=null){
+                vehicles.add(vehicle2)
+            } else {
+                vehicles = mutableListOf<Vehicle>(vehicle2)
+            }
 
             val json = gson.toJson(vehicles)
 

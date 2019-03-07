@@ -3,6 +3,7 @@ package com.example.europeesaanrijdingsformulier.fragments
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,6 +27,9 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val bar = activity!! as AppCompatActivity
+        bar.supportActionBar!!.setDisplayHomeAsUpEnabled(false)
+        bar.supportActionBar!!.setDisplayShowHomeEnabled(false)
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false)
     }

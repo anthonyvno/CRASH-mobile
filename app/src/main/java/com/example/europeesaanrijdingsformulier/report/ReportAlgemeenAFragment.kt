@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,6 +28,9 @@ class   ReportAlgemeenAFragment : Fragment() {
 
     ): View? {
 
+        val bar = activity!! as AppCompatActivity
+        bar.supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        bar.supportActionBar!!.setDisplayShowHomeEnabled(true)
         viewModel = ViewModelProviders.of(activity!!).get(HubViewModel::class.java)
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_report_algemeen_a, container, false)
@@ -42,7 +46,7 @@ class   ReportAlgemeenAFragment : Fragment() {
 
 
 
-            val profiles = listOf(Profile(1,firstName,lastName,email, License()))
+            val profiles = listOf(Profile(1,firstName,lastName,email))
 
             report = Report(1,profiles)
 

@@ -2,6 +2,8 @@ package com.example.europeesaanrijdingsformulier
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity;
@@ -25,6 +27,11 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
+
+        //clear local
+        val sharedPref = getSharedPreferences(R.string.preferences_profile.toString(), Context.MODE_PRIVATE)
+        var editor = sharedPref.edit()
+        editor.clear().apply()
 
 
         supportFragmentManager.beginTransaction()

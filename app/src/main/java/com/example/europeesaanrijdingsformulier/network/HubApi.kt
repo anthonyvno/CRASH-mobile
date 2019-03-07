@@ -3,6 +3,7 @@ package com.example.anthonyvannoppen.androidproject.network
 import com.example.europeesaanrijdingsformulier.insurer.Insurer
 import com.example.europeesaanrijdingsformulier.profile.License
 import com.example.europeesaanrijdingsformulier.profile.Profile
+import com.example.europeesaanrijdingsformulier.profile.Vehicle
 import com.example.europeesaanrijdingsformulier.report.Report
 import io.reactivex.Observable
 import okhttp3.ResponseBody
@@ -41,7 +42,8 @@ interface HubApi {
     fun addProfile(@Body profile: Profile):Observable<Profile>
     @POST("/licenses")
     fun addLicense(@Body license: License):Observable<License>
-    
+    @POST("/vehicles")
+    fun addVehicle(@Body vehicle: Vehicle):Observable<Vehicle>
 
 
 }

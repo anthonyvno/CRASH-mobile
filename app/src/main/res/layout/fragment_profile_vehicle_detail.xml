@@ -9,103 +9,117 @@
     <Button
             android:text="Opslaan"
             android:layout_width="0dp"
-            android:layout_height="wrap_content" android:id="@+id/button_vehicle_detail_confirm" android:layout_marginBottom="8dp"
+            android:layout_height="wrap_content" android:id="@+id/button_vehicle_detail_confirm"
+            android:layout_marginBottom="4dp"
             app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="8dp" android:layout_marginRight="8dp"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"/>
-    <TextView
-            android:text="Gegevens voertuig"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/textView3" android:layout_marginTop="64dp"
-            app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginLeft="8dp" android:layout_marginStart="8dp" android:textSize="30dp"
-            android:textStyle="bold"/>
-
-    <android.support.design.widget.TextInputLayout android:layout_height="wrap_content"
-                                                   android:layout_width="match_parent"
-                                                   android:id="@+id/edit_vehicle_detail_type"
-                                                   app:layout_constraintTop_toBottomOf="@+id/textView3"
-                                                   app:layout_constraintStart_toStartOf="parent"
-                                                   android:layout_marginLeft="8dp" android:layout_marginStart="8dp"
-                                                   android:layout_marginTop="8dp">
-
-        <android.support.design.widget.TextInputEditText
-                android:layout_width="wrap_content"
-                android:id="@+id/textedit_vehicle_detail_type"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:hint="Type"
-                android:ems="10"
-        />
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <android.support.constraint.ConstraintLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                      >
 
 
-    </android.support.design.widget.TextInputLayout>
-    <android.support.design.widget.TextInputLayout android:layout_height="wrap_content"
-                                                   android:layout_width="match_parent"
-                                                   android:id="@+id/edit_vehicle_detail_brand"
-                                                   android:layout_marginTop="8dp"
-                                                   app:layout_constraintTop_toBottomOf="@+id/edit_vehicle_detail_type"
-                                                   app:layout_constraintStart_toStartOf="parent"
-                                                   android:layout_marginLeft="8dp" android:layout_marginStart="8dp">
+            <TextView
+                    android:text="Gegevens voertuig"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/textView3" android:layout_marginTop="64dp"
+                    app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginLeft="8dp" android:layout_marginStart="8dp" android:textSize="30dp"
+                    android:textStyle="bold"/>
 
-        <android.support.design.widget.TextInputEditText
-                android:layout_width="wrap_content"
-                android:id="@+id/textedit_vehicle_detail_brand"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:hint="Brand"
-                android:ems="10"
-        />
-    </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout android:layout_height="wrap_content"
+                                                           android:layout_width="match_parent"
+                                                           android:id="@+id/edit_vehicle_detail_type"
+                                                           app:layout_constraintTop_toBottomOf="@+id/textView3"
+                                                           app:layout_constraintStart_toStartOf="parent"
+                                                           android:layout_marginLeft="8dp" android:layout_marginStart="8dp"
+                                                           android:layout_marginTop="8dp">
 
-    <android.support.design.widget.TextInputLayout android:layout_height="wrap_content"
-                                                   android:layout_width="match_parent"
-                                                   android:id="@+id/edit_vehicle_detail_model"
-                                                   app:layout_constraintTop_toBottomOf="@+id/edit_vehicle_detail_brand"
-                                                   app:layout_constraintStart_toStartOf="parent"
-                                                   android:layout_marginLeft="8dp" android:layout_marginStart="8dp">
+                <android.support.design.widget.TextInputEditText
+                        android:layout_width="wrap_content"
+                        android:id="@+id/textedit_vehicle_detail_type"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
+                        android:hint="Type"
+                        android:ems="10"
+                />
 
-        <android.support.design.widget.TextInputEditText
-                android:layout_width="wrap_content"
-                android:id="@+id/textedit_vehicle_detail_model"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:hint="Model"
-                android:ems="10"
-        />
-    </android.support.design.widget.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout android:layout_height="wrap_content"
-                                                   android:layout_width="match_parent"
-                                                   android:id="@+id/edit_vehicle_detail_country"
-                                                   app:layout_constraintTop_toBottomOf="@+id/edit_vehicle_detail_model"
-                                                   app:layout_constraintStart_toStartOf="parent"
-                                                   android:layout_marginLeft="8dp" android:layout_marginStart="8dp">
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout android:layout_height="wrap_content"
+                                                           android:layout_width="match_parent"
+                                                           android:id="@+id/edit_vehicle_detail_brand"
+                                                           android:layout_marginTop="8dp"
+                                                           app:layout_constraintTop_toBottomOf="@+id/edit_vehicle_detail_type"
+                                                           app:layout_constraintStart_toStartOf="parent"
+                                                           android:layout_marginLeft="8dp" android:layout_marginStart="8dp">
 
-        <android.support.design.widget.TextInputEditText
-                android:layout_width="wrap_content"
-                android:id="@+id/textedit_vehicle_detail_country"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:hint="Country"
-                android:ems="10"
-        />
-    </android.support.design.widget.TextInputLayout>
-    <android.support.design.widget.TextInputLayout android:layout_height="wrap_content"
-                                                   android:layout_width="match_parent"
-                                                   android:id="@+id/edit_vehicle_detail_licensePlate"
-                                                   app:layout_constraintTop_toBottomOf="@+id/edit_vehicle_detail_country"
-                                                   app:layout_constraintStart_toStartOf="parent"
-                                                   android:layout_marginLeft="8dp" android:layout_marginStart="8dp">
+                <android.support.design.widget.TextInputEditText
+                        android:layout_width="wrap_content"
+                        android:id="@+id/textedit_vehicle_detail_brand"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
+                        android:hint="Brand"
+                        android:ems="10"
+                />
+            </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputEditText
-                android:layout_width="wrap_content"
-                android:id="@+id/textedit_vehicle_detail_licensePlate"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:hint="License plate"
-                android:ems="10"
-        />
-    </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout android:layout_height="wrap_content"
+                                                           android:layout_width="match_parent"
+                                                           android:id="@+id/edit_vehicle_detail_model"
+                                                           app:layout_constraintTop_toBottomOf="@+id/edit_vehicle_detail_brand"
+                                                           app:layout_constraintStart_toStartOf="parent"
+                                                           android:layout_marginLeft="8dp" android:layout_marginStart="8dp">
+
+                <android.support.design.widget.TextInputEditText
+                        android:layout_width="wrap_content"
+                        android:id="@+id/textedit_vehicle_detail_model"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
+                        android:hint="Model"
+                        android:ems="10"
+                />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout android:layout_height="wrap_content"
+                                                           android:layout_width="match_parent"
+                                                           android:id="@+id/edit_vehicle_detail_country"
+                                                           app:layout_constraintTop_toBottomOf="@+id/edit_vehicle_detail_model"
+                                                           app:layout_constraintStart_toStartOf="parent"
+                                                           android:layout_marginLeft="8dp" android:layout_marginStart="8dp">
+
+                <android.support.design.widget.TextInputEditText
+                        android:layout_width="wrap_content"
+                        android:id="@+id/textedit_vehicle_detail_country"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
+                        android:hint="Country"
+                        android:ems="10"
+                />
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout android:layout_height="wrap_content"
+                                                           android:layout_width="match_parent"
+                                                           android:id="@+id/edit_vehicle_detail_licensePlate"
+                                                           tools:layout_editor_absoluteY="370dp"
+                                                           tools:layout_editor_absoluteX="8dp"
+                                                           app:layout_constraintTop_toBottomOf="@+id/edit_vehicle_detail_country"
+                                                           app:layout_constraintStart_toStartOf="parent"
+                                                           android:layout_marginLeft="8dp" android:layout_marginStart="8dp">
+
+                <android.support.design.widget.TextInputEditText
+                        android:layout_width="wrap_content"
+                        android:id="@+id/textedit_vehicle_detail_licensePlate"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
+                        android:hint="License plate"
+                        android:ems="10"
+                />
+            </android.support.design.widget.TextInputLayout>
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+
 </android.support.constraint.ConstraintLayout>

@@ -4,6 +4,7 @@ package com.example.europeesaanrijdingsformulier.profile
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +21,9 @@ class ProfileSummaryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+        val bar = activity!! as AppCompatActivity
+        bar.supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        bar.supportActionBar!!.setDisplayShowHomeEnabled(true)
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_profile_summary, container, false)

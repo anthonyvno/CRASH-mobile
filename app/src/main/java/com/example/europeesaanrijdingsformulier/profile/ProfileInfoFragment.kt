@@ -42,10 +42,10 @@ class ProfileInfoFragment : Fragment() {
             val lastName = this.textedit_profile_info_lastname.text.toString()
             val email = this.textedit_profile_info_email.text.toString()
 
-            profile = Profile(1,firstName,lastName,email,License())
+            profile = Profile(1,firstName,lastName,email)
 
 
-            Log.d("sanderiseentag",profile.email+profile.firstName+profile.lastName)
+            //Log.d("sanderiseentag",profile.email+profile.firstName+profile.lastName)
             val profile2 = viewModel.postProfile(profile).blockingFirst()
 
             val json = gson.toJson(profile2)
