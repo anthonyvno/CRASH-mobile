@@ -47,6 +47,9 @@ dependencies {
 
     implementation 'com.google.code.gson:gson:2.8.5'
 
+    //mooiere spinner
+    implementation 'com.weiwangcn.betterspinner:library-material:1.1.0'
+
     //Logger functionality with beautiful logging : https://github.com/orhanobut/logger
     implementation 'com.orhanobut:logger:2.2.0'
     //espresso & testing

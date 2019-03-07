@@ -26,7 +26,6 @@ class ProfileInfoFragment : Fragment() {
     ): View? {
         viewModel = ViewModelProviders.of(activity!!).get(HubViewModel::class.java)
 
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_profile_info, container, false)
     }
 
@@ -57,7 +56,7 @@ class ProfileInfoFragment : Fragment() {
 
             this.fragmentManager!!.beginTransaction()
                 .replace(R.id.container_main, ProfileSummaryFragment())
-                .addToBackStack(null)
+               // .addToBackStack(null)
                 .commit()
 
 

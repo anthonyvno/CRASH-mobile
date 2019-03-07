@@ -70,7 +70,7 @@ class ProfileVehicleDetailFragment : Fragment() {
             }
             this.fragmentManager!!.beginTransaction()
                 .replace(R.id.container_main, ProfileSummaryFragment())
-                .addToBackStack(null)
+                //.addToBackStack(null)
                 .commit()
 
         }
