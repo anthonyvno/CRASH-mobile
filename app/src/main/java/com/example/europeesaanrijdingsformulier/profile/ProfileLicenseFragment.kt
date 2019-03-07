@@ -6,25 +6,37 @@ import android.content.Context
 import android.databinding.DataBindingUtil.setContentView
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.Toast
 import com.example.anthonyvannoppen.androidproject.ui.HubViewModel
 
 import com.example.europeesaanrijdingsformulier.R
 import com.google.gson.Gson
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
 import kotlinx.android.synthetic.main.fragment_profile_license.*
+import android.content.Intent
+
+
+
+
+
+
+
 
 
 class ProfileLicenseFragment : Fragment() {
 
     private lateinit var license: License
     private lateinit var viewModel: HubViewModel
-    
+    private var category : String = ""
 
 
     override fun onCreateView(
@@ -44,7 +56,7 @@ class ProfileLicenseFragment : Fragment() {
         val gson: Gson = Gson()
 
         button_profile_license_confirm.setOnClickListener{
-            val category = textedit_profile_license_category.text.toString()
+            //val category = textedit_profile_license_category.text.toString()
             val expires = textedit_profile_license_expires.text.toString()
             val licenseNumber = textedit_profile_license_licenseNumber.text.toString()
 
@@ -74,30 +86,23 @@ class ProfileLicenseFragment : Fragment() {
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?){
-        super.onCreate(savedInstanceState)
-        }
-
     private fun instantiateSpinners(){
 
-        val option = activity!!.findViewById<MaterialBetterSpinner>(R.id.spinner_profile_license_category)
+        val option = activity!!.findViewById<Spinner>(R.id.spinner_profile_license_category)
         val adapter = ArrayAdapter(activity!!, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.licenseCategory))
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         option.setAdapter(adapter)
 
-
-
-        option.onItemSelectedListener = object: AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {
+        option.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                category = adapter.getItem(position)
+                Log.d("testpurp","item selected")
             }
 
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                Log.d("testpurp","no item selected")
             }
-
-            override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-            }
-    }
-
+        };
 
     }
 
