@@ -25,7 +25,7 @@ class ProfileVehicleDetailFragment : Fragment() {
     private var vehicle: Vehicle? = null
     private lateinit var viewModel: HubViewModel
     private var category : String = "Auto"
-
+    private var country : String = "Belgium"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,7 +49,6 @@ class ProfileVehicleDetailFragment : Fragment() {
         button_vehicle_detail_confirm.setOnClickListener{
             val brand = textedit_vehicle_detail_brand.text.toString()
             val model = textedit_vehicle_detail_model.text.toString()
-            val country = textedit_vehicle_detail_country.text.toString()
             val licensePlate = textedit_vehicle_detail_licensePlate.text.toString()
             val vehicle2 : Vehicle
             if(vehicle == null){
@@ -93,7 +92,6 @@ class ProfileVehicleDetailFragment : Fragment() {
 
     private fun fillInTextFields() {
         textedit_vehicle_detail_brand.setText(vehicle!!.brand)
-        textedit_vehicle_detail_country.setText(vehicle!!.country)
         textedit_vehicle_detail_licensePlate.setText(vehicle!!.licensePlate)
         textedit_vehicle_detail_model.setText(vehicle!!.model)
     }
@@ -116,9 +114,15 @@ class ProfileVehicleDetailFragment : Fragment() {
     private fun instantiateSpinners(){
 
         val option = activity!!.findViewById<Spinner>(R.id.spinner_vehicle_detail_type)
+        val optionCountries = activity!!.findViewById<Spinner>(R.id.spinner_vehicle_detail_country)
         val adapter = ArrayAdapter(activity!!, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.vehicleCategory))
+        val adapterCountry = ArrayAdapter(activity!!, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.countries_array))
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        adapterCountry.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         option.adapter = adapter
+        optionCountries.adapter = adapterCountry
+
+        option.setSe
 
         option.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
@@ -127,6 +131,17 @@ class ProfileVehicleDetailFragment : Fragment() {
             override fun onNothingSelected(parent: AdapterView<*>) {
             }
         };
+
+        optionCountries.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                country = adapterCountry.getItem(position)
+            }
+
+        }
 
 
 }

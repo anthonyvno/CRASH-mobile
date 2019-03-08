@@ -84,9 +84,9 @@
                                                            app:layout_constraintStart_toStartOf="parent"
                                                            android:layout_marginLeft="8dp" android:layout_marginStart="8dp">
 
-                <android.support.design.widget.TextInputEditText
+                <Spinner
                         android:layout_width="wrap_content"
-                        android:id="@+id/textedit_vehicle_detail_country"
+                        android:id="@+id/spinner_vehicle_detail_country"
                         android:layout_height="wrap_content"
                         android:inputType="textPersonName"
                         android:hint="Country"
