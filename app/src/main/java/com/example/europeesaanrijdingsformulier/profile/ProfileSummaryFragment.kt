@@ -41,10 +41,8 @@ class ProfileSummaryFragment : Fragment() {
             text_profile_summary_personal.text = profile?.firstName+" "+profile?.lastName+profile?.id
         }
         else{
-            linear_license.visibility = View.INVISIBLE
-            linear_vehicles.visibility = View.INVISIBLE
-            imageView_License.visibility = View.INVISIBLE
-            imageView_vehicle.visibility = View.INVISIBLE
+            cardview2_profile_summary.visibility = View.INVISIBLE
+            cardview3_profile_summary.visibility = View.INVISIBLE
         }
 
         if(license != null)
