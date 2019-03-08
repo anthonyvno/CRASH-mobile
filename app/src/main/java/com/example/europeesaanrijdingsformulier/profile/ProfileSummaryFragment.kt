@@ -12,9 +12,13 @@ import android.view.ViewGroup
 import com.example.europeesaanrijdingsformulier.R
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_profile_summary.*
+import android.graphics.BitmapFactory
+import android.graphics.Bitmap
+import android.widget.ImageView
 
 
 class ProfileSummaryFragment : Fragment() {
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,11 +38,11 @@ class ProfileSummaryFragment : Fragment() {
         val sharedPref = activity?.getSharedPreferences(R.string.preferences_profile.toString(), Context.MODE_PRIVATE)
         val gson = Gson()
         val json = sharedPref!!.getString("My_Profile","")
-        val json2 = sharedPref!!.getString("My_License","")
+        val json2 = sharedPref.getString("My_License","")
         val profile = gson.fromJson(json,Profile::class.java)
         val license = gson.fromJson(json2,License::class.java)
         if(profile != null){
-            text_profile_summary_personal.text = profile?.firstName+" "+profile?.lastName+profile?.id
+            text_profile_summary_personal.text = profile.firstName+" "+profile.lastName+profile.id
         }
         else{
             cardview2_profile_summary.visibility = View.INVISIBLE
@@ -46,7 +50,7 @@ class ProfileSummaryFragment : Fragment() {
         }
 
         if(license != null)
-            text_profile_summary_license.text = license?.category+" "+license?.licenseNumber+license?.id
+            text_profile_summary_license.text = license.category+" "+license.licenseNumber+license.id
 
 
         cardview1_profile_summary.setOnClickListener{
