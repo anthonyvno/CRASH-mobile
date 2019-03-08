@@ -112,4 +112,14 @@ class HubViewModel: InjectedViewModel(){
         return returnedProfiel
     }
 
+    fun updateLicense(license: License): Observable<License> {
+        val returnedLicense  = hubApi.updateLicense(license.id,license)
+        return returnedLicense
+    }
+
+    fun updateVehicle(vehicle: Vehicle): Observable<Vehicle> {
+        val returnedVehicle  = hubApi.updateVehicle(vehicle.id,vehicle)
+        return returnedVehicle
+    }
+
 }

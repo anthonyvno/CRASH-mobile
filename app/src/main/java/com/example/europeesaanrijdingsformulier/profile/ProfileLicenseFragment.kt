@@ -36,6 +36,7 @@ class ProfileLicenseFragment : Fragment() {
     private lateinit var license: License
     private lateinit var viewModel: HubViewModel
     private var category : String = ""
+    private var licenseInput: License? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,14 +54,27 @@ class ProfileLicenseFragment : Fragment() {
         val sharedPref = activity?.getSharedPreferences(R.string.preferences_profile.toString(), Context.MODE_PRIVATE)
 
         val gson: Gson = Gson()
+        val json = sharedPref!!.getString("My_License","")
+        licenseInput = gson.fromJson(json,License::class.java)
+        if(licenseInput != null){
+            fillInTextFields()
+        }
 
         button_profile_license_confirm.setOnClickListener{
             val expires = textedit_profile_license_expires.text.toString()
             val licenseNumber = textedit_profile_license_licenseNumber.text.toString()
 
-            license = License(1,category,licenseNumber,expires)
 
-            val license2 = viewModel.postLicense(license).blockingFirst()
+            val license2 : License
+            if(licenseInput == null) {
+                license = License(id,category,licenseNumber,expires)
+                license2 = viewModel.postLicense(license).blockingFirst()
+                Log.d("testpurp","1")
+            } else{
+                license = License(licenseInput!!.id,category,licenseNumber,expires)
+                license2 = viewModel.updateLicense(license).blockingFirst()
+                Log.d("testpurp","2")
+            }
 
             val json = gson.toJson(license2)
 
@@ -82,6 +96,11 @@ class ProfileLicenseFragment : Fragment() {
                 //.addToBackStack(null)
                 .commit()
         }
+    }
+
+    private fun fillInTextFields() {
+        textedit_profile_license_expires.setText(licenseInput!!.expires)
+        textedit_profile_license_licenseNumber.setText(licenseInput!!.licenseNumber)
     }
 
     private fun instantiateDatePicker() {
