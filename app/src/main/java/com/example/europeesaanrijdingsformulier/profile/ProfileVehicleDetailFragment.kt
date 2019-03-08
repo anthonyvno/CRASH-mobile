@@ -20,6 +20,8 @@ import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.fragment_profile_vehicle_detail.*
 
 
+
+
 class ProfileVehicleDetailFragment : Fragment() {
 
     private var vehicle: Vehicle? = null
@@ -122,7 +124,17 @@ class ProfileVehicleDetailFragment : Fragment() {
         option.adapter = adapter
         optionCountries.adapter = adapterCountry
 
-        option.setSe
+        if(vehicle?.type != null){
+            val spinnerPosition = adapter.getPosition(vehicle!!.type)
+            option.setSelection(spinnerPosition)
+        }
+        if(vehicle?.country!=null){
+            val spinnerPosition = adapterCountry.getPosition(vehicle!!.country)
+            optionCountries.setSelection(spinnerPosition)
+        }
+
+
+
 
         option.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {

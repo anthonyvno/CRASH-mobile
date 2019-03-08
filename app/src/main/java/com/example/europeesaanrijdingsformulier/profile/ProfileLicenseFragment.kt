@@ -49,13 +49,13 @@ class ProfileLicenseFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        instantiateSpinners()
         instantiateDatePicker()
         val sharedPref = activity?.getSharedPreferences(R.string.preferences_profile.toString(), Context.MODE_PRIVATE)
 
         val gson: Gson = Gson()
         val json = sharedPref!!.getString("My_License","")
         licenseInput = gson.fromJson(json,License::class.java)
+        instantiateSpinners()
         if(licenseInput != null){
             fillInTextFields()
         }
@@ -69,14 +69,13 @@ class ProfileLicenseFragment : Fragment() {
             if(licenseInput == null) {
                 license = License(id,category,licenseNumber,expires)
                 license2 = viewModel.postLicense(license).blockingFirst()
-                Log.d("testpurp","1")
             } else{
                 license = License(licenseInput!!.id,category,licenseNumber,expires)
                 license2 = viewModel.updateLicense(license).blockingFirst()
-                Log.d("testpurp","2")
             }
 
             val json = gson.toJson(license2)
+            Log.d("testpurp",json)
 
             with (sharedPref!!.edit()) {
                 putString("My_License", json)
@@ -114,7 +113,6 @@ class ProfileLicenseFragment : Fragment() {
     datepicker.setOnClickListener(){
         val dpd = DatePickerDialog(activity, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
 
-            // Display Selected date in textbox
             datepicker.setText("" + dayOfMonth + "/" + monthOfYear + "/" + year)
         }, year, month, day)
 
@@ -129,15 +127,22 @@ class ProfileLicenseFragment : Fragment() {
         val adapter = ArrayAdapter(activity!!, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.licenseCategory))
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         option.adapter = adapter
+        Log.d("testpurp","voor aanroep if")
+        Log.d("testpurp",licenseInput?.category.toString())
+        if(licenseInput?.category != null){
+            val spinnerPosition = adapter.getPosition(licenseInput!!.category)
+            Log.d("testpurp","tijdens aanroep if")
+            Log.d("testpurp",spinnerPosition.toString())
+            option.setSelection(spinnerPosition)
+        }
+        Log.d("testpurp","na aanroep if")
 
         option.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 category = adapter.getItem(position)
-                Log.d("testpurp","item selected")
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
-                Log.d("testpurp","no item selected")
             }
         };
 
