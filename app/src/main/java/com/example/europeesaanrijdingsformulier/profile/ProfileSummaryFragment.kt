@@ -25,15 +25,11 @@ class ProfileSummaryFragment : Fragment() {
         bar.supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         bar.supportActionBar!!.setDisplayShowHomeEnabled(true)
 
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_profile_summary, container, false)
     }
 
     override fun onStart() {
         super.onStart()
-
-        //activity!!.actionBar!!.setDisplayHomeAsUpEnabled(true)
-        //activity!!.actionBar!!.setDisplayShowHomeEnabled(true)
 
         val sharedPref = activity?.getSharedPreferences(R.string.preferences_profile.toString(), Context.MODE_PRIVATE)
         val gson = Gson()
@@ -41,8 +37,16 @@ class ProfileSummaryFragment : Fragment() {
         val json2 = sharedPref!!.getString("My_License","")
         val profile = gson.fromJson(json,Profile::class.java)
         val license = gson.fromJson(json2,License::class.java)
-        if(profile != null)
+        if(profile != null){
             text_profile_summary_personal.text = profile?.firstName+" "+profile?.lastName+profile?.id
+        }
+        else{
+            linear_license.visibility = View.INVISIBLE
+            linear_vehicles.visibility = View.INVISIBLE
+            imageView_License.visibility = View.INVISIBLE
+            imageView_vehicle.visibility = View.INVISIBLE
+        }
+
         if(license != null)
             text_profile_summary_license.text = license?.category+" "+license?.licenseNumber+license?.id
 

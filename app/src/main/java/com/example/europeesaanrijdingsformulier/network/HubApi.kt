@@ -36,5 +36,5 @@ interface HubApi {
     fun updateLicense(@Path("id") id: Int, @Body license: License): Observable<License>
     @PUT("/vehicles/{id}")
     fun updateVehicle(@Path("id") id: Int, @Body vehicle: Vehicle): Observable<Vehicle>
-    
+
 }

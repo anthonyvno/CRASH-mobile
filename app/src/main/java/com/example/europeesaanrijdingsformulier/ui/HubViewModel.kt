@@ -95,46 +95,21 @@ class HubViewModel: InjectedViewModel(){
 
     fun postProfile(profile: Profile): Observable<Profile> {
         val returnedProfiel  = hubApi.addProfile(profile)
-        //Log.d("dikke tag",profile.email+profile.firstName+profile.lastName)
-
-        /* returnedProfiel.
-            subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                { result -> Log.v("POSTED ARTICLE", "" + profile ) },
-                { error -> Log.e("ERROR", error.message ) })
-*/
         return returnedProfiel
     }
 
     fun postReport(report: Report){
-/*
-        report.profiles.forEach{
-            hubApi.addProfile(it).
-                subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                    { result -> Log.v("POSTED ARTICLE", "" + it ) },
-                    { error -> Log.e("ERROR", error.message ) })
-        }*/
         hubApi.addReport(report).
             subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 { result -> Log.v("POSTED ARTICLE", "" + report ) },
                 { error -> Log.e("ERROR", error.message ) })
-
-
     }
-    /*
-    fun postComment(comment: Comment){
-        memeApi.addComment(comment.op,comment.tekst,comment.meme.toInt()).
-            subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                { result -> Log.v("POSTED ARTICLE", "" + comment ) },
-                { error -> Log.e("ERROR", error.message ) })
+
+    fun updateProfile(profile: Profile): Observable<Profile> {
+        val returnedProfiel  = hubApi.updateProfile(profile.id,profile)
+        return returnedProfiel
     }
-*/
 
 }
