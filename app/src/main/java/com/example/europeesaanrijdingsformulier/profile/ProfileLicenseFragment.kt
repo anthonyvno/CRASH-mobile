@@ -36,8 +36,6 @@ class ProfileLicenseFragment : Fragment() {
     private lateinit var license: License
     private lateinit var viewModel: HubViewModel
     private var category : String = ""
-    val myCalendar = Calendar.getInstance()
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

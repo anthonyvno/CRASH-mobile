@@ -19,23 +19,6 @@ interface HubApi {
     @GET("/insurers")
     fun getAllInsurers(): Observable<List<Insurer>>
 
-    //@Headers("Content-Type: application/json;charset=utf-8")
-/*
-    @FormUrlEncoded
-    @POST("/reports")
-    //fun addHub(@Body Hub: Hub): Observable<Hub>
-    fun addReport(//@Field("dateReportReceived") dateReportReceived: Date,
-                  @Field("profiles") profiles: List<Profile>
-
-                  ): Observable<Report>
-
-
-    @FormUrlEncoded
-    @POST("/api/comments")
-    fun addComment(@Field("Op") op: String,
-                   @Field("Tekst") tekst: String,
-                   @Field("HubID") id: Int): Observable<Comment>
-*/
     @POST("/reports")
     fun addReport(@Body report: Report): Observable<Report>
     @POST("/profiles")
@@ -45,5 +28,13 @@ interface HubApi {
     @POST("/vehicles")
     fun addVehicle(@Body vehicle: Vehicle):Observable<Vehicle>
 
-
+    @PUT("/reports/{id}")
+    fun updateReport(@Path("id") id: Int, @Body report: Report): Observable<Report>
+    @PUT("/profiles/{id}")
+    fun updateProfile(@Path("id") id: Int, @Body profile: Profile): Observable<Profile>
+    @PUT("/licenses/{id}")
+    fun updateLicense(@Path("id") id: Int, @Body license: License): Observable<License>
+    @PUT("/vehicles/{id}")
+    fun updateVehicle(@Path("id") id: Int, @Body vehicle: Vehicle): Observable<Vehicle>
+    
 }
