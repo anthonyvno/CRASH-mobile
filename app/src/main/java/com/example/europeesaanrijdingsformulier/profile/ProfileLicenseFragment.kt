@@ -23,13 +23,12 @@ import com.google.gson.Gson
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
 import kotlinx.android.synthetic.main.fragment_profile_license.*
 import android.content.Intent
-
-
-
-
-
-
-
+import java.util.*
+import android.app.DatePickerDialog
+import android.widget.DatePicker
+import android.widget.EditText
+import java.text.SimpleDateFormat
+import javax.xml.datatype.DatatypeConstants.MONTHS
 
 
 class ProfileLicenseFragment : Fragment() {
@@ -37,6 +36,7 @@ class ProfileLicenseFragment : Fragment() {
     private lateinit var license: License
     private lateinit var viewModel: HubViewModel
     private var category : String = ""
+    val myCalendar = Calendar.getInstance()
 
 
     override fun onCreateView(
@@ -51,6 +51,7 @@ class ProfileLicenseFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         instantiateSpinners()
+        instantiateDatePicker()
         val sharedPref = activity?.getSharedPreferences(R.string.preferences_profile.toString(), Context.MODE_PRIVATE)
 
         val gson: Gson = Gson()
@@ -84,6 +85,26 @@ class ProfileLicenseFragment : Fragment() {
                 .commit()
         }
     }
+
+    private fun instantiateDatePicker() {
+    val c = Calendar.getInstance()
+    val year = c.get(Calendar.YEAR)
+    val month = c.get(Calendar.MONTH)
+    val day = c.get(Calendar.DAY_OF_MONTH)
+
+    val datepicker = activity!!.findViewById<EditText>(R.id.textedit_profile_license_expires)
+
+    datepicker.setOnClickListener(){
+        val dpd = DatePickerDialog(activity, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+
+            // Display Selected date in textbox
+            datepicker.setText("" + dayOfMonth + "/" + monthOfYear + "/" + year)
+        }, year, month, day)
+
+        dpd.show()
+    }
+
+}
 
     private fun instantiateSpinners(){
 
