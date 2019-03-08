@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.fragment_profile_vehicle_detail.*
 
 class ProfileVehicleDetailFragment : Fragment() {
 
-    private lateinit var vehicle: Vehicle
+    private var vehicle: Vehicle? = null
     private lateinit var viewModel: HubViewModel
     private var category : String = "Auto"
 
@@ -33,13 +33,15 @@ class ProfileVehicleDetailFragment : Fragment() {
     ): View? {
         viewModel = ViewModelProviders.of(activity!!).get(HubViewModel::class.java)
 
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_profile_vehicle_detail, container, false)
     }
 
     override fun onStart() {
         super.onStart()
         instantiateSpinners()
+        if(vehicle != null){
+            fillInTextFields()
+        }
         val sharedPref = activity?.getSharedPreferences(R.string.preferences_profile.toString(), Context.MODE_PRIVATE)
 
         val gson: Gson = Gson()
@@ -47,12 +49,16 @@ class ProfileVehicleDetailFragment : Fragment() {
         button_vehicle_detail_confirm.setOnClickListener{
             val brand = textedit_vehicle_detail_brand.text.toString()
             val model = textedit_vehicle_detail_model.text.toString()
-            //val type = textedit_vehicle_detail_type.text.toString()
             val country = textedit_vehicle_detail_country.text.toString()
             val licensePlate = textedit_vehicle_detail_licensePlate.text.toString()
-
-            vehicle = Vehicle(1,country,licensePlate,brand,model,category)
-            val vehicle2 = viewModel.postVehicle(vehicle).blockingFirst()
+            val vehicle2 : Vehicle
+            if(vehicle == null){
+                vehicle = Vehicle(1,country,licensePlate,brand,model,category)
+                 vehicle2 = viewModel.postVehicle(vehicle!!).blockingFirst()
+            }else{
+                vehicle = Vehicle(vehicle!!.id, country, licensePlate, brand, model, category)
+                vehicle2 = viewModel.updateVehicle(vehicle!!).blockingFirst()
+            }
 
 
             val jsonAlles = sharedPref!!.getString("My_Vehicles","")
@@ -61,7 +67,13 @@ class ProfileVehicleDetailFragment : Fragment() {
             var vehicles = gson.fromJson<MutableList<Vehicle>>(jsonAlles, itemType)
 
             if(vehicles!=null){
-                vehicles.add(vehicle2)
+               var comparevehicle =  vehicles.find { it.id == vehicle2.id}
+                if(comparevehicle == null){
+                    vehicles.add(vehicle2)
+                }else{
+                    vehicles.remove(comparevehicle)
+                    vehicles.add(vehicle2)
+                }
             } else {
                 vehicles = mutableListOf<Vehicle>(vehicle2)
             }
@@ -76,25 +88,27 @@ class ProfileVehicleDetailFragment : Fragment() {
                 .replace(R.id.container_main, ProfileSummaryFragment())
                 //.addToBackStack(null)
                 .commit()
-
         }
+    }
+
+    private fun fillInTextFields() {
+        textedit_vehicle_detail_brand.setText(vehicle!!.brand)
+        textedit_vehicle_detail_country.setText(vehicle!!.country)
+        textedit_vehicle_detail_licensePlate.setText(vehicle!!.licensePlate)
+        textedit_vehicle_detail_model.setText(vehicle!!.model)
     }
 
     fun addObject(item: Vehicle) {
         this.vehicle = item
-
     }
 
     companion object {
-
         const val ARG_VEHICLE = "item_id"
-
         fun newInstance(veh: Vehicle): ProfileVehicleDetailFragment {
             val args = Bundle()
             args.putSerializable(ARG_VEHICLE, veh)
             val fragment = ProfileVehicleDetailFragment()
             fragment.arguments = args
-
             return fragment
         }
     }
@@ -109,11 +123,8 @@ class ProfileVehicleDetailFragment : Fragment() {
         option.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 category = adapter.getItem(position)
-                Log.d("testpurp","item selected")
             }
-
             override fun onNothingSelected(parent: AdapterView<*>) {
-                Log.d("testpurp","no item selected")
             }
         };
 
