@@ -1,6 +1,10 @@
 package com.example.europeesaanrijdingsformulier
 
 import android.app.DatePickerDialog
+import android.app.Instrumentation
+import android.content.Context
+import android.content.SharedPreferences
+import android.support.test.InstrumentationRegistry
 import android.support.test.espresso.Espresso
 import android.support.test.espresso.action.ViewActions
 import android.support.test.espresso.assertion.ViewAssertions.matches
@@ -18,6 +22,13 @@ import android.support.test.espresso.matcher.ViewMatchers.withSpinnerText
 import android.support.v7.widget.RecyclerView
 import org.hamcrest.CoreMatchers.anything
 import org.hamcrest.CoreMatchers.containsString
+import android.preference.PreferenceManager
+import android.support.test.InstrumentationRegistry.getInstrumentation
+import android.content.Intent
+
+
+
+
 
 
 class MainActivityTest{
@@ -40,6 +51,10 @@ class MainActivityTest{
 
     @Before
     fun setUp() {
+        val context = InstrumentationRegistry.getTargetContext()
+        var sharedPreferences = context.getSharedPreferences(R.string.preferences_profile.toString(), Context.MODE_PRIVATE)
+        sharedPreferences.edit().clear().commit()
+
         Espresso.onView(ViewMatchers.withId(R.id.button_home_toProfile)).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withId(R.id.cardview1_profile_summary)).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withId(R.id.textedit_profile_info_firstname)).perform(ViewActions.typeText(firstName))
