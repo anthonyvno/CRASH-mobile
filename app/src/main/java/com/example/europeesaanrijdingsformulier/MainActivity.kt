@@ -29,9 +29,9 @@ class MainActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayShowHomeEnabled(true)
 
         //clear local
-        val sharedPref = getSharedPreferences(R.string.preferences_profile.toString(), Context.MODE_PRIVATE)
-        var editor = sharedPref.edit()
-        editor.clear().apply()
+        //val sharedPref = getSharedPreferences(R.string.preferences_profile.toString(), Context.MODE_PRIVATE)
+        //var editor = sharedPref.edit()
+        //editor.clear().apply()
 
 
         supportFragmentManager.beginTransaction()

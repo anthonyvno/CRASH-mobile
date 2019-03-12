@@ -15,20 +15,14 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-import android.widget.Toast
 import com.example.anthonyvannoppen.androidproject.ui.HubViewModel
 
 import com.example.europeesaanrijdingsformulier.R
 import com.google.gson.Gson
-import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
 import kotlinx.android.synthetic.main.fragment_profile_license.*
-import android.content.Intent
 import java.util.*
 import android.app.DatePickerDialog
-import android.widget.DatePicker
 import android.widget.EditText
-import java.text.SimpleDateFormat
-import javax.xml.datatype.DatatypeConstants.MONTHS
 
 
 class ProfileLicenseFragment : Fragment() {
@@ -84,6 +78,7 @@ class ProfileLicenseFragment : Fragment() {
             val json2 = sharedPref!!.getString("My_Profile","")
             val profile = gson.fromJson(json2,Profile::class.java)
             profile.license = license2
+            viewModel.updateProfile(profile).blockingFirst()
             val newProfile = gson.toJson(profile)
             with (sharedPref!!.edit()) {
                 putString("My_Profile", newProfile)
