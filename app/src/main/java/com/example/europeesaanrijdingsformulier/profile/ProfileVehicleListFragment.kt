@@ -39,7 +39,6 @@ class ProfileVehicleListFragment : Fragment() {
         val itemType = object : TypeToken<List<Vehicle>>() {}.type
 
         val vehicles = gson.fromJson<List<Vehicle>>(json, itemType)
-        //Log.d("from json op lok",vehicles.first().brand)
         if(vehicles!=null){
             adapter =VehicleViewAdapter(this, vehicles)
             fragment_profile_vehicle_list.adapter = adapter
