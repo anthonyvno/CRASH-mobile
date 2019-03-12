@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import com.example.anthonyvannoppen.androidproject.ui.HubViewModel
 
 import com.example.europeesaanrijdingsformulier.R
+import com.example.europeesaanrijdingsformulier.utils.PrefManager
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_profile_info.*
 
@@ -20,12 +21,14 @@ class ProfileInfoFragment : Fragment() {
     private lateinit var profile: Profile
     private lateinit var viewModel: HubViewModel
     private var profileInput: Profile? = null
+    private lateinit var prefManager: PrefManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         viewModel = ViewModelProviders.of(activity!!).get(HubViewModel::class.java)
+        prefManager = PrefManager(activity)
 
         return inflater.inflate(R.layout.fragment_profile_info, container, false)
     }
@@ -33,11 +36,8 @@ class ProfileInfoFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        val sharedPref = activity?.getSharedPreferences(R.string.preferences_profile.toString(), Context.MODE_PRIVATE)
 
-        val gson = Gson()
-        val json = sharedPref!!.getString("My_Profile","")
-        profileInput = gson.fromJson(json,Profile::class.java)
+        profileInput = prefManager.getProfile()
         if(profileInput != null){
             fillInTextFields()
         }
@@ -59,12 +59,7 @@ class ProfileInfoFragment : Fragment() {
                 Log.d("testpurp","2")
             }
 
-            val json = gson.toJson(profile2)
-
-            with (sharedPref!!.edit()) {
-                putString("My_Profile", json)
-                commit()
-            }
+            prefManager.saveProfile(profile2)
 
             this.fragmentManager!!.beginTransaction()
                 .replace(R.id.container_main, ProfileSummaryFragment())

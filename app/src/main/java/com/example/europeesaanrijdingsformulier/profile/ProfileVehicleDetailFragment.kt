@@ -15,6 +15,7 @@ import android.widget.Spinner
 import com.example.anthonyvannoppen.androidproject.ui.HubViewModel
 
 import com.example.europeesaanrijdingsformulier.R
+import com.example.europeesaanrijdingsformulier.utils.PrefManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.fragment_profile_vehicle_detail.*
@@ -26,6 +27,7 @@ class ProfileVehicleDetailFragment : Fragment() {
 
     private var vehicle: Vehicle? = null
     private lateinit var viewModel: HubViewModel
+    private lateinit var prefManager: PrefManager
     private var category : String = "Auto"
     private var country : String = "Belgium"
 
@@ -34,6 +36,7 @@ class ProfileVehicleDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         viewModel = ViewModelProviders.of(activity!!).get(HubViewModel::class.java)
+        prefManager = PrefManager(activity)
 
         return inflater.inflate(R.layout.fragment_profile_vehicle_detail, container, false)
     }
@@ -44,15 +47,15 @@ class ProfileVehicleDetailFragment : Fragment() {
         if(vehicle != null){
             fillInTextFields()
         }
-        val sharedPref = activity?.getSharedPreferences(R.string.preferences_profile.toString(), Context.MODE_PRIVATE)
 
-        val gson: Gson = Gson()
 
         button_vehicle_detail_confirm.setOnClickListener{
             val brand = textedit_vehicle_detail_brand.text.toString()
             val model = textedit_vehicle_detail_model.text.toString()
             val licensePlate = textedit_vehicle_detail_licensePlate.text.toString()
             val vehicle2 : Vehicle
+            val profile = prefManager.getProfile()
+
             if(vehicle == null){
                 vehicle = Vehicle(1,country,licensePlate,brand,model,category)
                  vehicle2 = viewModel.postVehicle(vehicle!!).blockingFirst()
@@ -62,10 +65,9 @@ class ProfileVehicleDetailFragment : Fragment() {
             }
 
 
-            val jsonAlles = sharedPref!!.getString("My_Vehicles","")
-            val itemType = object : TypeToken<List<Vehicle>>() {}.type
 
-            var vehicles = gson.fromJson<MutableList<Vehicle>>(jsonAlles, itemType)
+
+            var vehicles = prefManager.getVehicles()
 
             if(vehicles!=null){
                var comparevehicle =  vehicles.find { it.id == vehicle2.id}
@@ -79,12 +81,12 @@ class ProfileVehicleDetailFragment : Fragment() {
                 vehicles = mutableListOf<Vehicle>(vehicle2)
             }
 
-            val json = gson.toJson(vehicles)
+            prefManager.saveVehicles(vehicles)
+            profile!!.vehicles = vehicles
+            prefManager.saveProfile(profile)
+            viewModel.updateProfile(profile).blockingFirst()
 
-            with (sharedPref!!.edit()) {
-                putString("My_Vehicles", json)
-                commit()
-            }
+
             this.fragmentManager!!.beginTransaction()
                 .replace(R.id.container_main, ProfileSummaryFragment())
                 //.addToBackStack(null)

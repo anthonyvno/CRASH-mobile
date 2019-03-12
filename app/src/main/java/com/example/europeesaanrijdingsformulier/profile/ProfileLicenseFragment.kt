@@ -23,6 +23,7 @@ import kotlinx.android.synthetic.main.fragment_profile_license.*
 import java.util.*
 import android.app.DatePickerDialog
 import android.widget.EditText
+import com.example.europeesaanrijdingsformulier.utils.PrefManager
 
 
 class ProfileLicenseFragment : Fragment() {
@@ -31,12 +32,14 @@ class ProfileLicenseFragment : Fragment() {
     private lateinit var viewModel: HubViewModel
     private var category : String = ""
     private var licenseInput: License? = null
+    private lateinit var prefManager: PrefManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         viewModel = ViewModelProviders.of(activity!!).get(HubViewModel::class.java)
+        prefManager = PrefManager(activity)
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_profile_license, container, false)
     }
@@ -44,11 +47,8 @@ class ProfileLicenseFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         instantiateDatePicker()
-        val sharedPref = activity?.getSharedPreferences(R.string.preferences_profile.toString(), Context.MODE_PRIVATE)
 
-        val gson: Gson = Gson()
-        val json = sharedPref!!.getString("My_License","")
-        licenseInput = gson.fromJson(json,License::class.java)
+        licenseInput = prefManager.getLicense()
         instantiateSpinners()
         if(licenseInput != null){
             fillInTextFields()
@@ -68,22 +68,15 @@ class ProfileLicenseFragment : Fragment() {
                 license2 = viewModel.updateLicense(license).blockingFirst()
             }
 
-            val json = gson.toJson(license2)
-            Log.d("testpurp",json)
+            prefManager.saveLicense(license2)
 
-            with (sharedPref!!.edit()) {
-                putString("My_License", json)
-                commit()
-            }
-            val json2 = sharedPref!!.getString("My_Profile","")
-            val profile = gson.fromJson(json2,Profile::class.java)
-            profile.license = license2
+
+            val profile = prefManager.getProfile()
+            profile!!.license = license2
+
             viewModel.updateProfile(profile).blockingFirst()
-            val newProfile = gson.toJson(profile)
-            with (sharedPref!!.edit()) {
-                putString("My_Profile", newProfile)
-                commit()
-            }
+
+            prefManager.saveProfile(profile)
 
             this.fragmentManager!!.beginTransaction()
                 .replace(com.example.europeesaanrijdingsformulier.R.id.container_main, ProfileSummaryFragment())
