@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import com.example.europeesaanrijdingsformulier.R
 import com.example.europeesaanrijdingsformulier.profile.ProfileSummaryFragment
 import com.example.europeesaanrijdingsformulier.report.ReportAlgemeenAFragment
+import com.example.europeesaanrijdingsformulier.report.ReportCrashInformation
 import kotlinx.android.synthetic.main.fragment_home.*
 
 
@@ -35,7 +36,7 @@ class HomeFragment : Fragment() {
 
         button_home_startReport.setOnClickListener{
             this.fragmentManager!!.beginTransaction()
-                .replace(R.id.container_main, ReportAlgemeenAFragment())
+                .replace(R.id.container_main, ReportCrashInformation())
                 .addToBackStack(null)
                 .commit()
         }

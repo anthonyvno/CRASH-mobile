@@ -99,7 +99,7 @@ class ProfileLicenseFragment : Fragment() {
     val datepicker = activity!!.findViewById<EditText>(R.id.textedit_profile_license_expires)
 
     datepicker.setOnClickListener(){
-        val dpd = DatePickerDialog(activity, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+        val dpd = DatePickerDialog(activity,R.style.MySpinnerDatePickerStyle, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
 
             datepicker.setText("" + dayOfMonth + "/" + monthOfYear + "/" + year)
         }, year, month, day)
