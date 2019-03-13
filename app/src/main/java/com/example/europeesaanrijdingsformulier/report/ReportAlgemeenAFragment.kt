@@ -20,6 +20,8 @@ import kotlinx.android.synthetic.main.fragment_report_algemeen_a.*
 class   ReportAlgemeenAFragment : Fragment() {
 
     private lateinit var report: Report
+    private lateinit var profile: Profile
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,39 +29,43 @@ class   ReportAlgemeenAFragment : Fragment() {
 
     ): View? {
 
-        val bar = activity!! as AppCompatActivity
-        bar.supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        bar.supportActionBar!!.setDisplayShowHomeEnabled(true)
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_report_algemeen_a, container, false)
     }
 
     override fun onStart() {
         super.onStart()
+
+        if(profile != null){
+            textedit_algemeen_a_firstname.setText(profile.firstName)
+            textedit_algemeen_a_lastname.setText(profile.lastName)
+            textedit_algemeen_a_email.setText(profile.email)
+
+        }
         
         button_algemeen_a_confirm.setOnClickListener{
             val firstName =this.textedit_algemeen_a_firstname.text.toString()
             val lastName = this.textedit_algemeen_a_lastname.text.toString()
             val email = this.textedit_algemeen_a_email.text.toString()
-
-
-
             val profiles = listOf(Profile(1,firstName,lastName,email))
 
             report.profiles = profiles
 
-            val reportAlgemeenBFragment = ReportAlgemeenBFragment()
+            val reportStartBFragment = ReportStartBFragment()
             this.fragmentManager!!.beginTransaction()
-                .replace(R.id.container_main, reportAlgemeenBFragment)
+                .replace(R.id.container_main, reportStartBFragment)
                 .addToBackStack(null)
                 .commit()
-            reportAlgemeenBFragment.addObject(report)
+            reportStartBFragment.addObject(report)
         }
     }
 
-    fun addObject(item: Report) {
+    fun addReport(item: Report) {
         this.report = item
-
+    }
+    fun addProfile(item: Profile) {
+        this.profile = item
     }
 
 

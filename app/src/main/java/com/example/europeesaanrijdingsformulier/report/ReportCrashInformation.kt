@@ -5,6 +5,7 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -30,6 +31,9 @@ class ReportCrashInformation : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val bar = activity!! as AppCompatActivity
+        bar.supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        bar.supportActionBar!!.setDisplayShowHomeEnabled(true)
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_report_crash_information, container, false)
     }
@@ -55,7 +59,7 @@ class ReportCrashInformation : Fragment() {
             )
 
 
-            val fragment = ReportAlgemeenAFragment()
+            val fragment = ReportStartAFragment()
             fragment.addObject(report)
             this.fragmentManager!!.beginTransaction()
                 .replace(R.id.container_main, fragment)
@@ -78,8 +82,6 @@ class ReportCrashInformation : Fragment() {
                 datepicker.setText("" + dayOfMonth + "/" + monthOfYear + "/" + year)
 
             }, year, month, day)
-
-
 
             dpd.show()
         }

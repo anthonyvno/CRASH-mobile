@@ -32,8 +32,8 @@ class MainActivity : AppCompatActivity() {
 /*
        val sharedPref = getSharedPreferences(R.string.preferences_profile.toString(), Context.MODE_PRIVATE)
         var editor = sharedPref.edit()
-        editor.clear().apply()*/
-
+        editor.clear().apply()
+*/
 
         supportFragmentManager.beginTransaction()
             .add(R.id.container_main, HomeFragment())
