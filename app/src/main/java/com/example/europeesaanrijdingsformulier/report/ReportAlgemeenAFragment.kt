@@ -20,7 +20,6 @@ import kotlinx.android.synthetic.main.fragment_report_algemeen_a.*
 class   ReportAlgemeenAFragment : Fragment() {
 
     private lateinit var report: Report
-    private lateinit var viewModel: HubViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,7 +30,6 @@ class   ReportAlgemeenAFragment : Fragment() {
         val bar = activity!! as AppCompatActivity
         bar.supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         bar.supportActionBar!!.setDisplayShowHomeEnabled(true)
-        viewModel = ViewModelProviders.of(activity!!).get(HubViewModel::class.java)
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_report_algemeen_a, container, false)
     }
@@ -48,7 +46,7 @@ class   ReportAlgemeenAFragment : Fragment() {
 
             val profiles = listOf(Profile(1,firstName,lastName,email))
 
-            report = Report(1,profiles)
+            report.profiles = profiles
 
             val reportAlgemeenBFragment = ReportAlgemeenBFragment()
             this.fragmentManager!!.beginTransaction()
@@ -57,6 +55,11 @@ class   ReportAlgemeenAFragment : Fragment() {
                 .commit()
             reportAlgemeenBFragment.addObject(report)
         }
+    }
+
+    fun addObject(item: Report) {
+        this.report = item
+
     }
 
 

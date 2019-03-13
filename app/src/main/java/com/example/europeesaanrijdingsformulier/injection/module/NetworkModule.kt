@@ -2,6 +2,9 @@ package com.example.anthonyvannoppen.androidproject.injection.module
 
 import com.example.anthonyvannoppen.androidproject.network.HubApi
 import com.example.anthonyvannoppen.androidproject.utils.BASE_URL
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.adapters.Rfc3339DateJsonAdapter
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import io.reactivex.schedulers.Schedulers
@@ -10,6 +13,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.util.*
 import javax.inject.Singleton
 
 /**
@@ -87,7 +91,11 @@ object NetworkModule {
     @Provides
     @Singleton
     internal fun provideJSONConverter(): retrofit2.Converter.Factory {
-        return MoshiConverterFactory.create()
+        val moshi = Moshi.Builder()
+            .add(KotlinJsonAdapterFactory())
+            .add(Date::class.java, Rfc3339DateJsonAdapter().nullSafe())
+            .build()
+        return MoshiConverterFactory.create(moshi)
     }
 
     /**

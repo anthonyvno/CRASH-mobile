@@ -96,6 +96,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test:rules:1.0.2'
     //Moshi
     implementation "com.squareup.moshi:moshi-kotlin:$versions.moshi"
+    implementation "com.squareup.moshi:moshi-adapters:1.8.0"
 
     // Room components
     implementation "android.arch.persistence.room:runtime:1.1.1"
