@@ -25,10 +25,12 @@ import org.hamcrest.CoreMatchers.containsString
 import android.preference.PreferenceManager
 import android.support.test.InstrumentationRegistry.getInstrumentation
 import android.content.Intent
-
-
-
-
+import android.support.test.espresso.contrib.PickerActions
+import android.widget.DatePicker
+import org.hamcrest.Matchers
+import android.support.test.espresso.matcher.ViewMatchers.withClassName
+import android.support.test.espresso.Espresso.onView
+import android.support.test.espresso.ViewAction
 
 
 class MainActivityTest{
@@ -48,6 +50,13 @@ class MainActivityTest{
     private var model = "CLA"
     private var licensePlate = "1-ABC-456"
     private var country = "Belgium"
+
+    private var greenCardNumber = "837483"
+    private var insuranceNumber = "123456"
+    private var insuranceName = "Ethias"
+    private var agencyPhone = "0473897865"
+    private var agencyEmail = "kristof@bombeke.be"
+
 
     @Before
     fun setUp() {
@@ -102,6 +111,25 @@ class MainActivityTest{
         onData(anything()).atPosition(20).perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withId(R.id.button_vehicle_detail_confirm)).perform(ViewActions.click())
 
+        Espresso.onView(ViewMatchers.withId(R.id.textedit_profile_vehicle_insurance_greenCard)).perform(ViewActions.typeText(greenCardNumber))
+        Espresso.onView(ViewMatchers.withId(R.id.textedit_profile_vehicle_insurance_insuranceNumber)).perform(ViewActions.typeText(insuranceNumber))
+        Espresso.onView(ViewMatchers.withId(R.id.spinner_profile_vehicle_insurance_insurer)).perform(ViewActions.click())
+        onData(anything()).atPosition(3).perform(ViewActions.click());
+        Espresso.closeSoftKeyboard()
+        Espresso.onView(ViewMatchers.withId(R.id.edit_profile_vehicle_insurance_expires)).perform(ViewActions.click())
+        Thread.sleep(1000)
+        Espresso.onView(withClassName(Matchers.equalTo(DatePicker::class.java.name)))
+            .perform(PickerActions.setDate(2020, 2, 20))
+        Espresso.onView(withText("OK"))
+            .perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(R.id.textedit_profile_vehicle_insurance_email)).perform(ViewActions.typeText(agencyEmail))
+        Espresso.closeSoftKeyboard()
+        Espresso.onView(ViewMatchers.withId(R.id.textedit_profile_vehicle_insurance_phone)).perform(ViewActions.typeText(agencyPhone))
+        Espresso.closeSoftKeyboard()
+        Espresso.onView(ViewMatchers.withId(R.id.button_profile_vehicle_insurance_confirm)).perform(ViewActions.click())
+        Espresso.closeSoftKeyboard()
+        // CHECK
+
         Espresso.onView(ViewMatchers.withId(R.id.cardview3_profile_summary)).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withId(R.id.fragment_profile_vehicle_list)).perform(
             RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, ViewActions.click()));
@@ -112,6 +140,14 @@ class MainActivityTest{
         Espresso.onView(ViewMatchers.withId(R.id.textedit_vehicle_detail_licensePlate)).check(matches(withText(licensePlate)))
         Espresso.onView(ViewMatchers.withId(R.id.spinner_vehicle_detail_country)).check(matches(withSpinnerText(
             containsString(country))))
+        Espresso.onView(ViewMatchers.withId(R.id.button_vehicle_detail_confirm)).perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(R.id.textedit_profile_vehicle_insurance_insuranceNumber)).check(matches(withText(insuranceNumber)))
+        Espresso.onView(ViewMatchers.withId(R.id.textedit_profile_vehicle_insurance_greenCard)).check(matches(withText(greenCardNumber)))
+        Espresso.onView(ViewMatchers.withId(R.id.textedit_profile_vehicle_insurance_email)).check(matches(withText(agencyEmail)))
+        Espresso.onView(ViewMatchers.withId(R.id.textedit_profile_vehicle_insurance_phone)).check(matches(withText(agencyPhone)))
+   //     Espresso.onView(ViewMatchers.withId(R.id.spinner_profile_vehicle_insurance_insurer)).check(matches(withSpinnerText(
+   //         containsString(insuranceName))))
+
     }
 
 

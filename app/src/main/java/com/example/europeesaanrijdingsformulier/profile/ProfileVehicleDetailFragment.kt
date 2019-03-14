@@ -21,15 +21,13 @@ import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.fragment_profile_vehicle_detail.*
 
 
-
-
 class ProfileVehicleDetailFragment : Fragment() {
 
     private var vehicle: Vehicle? = null
     private lateinit var viewModel: HubViewModel
     private lateinit var prefManager: PrefManager
-    private var category : String = "Auto"
-    private var country : String = "Belgium"
+    private var category: String = "Auto"
+    private var country: String = "Belgium"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,52 +42,27 @@ class ProfileVehicleDetailFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         instantiateSpinners()
-        if(vehicle != null){
+        if (vehicle != null) {
             fillInTextFields()
         }
 
 
-        button_vehicle_detail_confirm.setOnClickListener{
+        button_vehicle_detail_confirm.setOnClickListener {
             val brand = textedit_vehicle_detail_brand.text.toString()
             val model = textedit_vehicle_detail_model.text.toString()
             val licensePlate = textedit_vehicle_detail_licensePlate.text.toString()
-            val vehicle2 : Vehicle
-            val profile = prefManager.getProfile()
-
-            if(vehicle == null){
-                vehicle = Vehicle(1,country,licensePlate,brand,model,category)
-                 vehicle2 = viewModel.postVehicle(vehicle!!).blockingFirst()
-            }else{
-                vehicle = Vehicle(vehicle!!.id, country, licensePlate, brand, model, category)
-                vehicle2 = viewModel.updateVehicle(vehicle!!).blockingFirst()
-            }
-
-
-
-
-            var vehicles = prefManager.getVehicles()
-
-            if(vehicles!=null){
-               var comparevehicle =  vehicles.find { it.id == vehicle2.id}
-                if(comparevehicle == null){
-                    vehicles.add(vehicle2)
-                }else{
-                    vehicles.remove(comparevehicle)
-                    vehicles.add(vehicle2)
-                }
+            if (vehicle == null) {
+                vehicle = Vehicle(1, country, licensePlate, brand, model, category)
             } else {
-                vehicles = mutableListOf<Vehicle>(vehicle2)
+                vehicle = Vehicle(vehicle!!.id, country, licensePlate, brand, model, category,vehicle!!.insurance)
             }
 
-            prefManager.saveVehicles(vehicles)
-            profile!!.vehicles = vehicles
-            prefManager.saveProfile(profile)
-            viewModel.updateProfile(profile).blockingFirst()
 
-
+            val fragment = ProfileVehicleInsuranceFragment()
+            fragment.addObject(vehicle!!)
             this.fragmentManager!!.beginTransaction()
-                .replace(R.id.container_main, ProfileSummaryFragment())
-                //.addToBackStack(null)
+                .replace(R.id.container_main, fragment)
+                .addToBackStack(null)
                 .commit()
         }
     }
@@ -115,22 +88,30 @@ class ProfileVehicleDetailFragment : Fragment() {
         }
     }
 
-    private fun instantiateSpinners(){
+    private fun instantiateSpinners() {
 
         val option = activity!!.findViewById<Spinner>(R.id.spinner_vehicle_detail_type)
         val optionCountries = activity!!.findViewById<Spinner>(R.id.spinner_vehicle_detail_country)
-        val adapter = ArrayAdapter(activity!!, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.vehicleCategory))
-        val adapterCountry = ArrayAdapter(activity!!, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.countries_array))
+        val adapter = ArrayAdapter(
+            activity!!,
+            android.R.layout.simple_spinner_item,
+            getResources().getStringArray(R.array.vehicleCategory)
+        )
+        val adapterCountry = ArrayAdapter(
+            activity!!,
+            android.R.layout.simple_spinner_item,
+            getResources().getStringArray(R.array.countries_array)
+        )
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         adapterCountry.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         option.adapter = adapter
         optionCountries.adapter = adapterCountry
 
-        if(vehicle?.type != null){
+        if (vehicle?.type != null) {
             val spinnerPosition = adapter.getPosition(vehicle!!.type)
             option.setSelection(spinnerPosition)
         }
-        if(vehicle?.country!=null){
+        if (vehicle?.country != null) {
             val spinnerPosition = adapterCountry.getPosition(vehicle!!.country)
             optionCountries.setSelection(spinnerPosition)
         }
@@ -142,11 +123,12 @@ class ProfileVehicleDetailFragment : Fragment() {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 category = adapter.getItem(position)
             }
+
             override fun onNothingSelected(parent: AdapterView<*>) {
             }
         };
 
-        optionCountries.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+        optionCountries.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
 
             }
@@ -158,5 +140,5 @@ class ProfileVehicleDetailFragment : Fragment() {
         }
 
 
-}
+    }
 }

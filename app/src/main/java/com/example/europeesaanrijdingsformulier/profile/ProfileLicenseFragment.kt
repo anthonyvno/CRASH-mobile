@@ -115,15 +115,10 @@ class ProfileLicenseFragment : Fragment() {
         val adapter = ArrayAdapter(activity!!, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.licenseCategory))
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         option.adapter = adapter
-        Log.d("testpurp","voor aanroep if")
-        Log.d("testpurp",licenseInput?.category.toString())
         if(licenseInput?.category != null){
             val spinnerPosition = adapter.getPosition(licenseInput!!.category)
-            Log.d("testpurp","tijdens aanroep if")
-            Log.d("testpurp",spinnerPosition.toString())
             option.setSelection(spinnerPosition)
         }
-        Log.d("testpurp","na aanroep if")
 
         option.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {

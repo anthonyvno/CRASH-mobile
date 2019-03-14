@@ -6,6 +6,7 @@ import android.util.Log
 import com.example.anthonyvannoppen.androidproject.base.InjectedViewModel
 
 import com.example.anthonyvannoppen.androidproject.network.HubApi
+import com.example.europeesaanrijdingsformulier.profile.Insurance
 import com.example.europeesaanrijdingsformulier.insurer.Insurer
 import com.example.europeesaanrijdingsformulier.profile.License
 import com.example.europeesaanrijdingsformulier.profile.Profile
@@ -120,6 +121,16 @@ class HubViewModel: InjectedViewModel(){
     fun updateVehicle(vehicle: Vehicle): Observable<Vehicle> {
         val returnedVehicle  = hubApi.updateVehicle(vehicle.id,vehicle)
         return returnedVehicle
+    }
+
+    fun postInsurance(insurance: Insurance): Observable<Insurance> {
+        val returnedInsurance  = hubApi.addInsurance(insurance)
+        return returnedInsurance
+    }
+
+    fun updateInsurance(insurance: Insurance): Observable<Insurance> {
+        val returnedInsurance  = hubApi.updateInsurance(insurance.id,insurance)
+        return returnedInsurance
     }
 
 }
