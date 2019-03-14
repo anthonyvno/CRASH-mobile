@@ -145,8 +145,8 @@ class MainActivityTest{
         Espresso.onView(ViewMatchers.withId(R.id.textedit_profile_vehicle_insurance_greenCard)).check(matches(withText(greenCardNumber)))
         Espresso.onView(ViewMatchers.withId(R.id.textedit_profile_vehicle_insurance_email)).check(matches(withText(agencyEmail)))
         Espresso.onView(ViewMatchers.withId(R.id.textedit_profile_vehicle_insurance_phone)).check(matches(withText(agencyPhone)))
-   //     Espresso.onView(ViewMatchers.withId(R.id.spinner_profile_vehicle_insurance_insurer)).check(matches(withSpinnerText(
-   //         containsString(insuranceName))))
+        Espresso.onView(ViewMatchers.withId(R.id.spinner_profile_vehicle_insurance_insurer)).check(matches(withSpinnerText(
+            containsString(insuranceName))))
 
     }
 

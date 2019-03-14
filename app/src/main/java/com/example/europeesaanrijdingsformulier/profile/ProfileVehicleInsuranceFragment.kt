@@ -158,6 +158,11 @@ class ProfileVehicleInsuranceFragment : Fragment() {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         option.adapter = adapter
 
+        if (vehicle!!.insurance != null) {
+            val spinnerPosition = adapter.getPosition(vehicle!!.insurance!!.insurer!!.name)
+            option.setSelection(spinnerPosition)
+        }
+
         option.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 insurerName = adapter.getItem(position)
