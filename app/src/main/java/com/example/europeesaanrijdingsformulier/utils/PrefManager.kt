@@ -7,6 +7,7 @@ import com.example.europeesaanrijdingsformulier.R
 import com.example.europeesaanrijdingsformulier.profile.License
 import com.example.europeesaanrijdingsformulier.profile.Profile
 import com.example.europeesaanrijdingsformulier.profile.Vehicle
+import com.example.europeesaanrijdingsformulier.report.Report
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -26,6 +27,20 @@ class PrefManager(val parent: FragmentActivity?) {
 
         with (sharedPref!!.edit()) {
             putString("My_Profile", json)
+            commit()
+        }
+
+    }
+
+    fun getReport(): Report?{
+        val json = sharedPref!!.getString("Report","")
+        return gson.fromJson(json,Report::class.java)
+    }
+    fun saveReport(report: Report){
+        val json = gson.toJson(report)
+
+        with (sharedPref!!.edit()) {
+            putString("Report", json)
             commit()
         }
 

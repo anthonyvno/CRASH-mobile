@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.fragment_report_algemeen_a.*
 class   ReportAlgemeenAFragment : Fragment() {
 
     private lateinit var report: Report
-    private lateinit var profile: Profile
+    private var profile: Profile?=null
 
 
     override fun onCreateView(
@@ -38,9 +38,9 @@ class   ReportAlgemeenAFragment : Fragment() {
         super.onStart()
 
         if(profile != null){
-            textedit_algemeen_a_firstname.setText(profile.firstName)
-            textedit_algemeen_a_lastname.setText(profile.lastName)
-            textedit_algemeen_a_email.setText(profile.email)
+            textedit_algemeen_a_firstname.setText(profile!!.firstName)
+            textedit_algemeen_a_lastname.setText(profile!!.lastName)
+            textedit_algemeen_a_email.setText(profile!!.email)
 
         }
         
@@ -48,7 +48,7 @@ class   ReportAlgemeenAFragment : Fragment() {
             val firstName =this.textedit_algemeen_a_firstname.text.toString()
             val lastName = this.textedit_algemeen_a_lastname.text.toString()
             val email = this.textedit_algemeen_a_email.text.toString()
-            val profiles = listOf(Profile(1,firstName,lastName,email))
+            val profiles = listOf(Profile(1,firstName,lastName,email,null, profile?.vehicles))
 
             report.profiles = profiles
 

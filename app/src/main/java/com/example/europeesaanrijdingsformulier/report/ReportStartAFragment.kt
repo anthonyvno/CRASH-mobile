@@ -1,6 +1,8 @@
 package com.example.europeesaanrijdingsformulier.report
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -11,7 +13,14 @@ import android.view.ViewGroup
 import com.example.europeesaanrijdingsformulier.R
 import com.example.europeesaanrijdingsformulier.profile.Profile
 import com.example.europeesaanrijdingsformulier.utils.PrefManager
+import com.google.zxing.integration.android.IntentIntegrator
 import kotlinx.android.synthetic.main.fragment_report_start_a.*
+import android.R.attr.data
+import android.util.Log
+import android.widget.Toast
+import com.google.zxing.integration.android.IntentResult
+
+
 
 class ReportStartAFragment : Fragment() {
 
@@ -52,7 +61,16 @@ class ReportStartAFragment : Fragment() {
                 .addToBackStack(null)
                 .commit()
         }
+
+        button_report_start_a_QR.setOnClickListener{
+            prefManager.saveReport(report)
+            val scanner = IntentIntegrator(activity).initiateScan()
+
         }
+
+        }
+
+
 
     fun addObject(item: Report) {
         this.report = item

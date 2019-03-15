@@ -115,9 +115,9 @@ class ProfileVehicleInsuranceFragment : Fragment() {
         textedit_profile_vehicle_insurance_phone.setText(vehicle!!.insurance!!.phoneAgency)
         textedit_profile_vehicle_insurance_greenCard.setText(vehicle!!.insurance!!.greenCardNumber)
         textedit_profile_vehicle_insurance_insuranceNumber.setText(vehicle!!.insurance!!.insuranceNumber)
-        val expiresYear = vehicle.insurance!!.expires.year + 1900
-        val expiresMonth = vehicle.insurance!!.expires.month + 1
-        val expiresDate = vehicle.insurance!!.expires.date - 1
+        val expiresYear = vehicle.insurance!!.expires!!.year + 1900
+        val expiresMonth = vehicle.insurance!!.expires!!.month + 1
+        val expiresDate = vehicle.insurance!!.expires!!.date - 1
         val expiresvalue = (""+expiresDate.toString() + "/" +
                 expiresMonth.toString() + "/" + expiresYear.toString() )
         textedit_profile_vehicle_insurance_expires.setText(expiresvalue)
