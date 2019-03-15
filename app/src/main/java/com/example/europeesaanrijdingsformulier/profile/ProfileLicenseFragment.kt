@@ -79,6 +79,7 @@ class ProfileLicenseFragment : Fragment() {
             prefManager.saveProfile(profile)
 
             this.fragmentManager!!.beginTransaction()
+                .setCustomAnimations(R.anim.abc_fade_in,R.anim.abc_fade_out,R.anim.abc_fade_in,R.anim.abc_fade_out)
                 .replace(com.example.europeesaanrijdingsformulier.R.id.container_main, ProfileSummaryFragment())
                 //.addToBackStack(null)
                 .commit()

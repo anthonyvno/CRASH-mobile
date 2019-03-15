@@ -56,6 +56,7 @@ class ProfileSummaryFragment : Fragment() {
         cardview1_profile_summary.setOnClickListener{
 
             this.fragmentManager!!.beginTransaction()
+                .setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left,R.anim.enter_from_left,R.anim.exit_to_right)
                 .replace(R.id.container_main, ProfileInfoFragment())
                 .addToBackStack(null)
                 .commit()
@@ -64,6 +65,7 @@ class ProfileSummaryFragment : Fragment() {
         cardview2_profile_summary.setOnClickListener{
 
             this.fragmentManager!!.beginTransaction()
+                .setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left,R.anim.enter_from_left,R.anim.exit_to_right)
                 .replace(R.id.container_main, ProfileLicenseFragment())
                 .addToBackStack(null)
                 .commit()
@@ -71,11 +73,13 @@ class ProfileSummaryFragment : Fragment() {
 
         cardview3_profile_summary.setOnClickListener{
             this.fragmentManager!!.beginTransaction()
+                .setCustomAnimations(R.anim.abc_fade_in,R.anim.abc_fade_out,R.anim.abc_fade_in,R.anim.abc_fade_out)
                 .replace(R.id.container_main, ProfileVehicleListFragment())
                 .addToBackStack(null)
                 .commit()
         }
     }
+    
 
 
 

@@ -48,8 +48,9 @@ class ProfileVehicleListFragment : Fragment() {
 
         button_vehicle_list_add.setOnClickListener{
             this.fragmentManager!!.beginTransaction()
-                .replace(R.id.container_main,ProfileVehicleDetailFragment())
-                .addToBackStack(null)
+                .setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left,R.anim.enter_from_left,R.anim.exit_to_right)
+                .replace(R.id.container_main,ProfileVehicleDetailFragment(),"detail")
+                .addToBackStack("list_to_detail")
                 .commit()
         }
 
@@ -58,11 +59,13 @@ class ProfileVehicleListFragment : Fragment() {
 
     fun startNewFragmentForDetail(item: Vehicle) {
         val profileVehicleDetailFragment = ProfileVehicleDetailFragment()
-        this.fragmentManager!!.beginTransaction()
-            .replace(R.id.container_main,profileVehicleDetailFragment)
-            .addToBackStack(null)
-            .commit()
         profileVehicleDetailFragment.addObject(item)
+        this.fragmentManager!!.beginTransaction()
+            .setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left,R.anim.enter_from_left,R.anim.exit_to_right)
+            .replace(R.id.container_main,profileVehicleDetailFragment,"detail")
+            .addToBackStack("list_to_detail")
+            .commit()
+
     }
 
 

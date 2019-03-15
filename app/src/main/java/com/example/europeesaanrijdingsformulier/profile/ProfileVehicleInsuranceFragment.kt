@@ -102,6 +102,7 @@ class ProfileVehicleInsuranceFragment : Fragment() {
             viewModel.updateProfile(profile).blockingFirst()
 
             this.fragmentManager!!.beginTransaction()
+                .setCustomAnimations(R.anim.abc_fade_in,R.anim.abc_fade_out,R.anim.abc_fade_in,R.anim.abc_fade_out)
                 .replace(R.id.container_main, ProfileSummaryFragment())
                 //.addToBackStack(null)
                 .commit()

@@ -1,6 +1,7 @@
 package com.example.europeesaanrijdingsformulier
 
 import android.app.Activity
+import android.app.FragmentManager.POP_BACK_STACK_INCLUSIVE
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
@@ -9,6 +10,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.support.design.widget.Snackbar
+import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html
 import android.util.Log
@@ -20,6 +22,7 @@ import com.example.europeesaanrijdingsformulier.fragments.HomeFragment
 import com.example.europeesaanrijdingsformulier.insurer.Insurer
 import com.example.europeesaanrijdingsformulier.profile.Insurance
 import com.example.europeesaanrijdingsformulier.profile.Profile
+import com.example.europeesaanrijdingsformulier.profile.ProfileVehicleInsuranceFragment
 import com.example.europeesaanrijdingsformulier.profile.Vehicle
 import com.example.europeesaanrijdingsformulier.report.Report
 import com.example.europeesaanrijdingsformulier.report.ReportAlgemeenAFragment
@@ -56,6 +59,7 @@ class MainActivity : AppCompatActivity() {
             .add(R.id.container_main, HomeFragment())
             .addToBackStack("main")
             .commit()
+
 
 
     }
@@ -150,6 +154,7 @@ class MainActivity : AppCompatActivity() {
             } else {
                 super.onActivityResult(requestCode, resultCode, data)
             }
+
         }
     }
 
@@ -158,4 +163,19 @@ class MainActivity : AppCompatActivity() {
         onBackPressed()
         return true
     }
+
+    override fun onBackPressed() {
+        val fm = supportFragmentManager
+        if(fm.findFragmentByTag("insurance")!=null){
+            fm.popBackStack("list_to_detail", POP_BACK_STACK_INCLUSIVE)
+        } else {
+            super.onBackPressed()
+
+        }
+    }
+
+
+
+
+
 }
