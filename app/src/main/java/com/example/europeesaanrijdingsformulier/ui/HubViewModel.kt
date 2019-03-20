@@ -93,6 +93,10 @@ class HubViewModel: InjectedViewModel(){
         val returnedVehicle = hubApi.addVehicle(vehicle)
         return returnedVehicle
     }
+    fun deleteVehicle(vehicle:Vehicle):Observable<Vehicle>{
+        val returnedVehicle = hubApi.deleteVehicle(vehicle.id)
+        return returnedVehicle
+    }
 
     fun postProfile(profile: Profile): Observable<Profile> {
         val returnedProfiel  = hubApi.addProfile(profile)

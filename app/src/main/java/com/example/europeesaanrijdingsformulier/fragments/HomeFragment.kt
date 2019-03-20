@@ -46,7 +46,7 @@ class HomeFragment : Fragment() {
             this.fragmentManager!!.beginTransaction()
                 .setCustomAnimations(R.anim.abc_fade_in,R.anim.abc_fade_out,R.anim.abc_fade_in,R.anim.abc_fade_out)
                 .replace(R.id.container_main,ProfileSummaryFragment())
-                .addToBackStack(null)
+                .addToBackStack("home_to_profileSummary")
                 .commit()
         }
     }

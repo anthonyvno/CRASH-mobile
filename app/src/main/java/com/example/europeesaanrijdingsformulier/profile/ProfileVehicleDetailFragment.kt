@@ -24,7 +24,6 @@ import kotlinx.android.synthetic.main.fragment_profile_vehicle_detail.*
 class ProfileVehicleDetailFragment : Fragment() {
 
     private var vehicle: Vehicle? = null
-    private lateinit var viewModel: HubViewModel
     private lateinit var prefManager: PrefManager
     private var category: String = "Auto"
     private var country: String = "Belgium"
@@ -33,7 +32,6 @@ class ProfileVehicleDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProviders.of(activity!!).get(HubViewModel::class.java)
         prefManager = PrefManager(activity)
 
         return inflater.inflate(R.layout.fragment_profile_vehicle_detail, container, false)
@@ -52,7 +50,7 @@ class ProfileVehicleDetailFragment : Fragment() {
             val model = textedit_vehicle_detail_model.text.toString()
             val licensePlate = textedit_vehicle_detail_licensePlate.text.toString()
             if (vehicle == null) {
-                vehicle = Vehicle(1, country, licensePlate, brand, model, category)
+                vehicle = Vehicle(prefManager.getVehicles()!!.size, country, licensePlate, brand, model, category)
             } else {
                 vehicle = Vehicle(vehicle!!.id, country, licensePlate, brand, model, category,vehicle!!.insurance)
             }

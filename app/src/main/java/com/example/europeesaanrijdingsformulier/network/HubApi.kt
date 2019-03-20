@@ -8,6 +8,10 @@ import com.example.europeesaanrijdingsformulier.profile.Vehicle
 import com.example.europeesaanrijdingsformulier.report.Report
 import io.reactivex.Observable
 import retrofit2.http.*
+import okhttp3.ResponseBody
+import retrofit2.http.DELETE
+
+
 
 interface HubApi {
 
@@ -37,5 +41,8 @@ interface HubApi {
     fun updateVehicle(@Path("id") id: Int, @Body vehicle: Vehicle): Observable<Vehicle>
     @PUT("/insurances/{id}")
     fun updateInsurance(@Path("id") id: Int, @Body insurance: Insurance): Observable<Insurance>
+
+    @DELETE("vehicles/{id}")
+    fun deleteVehicle(@Path("id") id: Int): Observable<Vehicle>
 
 }

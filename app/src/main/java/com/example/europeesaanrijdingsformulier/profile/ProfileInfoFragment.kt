@@ -19,7 +19,6 @@ import kotlinx.android.synthetic.main.fragment_profile_info.*
 class ProfileInfoFragment : Fragment() {
 
     private lateinit var profile: Profile
-    private lateinit var viewModel: HubViewModel
     private var profileInput: Profile? = null
     private lateinit var prefManager: PrefManager
 
@@ -27,7 +26,6 @@ class ProfileInfoFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProviders.of(activity!!).get(HubViewModel::class.java)
         prefManager = PrefManager(activity)
 
         return inflater.inflate(R.layout.fragment_profile_info, container, false)
@@ -51,19 +49,17 @@ class ProfileInfoFragment : Fragment() {
             val profile2: Profile
             if(profileInput == null) {
                 profile = Profile(1,firstName,lastName,email)
-                profile2 = viewModel.postProfile(profile).blockingFirst()
                 Log.d("testpurp","1")
             } else{
                 profile = Profile(profileInput!!.id,firstName,lastName,email)
-                profile2 = viewModel.updateProfile(profile).blockingFirst()
                 Log.d("testpurp","2")
             }
 
-            prefManager.saveProfile(profile2)
+            prefManager.saveProfile(profile)
 
             this.fragmentManager!!.beginTransaction()
                 .setCustomAnimations(R.anim.abc_fade_in,R.anim.abc_fade_out,R.anim.abc_fade_in,R.anim.abc_fade_out)
-                .replace(R.id.container_main, ProfileSummaryFragment())
+                .replace(R.id.container_main, ProfileSummaryFragment(),"summary")
                // .addToBackStack(null)
                 .commit()
 

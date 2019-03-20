@@ -29,7 +29,6 @@ import com.example.europeesaanrijdingsformulier.utils.PrefManager
 class ProfileLicenseFragment : Fragment() {
 
     private lateinit var license: License
-    private lateinit var viewModel: HubViewModel
     private var category : String = ""
     private var licenseInput: License? = null
     private lateinit var prefManager: PrefManager
@@ -38,7 +37,6 @@ class ProfileLicenseFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProviders.of(activity!!).get(HubViewModel::class.java)
         prefManager = PrefManager(activity)
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_profile_license, container, false)
@@ -62,25 +60,22 @@ class ProfileLicenseFragment : Fragment() {
             val license2 : License
             if(licenseInput == null) {
                 license = License(id,category,licenseNumber,expires)
-                license2 = viewModel.postLicense(license).blockingFirst()
             } else{
                 license = License(licenseInput!!.id,category,licenseNumber,expires)
-                license2 = viewModel.updateLicense(license).blockingFirst()
             }
 
-            prefManager.saveLicense(license2)
+            prefManager.saveLicense(license)
 
 
             val profile = prefManager.getProfile()
-            profile!!.license = license2
+            profile!!.license = license
 
-            viewModel.updateProfile(profile).blockingFirst()
 
             prefManager.saveProfile(profile)
 
             this.fragmentManager!!.beginTransaction()
                 .setCustomAnimations(R.anim.abc_fade_in,R.anim.abc_fade_out,R.anim.abc_fade_in,R.anim.abc_fade_out)
-                .replace(com.example.europeesaanrijdingsformulier.R.id.container_main, ProfileSummaryFragment())
+                .replace(com.example.europeesaanrijdingsformulier.R.id.container_main, ProfileSummaryFragment(),"summary")
                 //.addToBackStack(null)
                 .commit()
         }

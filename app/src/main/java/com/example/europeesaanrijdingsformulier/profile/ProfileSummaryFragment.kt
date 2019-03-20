@@ -79,7 +79,7 @@ class ProfileSummaryFragment : Fragment() {
                 .commit()
         }
     }
-    
+
 
 
 

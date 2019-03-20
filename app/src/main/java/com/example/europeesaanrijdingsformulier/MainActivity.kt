@@ -27,6 +27,7 @@ import com.example.europeesaanrijdingsformulier.profile.Vehicle
 import com.example.europeesaanrijdingsformulier.report.Report
 import com.example.europeesaanrijdingsformulier.report.ReportAlgemeenAFragment
 import com.example.europeesaanrijdingsformulier.utils.PrefManager
+import com.example.europeesaanrijdingsformulier.utils.QRManager
 import com.google.gson.Gson
 import com.google.zxing.integration.android.IntentIntegrator
 
@@ -37,6 +38,9 @@ import java.util.logging.Logger
 class MainActivity : AppCompatActivity() {
 
     private lateinit var prefManager: PrefManager
+    private val qrManager = QRManager()
+    private lateinit var viewModel: HubViewModel
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,15 +49,17 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(my_toolbar)
         prefManager = PrefManager(this)
 
+        viewModel = ViewModelProviders.of(this).get(HubViewModel::class.java)
+
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
 
         //clear local
-
-        /*   val sharedPref = getSharedPreferences(R.string.preferences_profile.toString(), Context.MODE_PRIVATE)
+/*
+           val sharedPref = getSharedPreferences(R.string.preferences_profile.toString(), Context.MODE_PRIVATE)
              var editor = sharedPref.edit()
              editor.clear().apply()
-     */
+*/
 
         supportFragmentManager.beginTransaction()
             .add(R.id.container_main, HomeFragment())
@@ -97,50 +103,7 @@ class MainActivity : AppCompatActivity() {
                     val fragment = ReportAlgemeenAFragment()
                     //val gson = Gson()
                     if (result.contents.startsWith("{\"version\"")) {
-                        val json = JSONObject(result.contents)
-                        val insured = json.getJSONObject("insured")
-                        val insurance = json.getJSONObject("Insurer")
-                        val vehicle = json.getJSONObject("vehicle")
-                        //Log.d("insured",insured.toString())
-                        val keys = insured.keys()
-                        val keys2 = insurance.keys()
-                        val keys3 = vehicle.keys()
-
-                        var firstname = ""
-                        var lastname = ""
-
-                        var contractnumber = ""
-                        var emailAgency = ""
-
-                        var brand = ""
-                        var licensePlate = ""
-                        var country = ""
-
-
-                        while (keys.hasNext()) {
-                            val key = keys.next() as String
-                            Log.d("keys", keys.next())
-                            firstname = insured.optString("firstname")
-
-                            lastname = insured.optString("lastname")
-
-                        }
-                        while (keys2.hasNext()) {
-                            keys2.next()
-                            emailAgency = insurance.optString("representativeEmail")
-                            contractnumber = insurance.optString("contractNumber")
-                        }
-                        while(keys3.hasNext()){
-                            keys3.next()
-                            brand = vehicle.optString("brand")
-                            licensePlate = vehicle.optString("licensePlate")
-                            country = vehicle.optString("country")
-                        }
-
-                        fragment.addProfile(Profile(1, firstname, lastname, "",null,
-                            listOf(Vehicle(1,country,licensePlate,brand,"","",
-                            Insurance(1,contractnumber,"",emailAgency,null,"")
-                        ))))
+                        fragment.addProfile(qrManager.handleGreenCardScan(result.contents))
                         fragment.addReport(prefManager.getReport()!!)
                         supportFragmentManager.beginTransaction()
                             .replace(R.id.container_main, fragment)
@@ -166,6 +129,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         val fm = supportFragmentManager
+        if(fm.findFragmentByTag("summary")!=null){
+            fm.popBackStack("home_to_profileSummary",POP_BACK_STACK_INCLUSIVE)
+        } else
         if(fm.findFragmentByTag("insurance")!=null){
             fm.popBackStack("list_to_detail", POP_BACK_STACK_INCLUSIVE)
         } else {

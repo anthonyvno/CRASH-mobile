@@ -11,15 +11,21 @@ import android.view.ViewGroup
 
 import com.example.europeesaanrijdingsformulier.R
 import com.example.europeesaanrijdingsformulier.utils.PrefManager
+import com.github.brnunes.swipeablerecyclerview.SwipeableRecyclerViewTouchListener
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.fragment_profile_vehicle_list.*
+import android.support.v7.widget.RecyclerView
+
+
 
 
 class ProfileVehicleListFragment : Fragment() {
 
     private lateinit var adapter: VehicleViewAdapter
     private lateinit var prefManager: PrefManager
+    private lateinit var swipeTouchListener: SwipeableRecyclerViewTouchListener
+
 
 
     override fun onCreateView(
@@ -27,6 +33,7 @@ class ProfileVehicleListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         prefManager = PrefManager(activity)
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_profile_vehicle_list, container, false)
     }
@@ -45,6 +52,36 @@ class ProfileVehicleListFragment : Fragment() {
             fragment_profile_vehicle_list.adapter = adapter
 
         }
+
+        swipeTouchListener = SwipeableRecyclerViewTouchListener(fragment_profile_vehicle_list,
+            object : SwipeableRecyclerViewTouchListener.SwipeListener {
+                override fun canSwipeLeft(position: Int): Boolean {
+                    return true
+                }
+
+                override fun canSwipeRight(position: Int): Boolean {
+                    return true
+                }
+
+                override fun onDismissedBySwipeLeft(recyclerView: RecyclerView, reverseSortedPositions: IntArray) {
+                    for (position in reverseSortedPositions) {
+                        vehicles!!.removeAt(position)
+                        adapter.notifyItemRemoved(position)
+                        prefManager.saveVehicles(vehicles)
+                    }
+                    adapter.notifyDataSetChanged()
+                }
+
+                override fun onDismissedBySwipeRight(recyclerView: RecyclerView, reverseSortedPositions: IntArray) {
+                    for (position in reverseSortedPositions) {
+                        vehicles!!.removeAt(position)
+                        adapter.notifyItemRemoved(position)
+                        prefManager.saveVehicles(vehicles)
+                    }
+                    adapter.notifyDataSetChanged()
+                }
+            })
+        fragment_profile_vehicle_list.addOnItemTouchListener(swipeTouchListener)
 
         button_vehicle_list_add.setOnClickListener{
             this.fragmentManager!!.beginTransaction()
@@ -65,7 +102,6 @@ class ProfileVehicleListFragment : Fragment() {
             .replace(R.id.container_main,profileVehicleDetailFragment,"detail")
             .addToBackStack("list_to_detail")
             .commit()
-
     }
 
 

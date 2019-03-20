@@ -28,18 +28,19 @@ import java.util.*
 class ProfileVehicleInsuranceFragment : Fragment() {
 
     private lateinit var insurers: List<Insurer>
-    private lateinit var viewModel: HubViewModel
     private lateinit var prefManager: PrefManager
     private lateinit var vehicle: Vehicle
     private lateinit var insurerName: String
+    private lateinit var viewModel: HubViewModel
+
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProviders.of(activity!!).get(HubViewModel::class.java)
         prefManager = PrefManager(activity)
+        viewModel = ViewModelProviders.of(activity!!).get(HubViewModel::class.java)
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_profile_vehicle_insurance, container, false)
     }
@@ -70,40 +71,38 @@ class ProfileVehicleInsuranceFragment : Fragment() {
                 insurer4
             )
 
-            val vehicle2: Vehicle
             val profile = prefManager.getProfile()
-
+/*
             if (vehicle!!.insurance == null) {
                 vehicle.insurance = viewModel.postInsurance(insurance).blockingFirst()
                 vehicle2 = viewModel.postVehicle(vehicle!!).blockingFirst()
             } else {
                 vehicle.insurance = viewModel.updateInsurance(insurance).blockingFirst()
                 vehicle2 = viewModel.updateVehicle(vehicle!!).blockingFirst()
-            }
+            }*/
 
-
+            vehicle.insurance = insurance
             var vehicles = prefManager.getVehicles()
 //            Log.d("testpurp3",vehicles!!.first().insurance!!.emailAgency)
             if (vehicles != null) {
-                var comparevehicle = vehicles.find { it.id == vehicle2.id }
+                var comparevehicle = vehicles.find { it.id == vehicle.id }
                 if (comparevehicle == null) {
-                    vehicles.add(vehicle2)
+                    vehicles.add(vehicle)
                 } else {
                     vehicles.remove(comparevehicle)
-                    vehicles.add(vehicle2)
+                    vehicles.add(vehicle)
                 }
             } else {
-                vehicles = mutableListOf<Vehicle>(vehicle2)
+                vehicles = mutableListOf<Vehicle>(vehicle)
             }
 
             prefManager.saveVehicles(vehicles)
             profile!!.vehicles = vehicles
             prefManager.saveProfile(profile)
-            viewModel.updateProfile(profile).blockingFirst()
 
             this.fragmentManager!!.beginTransaction()
                 .setCustomAnimations(R.anim.abc_fade_in,R.anim.abc_fade_out,R.anim.abc_fade_in,R.anim.abc_fade_out)
-                .replace(R.id.container_main, ProfileSummaryFragment())
+                .replace(R.id.container_main, ProfileSummaryFragment(),"summary")
                 //.addToBackStack(null)
                 .commit()
         }
