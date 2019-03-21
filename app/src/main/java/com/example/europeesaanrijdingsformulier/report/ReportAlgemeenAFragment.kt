@@ -69,17 +69,4 @@ class   ReportAlgemeenAFragment : Fragment() {
     }
 
 
-    /*
-    companion object {
-
-        fun newInstance(): ReportAlgemeenAFragment {
-            val args = Bundle()
-            //args.putSerializable("list", list)
-            val fragment = ReportAlgemeenAFragment()
-            fragment.arguments = args
-
-            return fragment
-        }
-    }
-    */
 }
