@@ -3,7 +3,7 @@
 
     <item
             android:id="@+id/navigation_scanQr"
-            android:title="Scan een QR-code"
+            android:title="Scan QR-code Groene Kaart"
             android:icon="@drawable/scan_icon"
     />
 
