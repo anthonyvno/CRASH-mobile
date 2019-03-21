@@ -92,36 +92,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (resultCode == Activity.RESULT_OK) {
-            val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
-            Log.d("qr result2:", result.contents)
-            if (result != null) {
-                if (result.contents == null) {
-                    Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show()
-                } else {
-                    val fragment = ReportAlgemeenAFragment()
-                    //val gson = Gson()
-                    if (result.contents.startsWith("{\"version\"")) {
-                        fragment.addProfile(qrManager.handleGreenCardScan(result.contents))
-                        fragment.addReport(prefManager.getReport()!!)
-                        supportFragmentManager.beginTransaction()
-                            .replace(R.id.container_main, fragment)
-                            .addToBackStack(null)
-                            .commitAllowingStateLoss()
-                    } else {
-                        Toast.makeText(this, Html.fromHtml("<font color='#FF0000' ><b>" + "Geen geldige QR-code" + "</b></font>") , Toast.LENGTH_LONG).show()
-
-                    }
-                }
-            } else {
-                super.onActivityResult(requestCode, resultCode, data)
-            }
-
-        }
-    }
-
-
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true

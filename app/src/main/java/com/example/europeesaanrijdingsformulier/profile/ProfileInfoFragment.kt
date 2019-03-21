@@ -53,7 +53,7 @@ class ProfileInfoFragment : Fragment() {
                 profile = Profile(1,firstName,lastName,email)
                 Log.d("testpurp","1")
             } else{
-                profile = Profile(profileInput!!.id,firstName,lastName,email)
+                profile = Profile(profileInput!!.id,firstName,lastName,email,profileInput!!.license,profileInput!!.vehicles)
                 Log.d("testpurp","2")
             }
 

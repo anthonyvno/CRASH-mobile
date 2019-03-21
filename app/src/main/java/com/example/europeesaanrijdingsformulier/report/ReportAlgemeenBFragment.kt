@@ -20,6 +20,7 @@ import kotlinx.android.synthetic.main.fragment_report_algemeen_b.*
 class ReportAlgemeenBFragment : Fragment() {
 
     private lateinit var report: Report
+    private var profile: Profile?=null
     private lateinit var viewModel: HubViewModel
 
     override fun onCreateView(
@@ -34,6 +35,13 @@ class ReportAlgemeenBFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+
+        if(profile != null){
+            textedit_algemeen_b_firstname.setText(profile!!.firstName)
+            textedit_algemeen_b_lastname.setText(profile!!.lastName)
+            textedit_algemeen_b_email.setText(profile!!.email)
+
+        }
 
         button_algemeen_b_confirm.setOnClickListener{
             val firstName =this.textedit_algemeen_b_firstname.text.toString()
@@ -57,9 +65,11 @@ class ReportAlgemeenBFragment : Fragment() {
         }
     }
 
-    fun addObject(item: Report) {
+    fun addReport(item: Report) {
         this.report = item
-
+    }
+    fun addProfile(item: Profile) {
+        this.profile = item
     }
 
 

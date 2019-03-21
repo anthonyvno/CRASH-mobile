@@ -4,9 +4,12 @@ import android.util.Log
 import com.example.europeesaanrijdingsformulier.profile.Insurance
 import com.example.europeesaanrijdingsformulier.profile.Profile
 import com.example.europeesaanrijdingsformulier.profile.Vehicle
+import com.google.gson.Gson
 import org.json.JSONObject
 
 class QRManager {
+
+    val gson = Gson()
 
     fun handleGreenCardScan(scannedJson: String): Profile {
         val json = JSONObject(scannedJson)
@@ -62,4 +65,9 @@ class QRManager {
 
     }
 
+    fun handleProfileScan(scannedJson: String): Profile {
+
+        return gson.fromJson(scannedJson,Profile::class.java)
+
+    }
 }
