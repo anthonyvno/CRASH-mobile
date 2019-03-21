@@ -83,6 +83,20 @@ class ProfileSummaryFragment : Fragment() {
                 .addToBackStack(null)
                 .commit()
         }
+
+        val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_scanQr -> {
+
+                    return@OnNavigationItemSelectedListener true
+                }
+                R.id.navigation_myQR -> {
+
+                    return@OnNavigationItemSelectedListener true
+                }
+            }
+            false
+        }
     }
 
 
