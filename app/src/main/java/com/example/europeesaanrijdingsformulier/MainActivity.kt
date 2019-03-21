@@ -131,9 +131,9 @@ class MainActivity : AppCompatActivity() {
         val fm = supportFragmentManager
         if(fm.findFragmentByTag("summary")!=null && fm.findFragmentByTag("summary")!!.isVisible()){
             fm.popBackStack("home_to_profileSummary",POP_BACK_STACK_INCLUSIVE)
-            
+
         } else
-        if(fm.findFragmentByTag("insurance")!=null){
+        if(fm.findFragmentByTag("insurance")!=null && fm.findFragmentByTag("insurance")!!.isVisible() ){
             fm.popBackStack("list_to_detail", POP_BACK_STACK_INCLUSIVE)
         } else {
             super.onBackPressed()

@@ -50,7 +50,12 @@ class ProfileVehicleDetailFragment : Fragment() {
             val model = textedit_vehicle_detail_model.text.toString()
             val licensePlate = textedit_vehicle_detail_licensePlate.text.toString()
             if (vehicle == null) {
-                vehicle = Vehicle(prefManager.getVehicles()!!.size, country, licensePlate, brand, model, category)
+                if(prefManager.getVehicles()==null){
+                    vehicle = Vehicle(0, country, licensePlate, brand, model, category)
+
+                } else {
+                    vehicle = Vehicle(prefManager.getVehicles()!!.size, country, licensePlate, brand, model, category)
+                }
             } else {
                 vehicle = Vehicle(vehicle!!.id, country, licensePlate, brand, model, category,vehicle!!.insurance)
             }
