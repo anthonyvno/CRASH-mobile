@@ -40,6 +40,7 @@ class ReportStartBFragment : Fragment() {
 
         button_report_start_b_manual.setOnClickListener{
             val fragment = ReportAlgemeenBFragment()
+            prefManager.saveReport(report)
             fragment.addReport(report)
             this.fragmentManager!!.beginTransaction()
                 .replace(R.id.container_main, fragment)
@@ -78,7 +79,6 @@ class ReportStartBFragment : Fragment() {
                             .commitAllowingStateLoss()
                     } else {
                         Toast.makeText(activity, Html.fromHtml("<font color='#FF0000' ><b>" + "Geen geldige QR-code" + "</b></font>") , Toast.LENGTH_LONG).show()
-
                     }
                 }
             } else {

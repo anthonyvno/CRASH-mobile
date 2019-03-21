@@ -49,6 +49,8 @@ class HomeFragment : Fragment() {
                 .addToBackStack("home_to_profileSummary")
                 .commit()
         }
+
+
     }
 
     override fun onResume() {

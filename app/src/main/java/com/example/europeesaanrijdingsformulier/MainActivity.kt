@@ -19,11 +19,9 @@ import android.view.MenuItem
 import android.widget.Toast
 import com.example.anthonyvannoppen.androidproject.ui.HubViewModel
 import com.example.europeesaanrijdingsformulier.fragments.HomeFragment
+import com.example.europeesaanrijdingsformulier.fragments.ReportListFragment
 import com.example.europeesaanrijdingsformulier.insurer.Insurer
-import com.example.europeesaanrijdingsformulier.profile.Insurance
-import com.example.europeesaanrijdingsformulier.profile.Profile
-import com.example.europeesaanrijdingsformulier.profile.ProfileVehicleInsuranceFragment
-import com.example.europeesaanrijdingsformulier.profile.Vehicle
+import com.example.europeesaanrijdingsformulier.profile.*
 import com.example.europeesaanrijdingsformulier.report.Report
 import com.example.europeesaanrijdingsformulier.report.ReportAlgemeenAFragment
 import com.example.europeesaanrijdingsformulier.utils.PrefManager
@@ -66,16 +64,12 @@ class MainActivity : AppCompatActivity() {
             .addToBackStack("main")
             .commit()
 
-
-
     }
 
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
-
-
 
         return true
     }
@@ -85,7 +79,14 @@ class MainActivity : AppCompatActivity() {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_formulieren -> true
+            R.id.action_formulieren -> {
+                supportFragmentManager.beginTransaction()
+                    .setCustomAnimations(R.anim.abc_fade_in,R.anim.abc_fade_out,R.anim.abc_fade_in,R.anim.abc_fade_out)
+                    .replace(R.id.container_main, ReportListFragment())
+                    .addToBackStack(null)
+                    .commit()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
 
