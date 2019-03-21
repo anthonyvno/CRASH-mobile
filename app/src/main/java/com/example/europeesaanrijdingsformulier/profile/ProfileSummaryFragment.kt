@@ -14,6 +14,7 @@ import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_profile_summary.*
 import android.graphics.BitmapFactory
 import android.graphics.Bitmap
+import android.support.design.widget.BottomNavigationView
 import android.widget.ImageView
 
 
@@ -32,6 +33,10 @@ class ProfileSummaryFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_profile_summary, container, false)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        val navigation = (R.id.navigationView) as BottomNavigationView
+        super.onCreate(savedInstanceState)
+    }
     override fun onStart() {
         super.onStart()
 

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+            android:id="@+id/navigation_songs"
+            android:title="Scan een QR-code"
+            android:icon="@drawable/scan_icon"
+    />
+
+    <item
+            android:title=""/>
+
+    <item
+            android:id="@+id/navigation_albums"
+            android:title="Mijn QR-code"
+            android:icon="@drawable/qr_icon"
+    />
+
+</menu>
