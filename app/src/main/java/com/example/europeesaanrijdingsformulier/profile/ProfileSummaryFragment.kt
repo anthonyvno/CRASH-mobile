@@ -16,6 +16,21 @@ import android.graphics.BitmapFactory
 import android.graphics.Bitmap
 import android.support.design.widget.BottomNavigationView
 import android.widget.ImageView
+import android.content.Context.LAYOUT_INFLATER_SERVICE
+import android.support.design.widget.BottomNavigationView.OnNavigationItemSelectedListener
+import android.support.v4.content.ContextCompat.getSystemService
+import android.view.Gravity
+import android.widget.PopupWindow
+import android.widget.LinearLayout
+import android.view.MotionEvent
+
+
+
+
+
+
+
+
 
 
 class ProfileSummaryFragment : Fragment() {
@@ -84,13 +99,27 @@ class ProfileSummaryFragment : Fragment() {
                 .commit()
         }
 
-        val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+        val mOnNavigationItemSelectedListener = OnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_scanQr -> {
 
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_myQR -> {
+
+                    val inflater = activity!!.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater?
+                    val popupView = inflater!!.inflate(R.layout.popup_profile_qr, null)
+                    val width = LinearLayout.LayoutParams.WRAP_CONTENT
+                    val height = LinearLayout.LayoutParams.WRAP_CONTENT
+                    val focusable = true // lets taps outside the popup also dismiss it
+                    val popupWindow = PopupWindow(popupView, width, height, focusable)
+
+                    popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+
+                    popupView.setOnTouchListener(View.OnTouchListener { v, event ->
+                        popupWindow.dismiss()
+                        true
+                    })
 
                     return@OnNavigationItemSelectedListener true
                 }
