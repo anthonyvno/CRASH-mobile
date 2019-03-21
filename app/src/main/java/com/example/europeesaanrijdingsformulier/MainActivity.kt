@@ -131,12 +131,14 @@ class MainActivity : AppCompatActivity() {
         val fm = supportFragmentManager
         if(fm.findFragmentByTag("summary")!=null){
             fm.popBackStack("home_to_profileSummary",POP_BACK_STACK_INCLUSIVE)
+            for (fragment in supportFragmentManager.fragments) {
+                supportFragmentManager.beginTransaction().remove(fragment).commit()
+            }
         } else
         if(fm.findFragmentByTag("insurance")!=null){
             fm.popBackStack("list_to_detail", POP_BACK_STACK_INCLUSIVE)
         } else {
             super.onBackPressed()
-
         }
     }
 
