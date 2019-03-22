@@ -56,15 +56,25 @@ class ReportStartAFragment : Fragment() {
         }
 
         button_report_start_a_profile.setOnClickListener{
-            val fragment = ReportAlgemeenAFragment()
+
             //voeg profile toe
-            profile = prefManager.getProfile()!!
-            fragment.addReport(report)
-            fragment.addProfile(profile)
-            this.fragmentManager!!.beginTransaction()
-                .replace(R.id.container_main, fragment)
-                .addToBackStack(null)
-                .commit()
+
+
+            if(prefManager.getProfile()==null){
+                Toast.makeText(activity, Html.fromHtml("<font color='#FF0000' ><b>" + "Geen profiel gevonden" + "</b></font>")
+                    , Toast.LENGTH_LONG).show()
+
+            } else {
+                profile = prefManager.getProfile()!!
+                val fragment = ReportAlgemeenAFragment()
+                fragment.addReport(report)
+                fragment.addProfile(profile)
+                this.fragmentManager!!.beginTransaction()
+                    .replace(R.id.container_main, fragment)
+                    .addToBackStack(null)
+                    .commit()
+            }
+
         }
 
         button_report_start_a_QR.setOnClickListener{

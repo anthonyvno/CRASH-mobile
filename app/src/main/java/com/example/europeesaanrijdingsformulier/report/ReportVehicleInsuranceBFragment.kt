@@ -77,6 +77,7 @@ class ReportVehicleInsuranceBFragment : Fragment() {
                 .replace(R.id.container_main, fragment)
                 .addToBackStack(null)
                 .commit()
+
         }
     }
 
