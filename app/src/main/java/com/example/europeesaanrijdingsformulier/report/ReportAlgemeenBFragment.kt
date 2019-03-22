@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.fragment_report_algemeen_b.*
 class ReportAlgemeenBFragment : Fragment() {
 
     private lateinit var report: Report
-    private var profile: Profile?=null
+    private var profile: Profile? = null
     //private lateinit var viewModel: HubViewModel
 
     override fun onCreateView(
@@ -36,23 +36,30 @@ class ReportAlgemeenBFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        if(profile != null){
+        if (profile != null) {
             textedit_algemeen_b_firstname.setText(profile!!.firstName)
             textedit_algemeen_b_lastname.setText(profile!!.lastName)
             textedit_algemeen_b_email.setText(profile!!.email)
 
         }
 
-        button_algemeen_b_confirm.setOnClickListener{
-            val firstName =this.textedit_algemeen_b_firstname.text.toString()
+        button_algemeen_b_confirm.setOnClickListener {
+            val firstName = this.textedit_algemeen_b_firstname.text.toString()
             val lastName = this.textedit_algemeen_b_lastname.text.toString()
             val email = this.textedit_algemeen_b_email.text.toString()
 
 
-
+            var profiles: List<Profile>
             //val profielb = viewModel.postProfile(Profile(1,firstName,lastName,email)).blockingFirst()
             //val profiela = viewModel.postProfile(this.report.profiles.first()).blockingFirst()
-            val profiles = listOf(this.report.profiles.first(),Profile(1,firstName,lastName,email,profile?.license,profile?.vehicles))
+            if (profile != null) {
+                profiles = listOf(
+                    this.report.profiles.first(),
+                    Profile(1, firstName, lastName, email, profile?.license, profile?.vehicles)
+                )
+            } else {
+                profiles = listOf(this.report.profiles.first(), Profile(1, firstName, lastName, email))
+            }
 
             report.profiles = profiles
 
@@ -61,7 +68,7 @@ class ReportAlgemeenBFragment : Fragment() {
             reportLicenseBFragment.addObject(report)
             this.fragmentManager!!.beginTransaction()
                 .replace(R.id.container_main, reportLicenseBFragment)
-                .addToBackStack(null)
+                //.addToBackStack(null)
                 .commit()
         }
     }
@@ -69,6 +76,7 @@ class ReportAlgemeenBFragment : Fragment() {
     fun addReport(item: Report) {
         this.report = item
     }
+
     fun addProfile(item: Profile) {
         this.profile = item
     }

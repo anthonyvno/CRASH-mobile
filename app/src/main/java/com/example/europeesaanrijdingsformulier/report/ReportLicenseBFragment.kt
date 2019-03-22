@@ -49,7 +49,7 @@ class ReportLicenseBFragment : Fragment() {
             val reportVehicleDetailBFragment = ReportVehicleDetailBFragment()
             this.fragmentManager!!.beginTransaction()
                 .replace(R.id.container_main, reportVehicleDetailBFragment)
-                .addToBackStack(null)
+                //.addToBackStack(null)
                 .commit()
             reportVehicleDetailBFragment.addObject(report)
 
@@ -100,8 +100,8 @@ class ReportLicenseBFragment : Fragment() {
                 activity,
                 R.style.MySpinnerDatePickerStyle,
                 DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-
-                    datepicker.setText("" + dayOfMonth + "/" + monthOfYear + "/" + year)
+                    var monthOfYear2 = monthOfYear +1
+                    datepicker.setText("" + dayOfMonth + "/" + monthOfYear2 + "/" + year)
                 },
                 year,
                 month,

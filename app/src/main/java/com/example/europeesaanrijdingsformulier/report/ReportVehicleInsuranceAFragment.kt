@@ -26,7 +26,7 @@ class ReportVehicleInsuranceAFragment : Fragment() {
     private lateinit var report: Report
     private lateinit var insurerName: String
     private lateinit var viewModel: HubViewModel
-    private lateinit var insurers: List<Insurer>
+    private lateinit var insurers: List<Insurer?>
 
 
 
@@ -54,7 +54,7 @@ class ReportVehicleInsuranceAFragment : Fragment() {
             val dateExpires = Date(
                 dateSplit[2].toInt() - 1900, dateSplit[1].toInt() -1, dateSplit[0].toInt() +1
             )
-            val insurer4 = insurers.find { insurer -> insurer.name == insurerName }
+            val insurer4 = insurers.find { insurer -> insurer!!.name == insurerName }
             var insurance = Insurance(
                 1,
                 textedit_report_vehicle_insurance_a_insuranceNumber.text.toString(),
@@ -82,7 +82,7 @@ class ReportVehicleInsuranceAFragment : Fragment() {
         Log.d("testpurp2", insurers.toString())
         val option = activity!!.findViewById<Spinner>(R.id.spinner_report_vehicle_insurance_a_insurer)
         val adapter =
-            ArrayAdapter(activity!!, android.R.layout.simple_spinner_item, insurers.map { insurer -> insurer.name })
+            ArrayAdapter(activity!!, android.R.layout.simple_spinner_item, insurers.map { insurer -> insurer!!.name })
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         option.adapter = adapter
 
