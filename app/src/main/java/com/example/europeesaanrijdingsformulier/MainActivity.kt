@@ -53,11 +53,11 @@ class MainActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayShowHomeEnabled(true)
 
         //clear local
-
+        /*
            val sharedPref = getSharedPreferences(R.string.preferences_profile.toString(), Context.MODE_PRIVATE)
              var editor = sharedPref.edit()
              editor.clear().apply()
-
+            */
 
         supportFragmentManager.beginTransaction()
             .add(R.id.container_main, HomeFragment())
@@ -68,16 +68,12 @@ class MainActivity : AppCompatActivity() {
 
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
 
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.action_formulieren -> {
                 supportFragmentManager.beginTransaction()
@@ -89,8 +85,6 @@ class MainActivity : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
-
-
     }
 
     override fun onSupportNavigateUp(): Boolean {
