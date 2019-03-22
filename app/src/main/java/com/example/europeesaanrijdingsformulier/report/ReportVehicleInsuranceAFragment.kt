@@ -86,7 +86,7 @@ class ReportVehicleInsuranceAFragment : Fragment() {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         option.adapter = adapter
 
-        if (report.profiles.first().vehicles?.first()?.insurance != null) {
+        if (report.profiles.first().vehicles?.first()?.insurance?.insurer != null) {
             val spinnerPosition = adapter.getPosition(report.profiles.first().vehicles?.first()?.insurance!!.insurer!!.name)
             option.setSelection(spinnerPosition)
         }
@@ -132,12 +132,15 @@ class ReportVehicleInsuranceAFragment : Fragment() {
         textedit_report_vehicle_insurance_a_phone.setText(report.profiles.first().vehicles?.first()?.insurance!!.phoneAgency)
         textedit_report_vehicle_insurance_a_greenCard.setText(report.profiles.first().vehicles?.first()?.insurance!!.greenCardNumber)
         textedit_report_vehicle_insurance_a_insuranceNumber.setText(report.profiles.first().vehicles?.first()?.insurance!!.insuranceNumber)
-        val expiresYear = report.profiles.first().vehicles?.first()?.insurance!!.expires!!.year + 1900
-        val expiresMonth = report.profiles.first().vehicles?.first()?.insurance!!.expires!!.month + 1
-        val expiresDate = report.profiles.first().vehicles?.first()?.insurance!!.expires!!.date - 1
-        val expiresvalue = (""+expiresDate.toString() + "/" +
-                expiresMonth.toString() + "/" + expiresYear.toString() )
-        textedit_report_vehicle_insurance_a_expires.setText(expiresvalue)
+        if(report.profiles.first().vehicles?.first()?.insurance!!.expires != null){
+            val expiresYear = report.profiles.first().vehicles?.first()?.insurance!!.expires!!.year + 1900
+            val expiresMonth = report.profiles.first().vehicles?.first()?.insurance!!.expires!!.month + 1
+            val expiresDate = report.profiles.first().vehicles?.first()?.insurance!!.expires!!.date - 1
+            val expiresvalue = (""+expiresDate.toString() + "/" +
+                    expiresMonth.toString() + "/" + expiresYear.toString() )
+            textedit_report_vehicle_insurance_a_expires.setText(expiresvalue)
+        }
+
     }
     fun addObject(item: Report) {
         this.report = item
