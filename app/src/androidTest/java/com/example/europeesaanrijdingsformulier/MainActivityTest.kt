@@ -31,6 +31,7 @@ import org.hamcrest.Matchers
 import android.support.test.espresso.matcher.ViewMatchers.withClassName
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.ViewAction
+import android.widget.TimePicker
 
 
 class MainActivityTest{
@@ -56,6 +57,12 @@ class MainActivityTest{
     private var insuranceName = "Ethias"
     private var agencyPhone = "0473897865"
     private var agencyEmail = "kristof@bombeke.be"
+
+    private var street = "Langestraat"
+    private var streetNumber = "5"
+    private var postalCode = "1790"
+    private var city = "Affligem"
+
 
 
     @Before
@@ -99,7 +106,7 @@ class MainActivityTest{
     }
 
     @Test
-    fun testProfileVehicle() {
+    fun ztestProfileVehicle() {
         Espresso.onView(ViewMatchers.withId(R.id.cardview3_profile_summary)).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withId(R.id.button_vehicle_list_add)).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withId(R.id.spinner_vehicle_detail_type)).perform(ViewActions.click())
@@ -147,11 +154,56 @@ class MainActivityTest{
         Espresso.onView(ViewMatchers.withId(R.id.textedit_profile_vehicle_insurance_phone)).check(matches(withText(agencyPhone)))
         Espresso.onView(ViewMatchers.withId(R.id.spinner_profile_vehicle_insurance_insurer)).check(matches(withSpinnerText(
             containsString(insuranceName))))
-
     }
 
 
-    @After
-    fun tearDown() {
+    @Test
+    fun testReportHappyFlow(){
+        Espresso.pressBack()
+        Espresso.onView(ViewMatchers.withId(R.id.button_home_startReport)).perform(ViewActions.click())
+
+        Espresso.onView(ViewMatchers.withId(R.id.textedit_report_crash_information_street)).perform(ViewActions.typeText(street))
+        Espresso.onView(ViewMatchers.withId(R.id.textedit_report_crash_information_streetNumber)).perform(ViewActions.typeText(streetNumber))
+        Espresso.onView(ViewMatchers.withId(R.id.textedit_report_crash_information_postalCode)).perform(ViewActions.typeText(postalCode))
+        Espresso.closeSoftKeyboard()
+        Espresso.onView(ViewMatchers.withId(R.id.textedit_report_crash_information_city)).perform(ViewActions.typeText(city))
+        Espresso.closeSoftKeyboard()
+        Espresso.onView(ViewMatchers.withId(R.id.spinner_report_crash_information_country)).perform(ViewActions.click())
+        onData(anything()).atPosition(20).perform(ViewActions.click());
+        Espresso.closeSoftKeyboard()
+        Espresso.onView(ViewMatchers.withId(R.id.edit_report_crash_information_date)).perform(ViewActions.click())
+        Thread.sleep(1000)
+        Espresso.onView(withClassName(Matchers.equalTo(DatePicker::class.java.name)))
+            .perform(PickerActions.setDate(2020, 2, 20))
+        Espresso.onView(withText("OK"))
+            .perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(R.id.edit_report_crash_information_time)).perform(ViewActions.click())
+        Thread.sleep(1000)
+        Espresso.onView(withClassName(Matchers.equalTo(TimePicker::class.java.name)))
+            .perform(PickerActions.setTime(12, 25))
+        Espresso.onView(withText("OK"))
+            .perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(R.id.button_report_crash_information_confirm)).perform(ViewActions.click())
+
+        Espresso.onView(ViewMatchers.withId(R.id.button_report_start_a_profile)).perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(R.id.textedit_algemeen_a_firstname)).check(matches(withText(firstName)))
+        Espresso.onView(ViewMatchers.withId(R.id.textedit_algemeen_a_lastname)).check(matches(withText(lastName)))
+        Espresso.onView(ViewMatchers.withId(R.id.textedit_algemeen_a_email)).check(matches(withText(email)))
+        Espresso.onView(ViewMatchers.withId(R.id.button_algemeen_a_confirm)).perform(ViewActions.click())
+
+        Espresso.onView(ViewMatchers.withId(R.id.spinner_report_license_a_category)).perform(ViewActions.click())
+        onData(anything()).atPosition(4).perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.edit_report_license_a_expires)).perform(ViewActions.click())
+        Thread.sleep(1000)
+        Espresso.onView(withClassName(Matchers.equalTo(DatePicker::class.java.name)))
+            .perform(PickerActions.setDate(2040, 2,10))
+        Espresso.onView(withText("OK"))
+            .perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(R.id.textedit_report_license_a_licenseNumber)).perform(ViewActions.typeText(licenseNumber))
+        Espresso.closeSoftKeyboard()
+        Espresso.onView(ViewMatchers.withId(R.id.button_report_license_a_confirm)).perform(ViewActions.click())
+
+
+
     }
 }
