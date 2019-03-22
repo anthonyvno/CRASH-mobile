@@ -32,7 +32,7 @@ class ReportVehicleDetailBFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         instantiateSpinners()
-        if (report.profiles.last().vehicles?.first() != null) {
+        if (report.profiles.last().vehicles!!.isNotEmpty() && report.profiles.last().vehicles?.first() != null) {
             fillInTextFields()
         }
 
