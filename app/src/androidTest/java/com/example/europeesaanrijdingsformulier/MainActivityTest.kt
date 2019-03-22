@@ -42,21 +42,33 @@ class MainActivityTest{
     private var lastName = "Beazar"
     private var email = "sander.beazar@gmail.com"
 
+    private var firstName2 = "Anthony"
+    private var lastName2 = "Van Noppen"
+    private var email2 = "anthony.vannoppen@hotmail.com"
+
     private var licenseType = "B"
     private var licenseNumber = "826419573"
-   // private var licenseExpiringDate = "24/03/2022"
+    private var licenseNumber2 = "147302847"
+    // private var licenseExpiringDate = "24/03/2022"
 
     private var vehicleType = "Auto"
     private var brand = "Mercedes"
     private var model = "CLA"
     private var licensePlate = "1-ABC-456"
     private var country = "Belgium"
+    private var brand2 = "Honda"
+    private var model2 = "Camino"
+    private var licensePlate2 = "1-XYZ-987"
 
     private var greenCardNumber = "837483"
     private var insuranceNumber = "123456"
     private var insuranceName = "Ethias"
     private var agencyPhone = "0473897865"
     private var agencyEmail = "kristof@bombeke.be"
+    private var greenCardNumber2 = "6234852"
+    private var insuranceNumber2 = "6723224"
+    private var agencyPhone2 = "053629842"
+    private var agencyEmail2 = "info@peetersinsurance.be"
 
     private var street = "Langestraat"
     private var streetNumber = "5"
@@ -203,7 +215,74 @@ class MainActivityTest{
         Espresso.closeSoftKeyboard()
         Espresso.onView(ViewMatchers.withId(R.id.button_report_license_a_confirm)).perform(ViewActions.click())
 
+        Espresso.onView(ViewMatchers.withId(R.id.spinner_report_vehicle_detail_a_type)).perform(ViewActions.click())
+        onData(anything()).atPosition(0).perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.textedit_report_vehicle_detail_a_brand)).perform(ViewActions.typeText(brand))
+        Espresso.onView(ViewMatchers.withId(R.id.textedit_report_vehicle_detail_a_model)).perform(ViewActions.typeText(model))
+        Espresso.onView(ViewMatchers.withId(R.id.textedit_report_vehicle_detail_a_licensePlate)).perform(ViewActions.typeText(licensePlate))
+        Espresso.onView(ViewMatchers.withId(R.id.spinner_report_vehicle_detail_a_country)).perform(ViewActions.click())
+        onData(anything()).atPosition(20).perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.button_report_vehicle_detail_a_confirm)).perform(ViewActions.click())
 
+        Espresso.onView(ViewMatchers.withId(R.id.textedit_report_vehicle_insurance_a_greenCard)).perform(ViewActions.typeText(greenCardNumber))
+        Espresso.onView(ViewMatchers.withId(R.id.textedit_report_vehicle_insurance_a_insuranceNumber)).perform(ViewActions.typeText(insuranceNumber))
+        Espresso.onView(ViewMatchers.withId(R.id.spinner_report_vehicle_insurance_a_insurer)).perform(ViewActions.click())
+        onData(anything()).atPosition(3).perform(ViewActions.click());
+        Espresso.closeSoftKeyboard()
+        Espresso.onView(ViewMatchers.withId(R.id.edit_report_vehicle_insurance_a_expires)).perform(ViewActions.click())
+        Thread.sleep(1000)
+        Espresso.onView(withClassName(Matchers.equalTo(DatePicker::class.java.name)))
+            .perform(PickerActions.setDate(2030, 2, 20))
+        Espresso.onView(withText("OK"))
+            .perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(R.id.textedit_report_vehicle_insurance_a_email)).perform(ViewActions.typeText(agencyEmail))
+        Espresso.closeSoftKeyboard()
+        Espresso.onView(ViewMatchers.withId(R.id.textedit_report_vehicle_insurance_a_phone)).perform(ViewActions.typeText(agencyPhone))
+        Espresso.closeSoftKeyboard()
+        Espresso.onView(ViewMatchers.withId(R.id.button_report_vehicle_insurance_a_confirm)).perform(ViewActions.click())
 
+        Espresso.onView(ViewMatchers.withId(R.id.button_report_start_b_manual)).perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(R.id.textedit_algemeen_b_firstname)).perform(ViewActions.typeText(firstName2))
+        Espresso.onView(ViewMatchers.withId(R.id.textedit_algemeen_b_lastname)).perform(ViewActions.typeText(lastName2))
+        Espresso.onView(ViewMatchers.withId(R.id.textedit_algemeen_b_email)).perform(ViewActions.typeText(email2))
+        Espresso.onView(ViewMatchers.withId(R.id.button_algemeen_b_confirm)).perform(ViewActions.click())
+
+        Espresso.onView(ViewMatchers.withId(R.id.spinner_report_license_b_category)).perform(ViewActions.click())
+        onData(anything()).atPosition(2).perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.edit_report_license_b_expires)).perform(ViewActions.click())
+        Thread.sleep(1000)
+        Espresso.onView(withClassName(Matchers.equalTo(DatePicker::class.java.name)))
+            .perform(PickerActions.setDate(2030, 10,21))
+        Espresso.onView(withText("OK"))
+            .perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(R.id.textedit_report_license_b_licenseNumber)).perform(ViewActions.typeText(licenseNumber2))
+        Espresso.closeSoftKeyboard()
+        Espresso.onView(ViewMatchers.withId(R.id.button_report_license_b_confirm)).perform(ViewActions.click())
+
+        Espresso.onView(ViewMatchers.withId(R.id.spinner_report_vehicle_detail_b_type)).perform(ViewActions.click())
+        onData(anything()).atPosition(2).perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.textedit_report_vehicle_detail_b_brand)).perform(ViewActions.typeText(brand2))
+        Espresso.onView(ViewMatchers.withId(R.id.textedit_report_vehicle_detail_b_model)).perform(ViewActions.typeText(model2))
+        Espresso.onView(ViewMatchers.withId(R.id.textedit_report_vehicle_detail_b_licensePlate)).perform(ViewActions.typeText(licensePlate2))
+        Espresso.onView(ViewMatchers.withId(R.id.spinner_report_vehicle_detail_b_country)).perform(ViewActions.click())
+        onData(anything()).atPosition(20).perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.button_report_vehicle_detail_b_confirm)).perform(ViewActions.click())
+
+        Espresso.onView(ViewMatchers.withId(R.id.textedit_report_vehicle_insurance_b_greenCard)).perform(ViewActions.typeText(greenCardNumber2))
+        Espresso.onView(ViewMatchers.withId(R.id.textedit_report_vehicle_insurance_b_insuranceNumber)).perform(ViewActions.typeText(insuranceNumber2))
+        Espresso.onView(ViewMatchers.withId(R.id.spinner_report_vehicle_insurance_b_insurer)).perform(ViewActions.click())
+        onData(anything()).atPosition(1).perform(ViewActions.click());
+        Espresso.closeSoftKeyboard()
+        Espresso.onView(ViewMatchers.withId(R.id.edit_report_vehicle_insurance_b_expires)).perform(ViewActions.click())
+        Thread.sleep(1000)
+        Espresso.onView(withClassName(Matchers.equalTo(DatePicker::class.java.name)))
+            .perform(PickerActions.setDate(2090, 11, 15))
+        Espresso.onView(withText("OK"))
+            .perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(R.id.textedit_report_vehicle_insurance_b_email)).perform(ViewActions.typeText(agencyEmail2))
+        Espresso.closeSoftKeyboard()
+        Espresso.onView(ViewMatchers.withId(R.id.textedit_report_vehicle_insurance_b_phone)).perform(ViewActions.typeText(agencyPhone2))
+        Espresso.closeSoftKeyboard()
+        Espresso.onView(ViewMatchers.withId(R.id.button_report_vehicle_insurance_b_confirm)).perform(ViewActions.click())
     }
 }
