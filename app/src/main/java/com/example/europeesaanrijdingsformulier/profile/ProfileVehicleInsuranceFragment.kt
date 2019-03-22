@@ -72,18 +72,9 @@ class ProfileVehicleInsuranceFragment : Fragment() {
             )
 
             val profile = prefManager.getProfile()
-/*
-            if (vehicle!!.insurance == null) {
-                vehicle.insurance = viewModel.postInsurance(insurance).blockingFirst()
-                vehicle2 = viewModel.postVehicle(vehicle!!).blockingFirst()
-            } else {
-                vehicle.insurance = viewModel.updateInsurance(insurance).blockingFirst()
-                vehicle2 = viewModel.updateVehicle(vehicle!!).blockingFirst()
-            }*/
 
             vehicle.insurance = insurance
             var vehicles = prefManager.getVehicles()
-//            Log.d("testpurp3",vehicles!!.first().insurance!!.emailAgency)
             if (vehicles != null) {
                 var comparevehicle = vehicles.find { it.id == vehicle.id }
                 if (comparevehicle == null) {

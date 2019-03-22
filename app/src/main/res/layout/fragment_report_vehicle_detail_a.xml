@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent"
+                                             tools:context=".report.ReportVehicleDetailAFragment"
+                                             android:id="@+id/ConstraintLayout">
+    <Button
+            android:text="Volgende >"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" android:id="@+id/button_report_vehicle_detail_a_confirm"
+            android:layout_marginBottom="4dp"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp" android:layout_marginRight="8dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"/>
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <android.support.constraint.ConstraintLayout android:layout_width="match_parent" android:layout_height="match_parent"
+        >
+
+
+            <TextView
+                    android:text="Gegevens voertuig"
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/white"
+                    android:layout_height="wrap_content" android:id="@+id/textView3" android:layout_marginTop="64dp"
+                    app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginLeft="8dp" android:layout_marginStart="8dp" android:textSize="30dp"
+                    android:textStyle="bold"/>
+
+            <Spinner
+                    android:layout_width="wrap_content"
+                    android:id="@+id/spinner_report_vehicle_detail_a_type"
+                    android:layout_height="wrap_content"
+                    android:hint="Type"
+                    android:ems="10" android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/textView3" app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginLeft="8dp" android:layout_marginStart="8dp">
+
+            </Spinner>
+
+            <android.support.design.widget.TextInputLayout android:layout_height="wrap_content"
+                                                           android:layout_width="match_parent"
+                                                           android:id="@+id/edit_report_vehicle_detail_a_brand"
+                                                           android:layout_marginTop="8dp"
+                                                           app:layout_constraintStart_toStartOf="parent"
+                                                           app:layout_constraintTop_toBottomOf="@+id/spinner_report_vehicle_detail_a_type"
+                                                           android:layout_marginLeft="8dp"
+                                                           android:layout_marginStart="8dp">
+
+                <android.support.design.widget.TextInputEditText
+                        android:layout_width="wrap_content"
+                        android:id="@+id/textedit_report_vehicle_detail_a_brand"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
+                        android:hint="Brand"
+                        android:ems="10"
+                />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout android:layout_height="wrap_content"
+                                                           android:layout_width="match_parent"
+                                                           android:id="@+id/edit_report_vehicle_detail_a_model"
+                                                           app:layout_constraintTop_toBottomOf="@+id/edit_report_vehicle_detail_a_brand"
+                                                           app:layout_constraintStart_toStartOf="parent"
+                                                           android:layout_marginLeft="8dp" android:layout_marginStart="8dp">
+
+                <android.support.design.widget.TextInputEditText
+                        android:layout_width="wrap_content"
+                        android:id="@+id/textedit_report_vehicle_detail_a_model"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
+                        android:hint="Model"
+                        android:ems="10"
+                />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout android:layout_height="wrap_content"
+                                                           android:layout_width="match_parent"
+                                                           android:id="@+id/edit_report_vehicle_detail_a_country"
+                                                           app:layout_constraintTop_toBottomOf="@+id/edit_report_vehicle_detail_a_model"
+                                                           app:layout_constraintStart_toStartOf="parent"
+                                                           android:layout_marginLeft="8dp" android:layout_marginStart="8dp">
+
+                <Spinner
+                        android:layout_width="wrap_content"
+                        android:id="@+id/spinner_report_vehicle_detail_a_country"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
+                        android:hint="Country"
+                        android:ems="10"
+                />
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout android:layout_height="wrap_content"
+                                                           android:layout_width="match_parent"
+                                                           android:id="@+id/edit_report_vehicle_detail_a_licensePlate"
+                                                           tools:layout_editor_absoluteY="370dp"
+                                                           tools:layout_editor_absoluteX="8dp"
+                                                           app:layout_constraintTop_toBottomOf="@+id/edit_report_vehicle_detail_a_country"
+                                                           app:layout_constraintStart_toStartOf="parent"
+                                                           android:layout_marginLeft="8dp" android:layout_marginStart="8dp">
+
+                <android.support.design.widget.TextInputEditText
+                        android:layout_width="wrap_content"
+                        android:id="@+id/textedit_report_vehicle_detail_a_licensePlate"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
+                        android:hint="License plate"
+                        android:ems="10"
+                />
+            </android.support.design.widget.TextInputLayout>
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>

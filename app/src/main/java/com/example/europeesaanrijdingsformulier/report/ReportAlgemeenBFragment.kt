@@ -21,14 +21,14 @@ class ReportAlgemeenBFragment : Fragment() {
 
     private lateinit var report: Report
     private var profile: Profile?=null
-    private lateinit var viewModel: HubViewModel
+    //private lateinit var viewModel: HubViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        viewModel = ViewModelProviders.of(activity!!).get(HubViewModel::class.java)
+        //viewModel = ViewModelProviders.of(activity!!).get(HubViewModel::class.java)
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_report_algemeen_b, container, false)
     }
@@ -50,16 +50,17 @@ class ReportAlgemeenBFragment : Fragment() {
 
 
 
-            val profielb = viewModel.postProfile(Profile(1,firstName,lastName,email)).blockingFirst()
-            val profiela = viewModel.postProfile(this.report.profiles.first()).blockingFirst()
-            val profiles = listOf(profiela,profielb)
+            //val profielb = viewModel.postProfile(Profile(1,firstName,lastName,email)).blockingFirst()
+            //val profiela = viewModel.postProfile(this.report.profiles.first()).blockingFirst()
+            val profiles = listOf(this.report.profiles.first(),Profile(1,firstName,lastName,email,profile?.license,profile?.vehicles))
 
             report.profiles = profiles
 
-            viewModel.postReport(report)
-
+            //viewModel.postReport(report)
+            val reportLicenseBFragment = ReportLicenseBFragment()
+            reportLicenseBFragment.addObject(report)
             this.fragmentManager!!.beginTransaction()
-                .replace(R.id.container_main, HomeFragment())
+                .replace(R.id.container_main, reportLicenseBFragment)
                 .addToBackStack(null)
                 .commit()
         }

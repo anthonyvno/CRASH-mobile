@@ -48,16 +48,16 @@ class   ReportAlgemeenAFragment : Fragment() {
             val firstName =this.textedit_algemeen_a_firstname.text.toString()
             val lastName = this.textedit_algemeen_a_lastname.text.toString()
             val email = this.textedit_algemeen_a_email.text.toString()
-            val profiles = listOf(Profile(1,firstName,lastName,email,null, profile?.vehicles))
+            val profiles = listOf(Profile(1,firstName,lastName,email,profile?.license, profile?.vehicles))
 
             report.profiles = profiles
 
-            val reportStartBFragment = ReportStartBFragment()
+            val reportLicenseAFragment = ReportLicenseAFragment()
             this.fragmentManager!!.beginTransaction()
-                .replace(R.id.container_main, reportStartBFragment)
+                .replace(R.id.container_main, reportLicenseAFragment)
                 .addToBackStack(null)
                 .commit()
-            reportStartBFragment.addObject(report)
+            reportLicenseAFragment.addObject(report)
         }
     }
 

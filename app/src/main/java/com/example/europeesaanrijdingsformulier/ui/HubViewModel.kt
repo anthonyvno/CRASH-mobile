@@ -104,6 +104,18 @@ class HubViewModel: InjectedViewModel(){
     }
 
     fun postReport(report: Report){
+
+        var profiles2: MutableList<Profile> = emptyList<Profile>().toMutableList()
+        //var report2 = Report(1, emptyList(),report.dateCrash,report.street,report.streetNumber,report.postalCode,report.city,report.country)
+        for (profile in report.profiles) {
+            profile.vehicles!!.first().insurance = postInsurance(profile.vehicles!!.first().insurance!!).blockingFirst()
+            profile.vehicles = listOf(postVehicle(profile.vehicles!!.first()).blockingFirst())
+            profile.license = postLicense(profile.license!!).blockingFirst()
+            profiles2.add(postProfile(profile).blockingFirst())
+
+        }
+        report.profiles = profiles2
+
         hubApi.addReport(report).
             subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
