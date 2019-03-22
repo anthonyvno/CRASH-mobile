@@ -50,11 +50,11 @@ class ReportVehicleInsuranceBFragment : Fragment() {
         if (report.profiles.last().vehicles?.first()?.insurance != null) {
             fillInTextFields()
         }
-        button_report_vehicle_insurance_b_confirm.setOnClickListener{
+        button_report_vehicle_insurance_b_confirm.setOnClickListener {
             val date = textedit_report_vehicle_insurance_b_expires.text.toString()
             val dateSplit = date.split("/")
             val dateExpires = Date(
-                dateSplit[2].toInt() - 1900, dateSplit[1].toInt() -1, dateSplit[0].toInt() +1
+                dateSplit[2].toInt() - 1900, dateSplit[1].toInt() - 1, dateSplit[0].toInt() + 1
             )
             val insurer4 = insurers.find { insurer -> insurer.name == insurerName }
             var insurance = Insurance(
@@ -73,7 +73,12 @@ class ReportVehicleInsuranceBFragment : Fragment() {
             viewModel.postReport(report)
             val fragment = HomeFragment()
             this.fragmentManager!!.beginTransaction()
-                .setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left,R.anim.enter_from_left,R.anim.exit_to_right)
+                .setCustomAnimations(
+                    R.anim.enter_from_right,
+                    R.anim.exit_to_left,
+                    R.anim.enter_from_left,
+                    R.anim.exit_to_right
+                )
                 .replace(R.id.container_main, fragment)
                 .addToBackStack(null)
                 .commit()
@@ -91,7 +96,8 @@ class ReportVehicleInsuranceBFragment : Fragment() {
         option.adapter = adapter
 
         if (report.profiles.last().vehicles?.first()?.insurance != null) {
-            val spinnerPosition = adapter.getPosition(report.profiles.last().vehicles?.first()?.insurance!!.insurer!!.name)
+            val spinnerPosition =
+                adapter.getPosition(report.profiles.last().vehicles?.first()?.insurance!!.insurer!!.name)
             option.setSelection(spinnerPosition)
         }
 
@@ -118,7 +124,7 @@ class ReportVehicleInsuranceBFragment : Fragment() {
                 activity,
                 R.style.MySpinnerDatePickerStyle,
                 DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-                    var monthOfYear2 = monthOfYear +1
+                    var monthOfYear2 = monthOfYear + 1
                     datepicker.setText("" + dayOfMonth + "/" + monthOfYear2 + "/" + year)
                 },
                 year,
@@ -136,13 +142,17 @@ class ReportVehicleInsuranceBFragment : Fragment() {
         textedit_report_vehicle_insurance_b_phone.setText(report.profiles.last().vehicles?.first()?.insurance!!.phoneAgency)
         textedit_report_vehicle_insurance_b_greenCard.setText(report.profiles.last().vehicles?.first()?.insurance!!.greenCardNumber)
         textedit_report_vehicle_insurance_b_insuranceNumber.setText(report.profiles.last().vehicles?.first()?.insurance!!.insuranceNumber)
-        val expiresYear = report.profiles.last().vehicles?.first()?.insurance!!.expires!!.year + 1900
-        val expiresMonth = report.profiles.last().vehicles?.first()?.insurance!!.expires!!.month + 1
-        val expiresDate = report.profiles.last().vehicles?.first()?.insurance!!.expires!!.date - 1
-        val expiresvalue = (""+expiresDate.toString() + "/" +
-                expiresMonth.toString() + "/" + expiresYear.toString() )
-        textedit_report_vehicle_insurance_b_expires.setText(expiresvalue)
+        if (report.profiles.last().vehicles?.first()?.insurance!!.expires != null) {
+            val expiresYear = report.profiles.last().vehicles?.first()?.insurance!!.expires!!.year + 1900
+            val expiresMonth = report.profiles.last().vehicles?.first()?.insurance!!.expires!!.month + 1
+            val expiresDate = report.profiles.last().vehicles?.first()?.insurance!!.expires!!.date - 1
+            val expiresvalue = ("" + expiresDate.toString() + "/" +
+                    expiresMonth.toString() + "/" + expiresYear.toString())
+            textedit_report_vehicle_insurance_b_expires.setText(expiresvalue)
+        }
+
     }
+
     fun addObject(item: Report) {
         this.report = item
     }

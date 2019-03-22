@@ -43,8 +43,11 @@ class ReportVehicleDetailBFragment : Fragment() {
             val model = textedit_report_vehicle_detail_b_model.text.toString()
             val licensePlate = textedit_report_vehicle_detail_b_licensePlate.text.toString()
 
-            report.profiles.last().vehicles = listOf(Vehicle(1,country,licensePlate,brand,model,category,report.profiles.last().vehicles?.first()?.insurance))
-
+            if(report.profiles.last().vehicles!!.isNotEmpty()){
+                report.profiles.last().vehicles = listOf(Vehicle(1,country,licensePlate,brand,model,category,report.profiles.last().vehicles?.first()?.insurance))
+            } else {
+                report.profiles.last().vehicles = listOf(Vehicle(1,country,licensePlate,brand,model,category))
+            }
             val fragment = ReportVehicleInsuranceBFragment()
             fragment.addObject(report)
             this.fragmentManager!!.beginTransaction()
@@ -86,11 +89,11 @@ class ReportVehicleDetailBFragment : Fragment() {
         option.adapter = adapter
         optionCountries.adapter = adapterCountry
 
-        if (report.profiles.last().vehicles?.first()?.type != null) {
+        if (report.profiles.last().vehicles!!.isNotEmpty() && report.profiles.last().vehicles?.first()?.type != null) {
             val spinnerPosition = adapter.getPosition(report.profiles.last().vehicles?.first()!!.type)
             option.setSelection(spinnerPosition)
         }
-        if (report.profiles.last().vehicles?.first()?.country != null) {
+        if (report.profiles.last().vehicles!!.isNotEmpty() && report.profiles.last().vehicles?.first()?.country != null) {
             val spinnerPosition = adapterCountry.getPosition(report.profiles.last().vehicles?.first()!!.country)
             optionCountries.setSelection(spinnerPosition)
         }

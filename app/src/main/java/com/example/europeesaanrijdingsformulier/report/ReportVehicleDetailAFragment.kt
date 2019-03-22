@@ -32,7 +32,7 @@ class ReportVehicleDetailAFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         instantiateSpinners()
-        if (report.profiles.first().vehicles?.first() != null) {
+        if (report.profiles.first().vehicles!!.isNotEmpty()  && report.profiles.first().vehicles?.first() != null) {
             fillInTextFields()
         }
 
@@ -43,7 +43,11 @@ class ReportVehicleDetailAFragment : Fragment() {
             val model = textedit_report_vehicle_detail_a_model.text.toString()
             val licensePlate = textedit_report_vehicle_detail_a_licensePlate.text.toString()
 
-            report.profiles.first().vehicles = listOf(Vehicle(1,country,licensePlate,brand,model,category,report.profiles.first().vehicles?.first()?.insurance))
+            if(report.profiles.first().vehicles!!.isNotEmpty()){
+                report.profiles.first().vehicles = listOf(Vehicle(1,country,licensePlate,brand,model,category,report.profiles.first().vehicles?.first()?.insurance))
+            } else {
+                report.profiles.first().vehicles = listOf(Vehicle(1,country,licensePlate,brand,model,category))
+            }
 
             val fragment = ReportVehicleInsuranceAFragment()
             fragment.addObject(report)
@@ -86,11 +90,11 @@ class ReportVehicleDetailAFragment : Fragment() {
         option.adapter = adapter
         optionCountries.adapter = adapterCountry
 
-        if (report.profiles.first().vehicles?.first()?.type != null) {
+        if (report.profiles.first().vehicles!!.isNotEmpty()  && report.profiles.first().vehicles?.first()?.type != null) {
             val spinnerPosition = adapter.getPosition(report.profiles.first().vehicles?.first()!!.type)
             option.setSelection(spinnerPosition)
         }
-        if (report.profiles.first().vehicles?.first()?.country != null) {
+        if (report.profiles.first().vehicles!!.isNotEmpty()  && report.profiles.first().vehicles?.first()?.country != null) {
             val spinnerPosition = adapterCountry.getPosition(report.profiles.first().vehicles?.first()!!.country)
             optionCountries.setSelection(spinnerPosition)
         }
