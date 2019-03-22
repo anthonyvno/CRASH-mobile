@@ -39,10 +39,18 @@ class VehicleViewAdapter(private val parentActivity: ProfileVehicleListFragment,
         @SuppressLint("NewApi")
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             val vehicle = vehicles[position]
-            holder.brandmodel.text = vehicle.brand+" "+vehicle.model
+            holder.brandmodel.text = vehicle.brand+"\n"+vehicle.model
             holder.licensePlate.text = vehicle.licensePlate
             //Picasso laadt een image via een URL string
-            Picasso.get().load("https://brandstruck.co/wp-content/uploads/2016/07/mercedes-logo-png.png").into(holder.image)
+            when (vehicle.type) {
+                "Auto" ->  holder.image.setBackgroundResource(R.drawable.car_circle_icon)
+                "Bus" -> holder.image.setBackgroundResource(R.drawable.bus_icon)
+                "Motorfiets" -> holder.image.setBackgroundResource(R.drawable.motorcycle_icon)
+                "Vrachtwagen" -> holder.image.setBackgroundResource(R.drawable.truck_icon)
+                else -> {
+
+                }
+            }
 
             with(holder.itemView) {
                 tag = vehicle // Save the vehicle represented by this view

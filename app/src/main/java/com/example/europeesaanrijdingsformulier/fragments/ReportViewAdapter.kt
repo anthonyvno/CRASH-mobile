@@ -44,9 +44,18 @@ class ReportViewAdapter(private val parentActivity: ReportListFragment,
         holder.location.text = report.postalCode + " " + report.city
         if(report.profiles.first().vehicles != null){
             holder.vehicle.text = report.profiles.first().vehicles!!.first().brand + " " + report.profiles.first().vehicles!!.first().model
+            when (report.profiles.first().vehicles!!.first().type) {
+                "Auto" ->  holder.image.setBackgroundResource(R.drawable.car_circle_icon)
+                "Bus" -> holder.image.setBackgroundResource(R.drawable.bus_icon)
+                "Motorfiets" -> holder.image.setBackgroundResource(R.drawable.motorcycle_icon)
+                "Vrachtwagen" -> holder.image.setBackgroundResource(R.drawable.truck_icon)
+                else -> {
+
+                }
+            }
         }
         //Picasso laadt een image via een URL string
-        Picasso.get().load("https://brandstruck.co/wp-content/uploads/2016/07/mercedes-logo-png.png").into(holder.image)
+        //Picasso.get().load("https://brandstruck.co/wp-content/uploads/2016/07/mercedes-logo-png.png").into(holder.image)
 
         with(holder.itemView) {
             tag = report // Save the report represented by this view
