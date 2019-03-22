@@ -39,9 +39,8 @@ class ReportViewAdapter(private val parentActivity: ReportListFragment,
     @SuppressLint("NewApi")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val report = reports[position]
-        val month = report.dateCrash!!.month + 1
         val year = report.dateCrash!!.year + 1900
-        holder.date.text = report.dateCrash!!.date.toString() + "/" + month.toString() + "/" + year.toString()
+        holder.date.text = report.dateCrash!!.date.toString() + "/" + report.dateCrash!!.month.toString() + "/" + year.toString()
         holder.location.text = report.postalCode + " " + report.city
         if(report.profiles.first().vehicles != null){
             holder.vehicle.text = report.profiles.first().vehicles!!.first().brand + " " + report.profiles.first().vehicles!!.first().model

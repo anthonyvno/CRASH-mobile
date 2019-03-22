@@ -78,8 +78,8 @@ class ReportCrashInformation : Fragment() {
 
         datepicker.setOnClickListener(){
             val dpd = DatePickerDialog(activity, R.style.MySpinnerDatePickerStyle, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-
-                datepicker.setText("" + dayOfMonth + "/" + monthOfYear + "/" + year)
+                var monthOfYear2 = monthOfYear +1
+                datepicker.setText("" + dayOfMonth + "/" + monthOfYear2 + "/" + year)
 
             }, year, month, day)
 
