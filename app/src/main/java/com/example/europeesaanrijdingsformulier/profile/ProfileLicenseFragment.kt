@@ -39,6 +39,7 @@ class ProfileLicenseFragment : Fragment() {
 
         val option = spinnerManager.instantiateSpinner(activity!!,R.id.spinner_profile_license_category,getResources().getStringArray(R.array.licenseCategory))
         val adapter = option.adapter as ArrayAdapter<String>
+        licenseInput = prefManager.getLicense()
         if(licenseInput?.category != null){
             val spinnerPosition = adapter.getPosition(licenseInput!!.category)
             option.setSelection(spinnerPosition)
@@ -53,8 +54,6 @@ class ProfileLicenseFragment : Fragment() {
             }
         }
 
-
-        licenseInput = prefManager.getLicense()
         if(licenseInput != null){
             fillInTextFields()
         }
