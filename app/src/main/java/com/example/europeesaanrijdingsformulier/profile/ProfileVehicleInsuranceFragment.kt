@@ -1,31 +1,20 @@
 package com.example.europeesaanrijdingsformulier.profile
-
-
-import android.app.DatePickerDialog
-import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.Spinner
 import com.example.anthonyvannoppen.androidproject.ui.HubViewModel
-
 import com.example.europeesaanrijdingsformulier.R
 import com.example.europeesaanrijdingsformulier.insurer.Insurer
+import com.example.europeesaanrijdingsformulier.utils.DatePickerManager
 import com.example.europeesaanrijdingsformulier.utils.PrefManager
 import com.example.europeesaanrijdingsformulier.utils.SpinnerManager
-import com.jakewharton.rxbinding2.widget.text
-import kotlinx.android.synthetic.main.fragment_profile_vehicle_detail.*
 import kotlinx.android.synthetic.main.fragment_profile_vehicle_insurance.*
-import kotlinx.android.synthetic.main.fragment_report_crash_information.*
 import java.util.*
-import kotlin.collections.ArrayList
 
 class ProfileVehicleInsuranceFragment : Fragment() {
 
@@ -35,6 +24,8 @@ class ProfileVehicleInsuranceFragment : Fragment() {
     private lateinit var insurerName: String
     private lateinit var viewModel: HubViewModel
     private val spinnerManager = SpinnerManager()
+    private val datePickerManager = DatePickerManager()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,6 +40,7 @@ class ProfileVehicleInsuranceFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+        datePickerManager.instantiateDatePicker(activity!!,R.id.textedit_profile_vehicle_insurance_expires)
 
         insurers = viewModel.getInsurers().value!!
         val option = spinnerManager.instantiateSpinner(activity!!,R.id.spinner_profile_vehicle_insurance_insurer,
@@ -69,7 +61,6 @@ class ProfileVehicleInsuranceFragment : Fragment() {
             override fun onNothingSelected(parent: AdapterView<*>) {
             }
         }
-        instantiateDatePicker()
         if (vehicle!!.insurance != null) {
             fillInTextFields()
         }
@@ -131,32 +122,6 @@ class ProfileVehicleInsuranceFragment : Fragment() {
         val expiresvalue = (""+expiresDate.toString() + "/" +
                 expiresMonth.toString() + "/" + expiresYear.toString() )
         textedit_profile_vehicle_insurance_expires.setText(expiresvalue)
-    }
-
-    private fun instantiateDatePicker() {
-        val c = Calendar.getInstance()
-        val year = c.get(Calendar.YEAR)
-        val month = c.get(Calendar.MONTH)
-        val day = c.get(Calendar.DAY_OF_MONTH)
-
-        val datepicker = activity!!.findViewById<EditText>(R.id.textedit_profile_vehicle_insurance_expires)
-
-        datepicker.setOnClickListener() {
-            val dpd = DatePickerDialog(
-                activity,
-                R.style.MySpinnerDatePickerStyle,
-                DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-                    var monthOfYear2 = monthOfYear +1
-                    datepicker.setText("" + dayOfMonth + "/" + monthOfYear2 + "/" + year)
-                },
-                year,
-                month,
-                day
-            )
-
-            dpd.show()
-        }
-
     }
 
     fun addObject(item: Vehicle) {

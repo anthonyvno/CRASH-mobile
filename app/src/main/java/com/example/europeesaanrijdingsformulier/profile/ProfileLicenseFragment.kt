@@ -1,24 +1,14 @@
 package com.example.europeesaanrijdingsformulier.profile
-
-
-import android.arch.lifecycle.ViewModelProviders
-import android.content.Context
-import android.databinding.DataBindingUtil.setContentView
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Spinner
 import com.example.europeesaanrijdingsformulier.R
 import kotlinx.android.synthetic.main.fragment_profile_license.*
-import java.util.*
-import android.app.DatePickerDialog
-import android.widget.EditText
+import com.example.europeesaanrijdingsformulier.utils.DatePickerManager
 import com.example.europeesaanrijdingsformulier.utils.PrefManager
 import com.example.europeesaanrijdingsformulier.utils.SpinnerManager
 
@@ -30,6 +20,8 @@ class ProfileLicenseFragment : Fragment() {
     private var licenseInput: License? = null
     private lateinit var prefManager: PrefManager
     private val spinnerManager = SpinnerManager()
+    private val datePickerManager = DatePickerManager()
+
 
 
     override fun onCreateView(
@@ -43,7 +35,7 @@ class ProfileLicenseFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        instantiateDatePicker()
+        datePickerManager.instantiateDatePicker(activity!!,R.id.textedit_profile_license_expires)
 
         val option = spinnerManager.instantiateSpinner(activity!!,R.id.spinner_profile_license_category,getResources().getStringArray(R.array.licenseCategory))
         val adapter = option.adapter as ArrayAdapter<String>
@@ -101,22 +93,4 @@ class ProfileLicenseFragment : Fragment() {
         textedit_profile_license_licenseNumber.setText(licenseInput!!.licenseNumber)
     }
 
-    private fun instantiateDatePicker() {
-    val c = Calendar.getInstance()
-    val year = c.get(Calendar.YEAR)
-    val month = c.get(Calendar.MONTH)
-    val day = c.get(Calendar.DAY_OF_MONTH)
-
-    val datepicker = activity!!.findViewById<EditText>(R.id.textedit_profile_license_expires)
-
-    datepicker.setOnClickListener(){
-        val dpd = DatePickerDialog(activity,R.style.MySpinnerDatePickerStyle, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-            var monthOfYear2 = monthOfYear +1
-            datepicker.setText("" + dayOfMonth + "/" + monthOfYear2 + "/" + year)
-        }, year, month, day)
-
-        dpd.show()
-    }
-
-}
 }

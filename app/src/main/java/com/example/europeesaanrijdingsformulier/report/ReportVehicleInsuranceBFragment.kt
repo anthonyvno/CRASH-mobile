@@ -19,6 +19,7 @@ import com.example.europeesaanrijdingsformulier.R
 import com.example.europeesaanrijdingsformulier.fragments.HomeFragment
 import com.example.europeesaanrijdingsformulier.insurer.Insurer
 import com.example.europeesaanrijdingsformulier.profile.Insurance
+import com.example.europeesaanrijdingsformulier.utils.DatePickerManager
 import com.example.europeesaanrijdingsformulier.utils.PrefManager
 import com.example.europeesaanrijdingsformulier.utils.SpinnerManager
 import kotlinx.android.synthetic.main.fragment_report_vehicle_insurance_b.*
@@ -33,7 +34,7 @@ class ReportVehicleInsuranceBFragment : Fragment() {
     private lateinit var insurers: List<Insurer>
     private lateinit var prefManager: PrefManager
     private val spinnerManager = SpinnerManager()
-
+    private val datePickerManager = DatePickerManager()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,7 +68,7 @@ class ReportVehicleInsuranceBFragment : Fragment() {
             override fun onNothingSelected(parent: AdapterView<*>) {
             }
         }
-        instantiateDatePicker()
+        datePickerManager.instantiateDatePicker(activity!!,R.id.textedit_report_vehicle_insurance_b_expires)
         if (report.profiles.last().vehicles?.first()?.insurance != null) {
             fillInTextFields()
         }
@@ -105,32 +106,6 @@ class ReportVehicleInsuranceBFragment : Fragment() {
                 .commit()
 
         }
-    }
-
-    private fun instantiateDatePicker() {
-        val c = Calendar.getInstance()
-        val year = c.get(Calendar.YEAR)
-        val month = c.get(Calendar.MONTH)
-        val day = c.get(Calendar.DAY_OF_MONTH)
-
-        val datepicker = activity!!.findViewById<EditText>(R.id.textedit_report_vehicle_insurance_b_expires)
-
-        datepicker.setOnClickListener() {
-            val dpd = DatePickerDialog(
-                activity,
-                R.style.MySpinnerDatePickerStyle,
-                DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-                    var monthOfYear2 = monthOfYear + 1
-                    datepicker.setText("" + dayOfMonth + "/" + monthOfYear2 + "/" + year)
-                },
-                year,
-                month,
-                day
-            )
-
-            dpd.show()
-        }
-
     }
 
     private fun fillInTextFields() {

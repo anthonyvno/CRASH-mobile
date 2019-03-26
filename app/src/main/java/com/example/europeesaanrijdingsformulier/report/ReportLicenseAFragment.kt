@@ -14,6 +14,7 @@ import android.widget.Spinner
 
 import com.example.europeesaanrijdingsformulier.R
 import com.example.europeesaanrijdingsformulier.profile.License
+import com.example.europeesaanrijdingsformulier.utils.DatePickerManager
 import com.example.europeesaanrijdingsformulier.utils.SpinnerManager
 import kotlinx.android.synthetic.main.fragment_report_license_a.*
 import java.util.*
@@ -24,6 +25,8 @@ class ReportLicenseAFragment : Fragment() {
     private lateinit var report: Report
     private var category: String = ""
     private val spinnerManager = SpinnerManager()
+    private val datePickerManager = DatePickerManager()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,7 +55,7 @@ class ReportLicenseAFragment : Fragment() {
             }
         }
 
-        instantiateDatePicker()
+        datePickerManager.instantiateDatePicker(activity!!,R.id.textedit_report_license_a_expires)
         if (report.profiles.first().license != null) {
             fillInTextFields()
         }
@@ -73,35 +76,9 @@ class ReportLicenseAFragment : Fragment() {
         }
     }
 
-
     private fun fillInTextFields() {
         textedit_report_license_a_expires.setText(report.profiles.first().license?.expires)
         textedit_report_license_a_licenseNumber.setText(report.profiles.first().license?.licenseNumber)
-    }
-
-    private fun instantiateDatePicker() {
-        val c = Calendar.getInstance()
-        val year = c.get(Calendar.YEAR)
-        val month = c.get(Calendar.MONTH)
-        val day = c.get(Calendar.DAY_OF_MONTH)
-
-        val datepicker = activity!!.findViewById<EditText>(R.id.textedit_report_license_a_expires)
-
-        datepicker.setOnClickListener() {
-            val dpd = DatePickerDialog(
-                activity,
-                R.style.MySpinnerDatePickerStyle,
-                DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-                    var monthOfYear2 = monthOfYear +1
-                    datepicker.setText("" + dayOfMonth + "/" + monthOfYear2 + "/" + year)
-                },
-                year,
-                month,
-                day
-            )
-
-            dpd.show()
-        }
     }
 
     fun addObject(item: Report) {

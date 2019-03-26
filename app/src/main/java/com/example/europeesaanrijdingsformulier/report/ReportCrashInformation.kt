@@ -16,6 +16,7 @@ import android.widget.EditText
 import android.widget.Spinner
 
 import com.example.europeesaanrijdingsformulier.R
+import com.example.europeesaanrijdingsformulier.utils.DatePickerManager
 import com.example.europeesaanrijdingsformulier.utils.SpinnerManager
 import kotlinx.android.synthetic.main.fragment_report_crash_information.*
 import java.util.*
@@ -26,7 +27,7 @@ class ReportCrashInformation : Fragment() {
     private lateinit var report: Report
     private lateinit var country: String
     private val spinnerManager = SpinnerManager()
-
+    private val datePickerManager = DatePickerManager()
 
 
     override fun onCreateView(
@@ -42,7 +43,8 @@ class ReportCrashInformation : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        instantiate()
+        datePickerManager.instantiateDatePicker(activity!!,R.id.textedit_report_crash_information_date)
+        instantiateTimePicker()
         val optionCountries = spinnerManager.instantiateSpinner(activity!!,R.id.spinner_report_crash_information_country,getResources().getStringArray(R.array.countries_array))
 
         optionCountries.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
@@ -80,31 +82,6 @@ class ReportCrashInformation : Fragment() {
                 .addToBackStack(null)
                 .commit()
         }
-    }
-
-    private fun instantiateDatePicker() {
-        val c = Calendar.getInstance()
-        val year = c.get(Calendar.YEAR)
-        val month = c.get(Calendar.MONTH)
-        val day = c.get(Calendar.DAY_OF_MONTH)
-
-        val datepicker = activity!!.findViewById<EditText>(R.id.textedit_report_crash_information_date)
-
-        datepicker.setOnClickListener(){
-            val dpd = DatePickerDialog(activity, R.style.MySpinnerDatePickerStyle, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-                var monthOfYear2 = monthOfYear +1
-                datepicker.setText("" + dayOfMonth + "/" + monthOfYear2 + "/" + year)
-
-            }, year, month, day)
-
-            dpd.show()
-        }
-
-    }
-
-    private  fun instantiate(){
-        instantiateDatePicker()
-        instantiateTimePicker()
     }
 
     private fun instantiateTimePicker() {
