@@ -9,21 +9,18 @@ import android.support.v4.app.Fragment
 import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-import com.example.anthonyvannoppen.androidproject.ui.HubViewModel
-
 import com.example.europeesaanrijdingsformulier.R
-import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_profile_license.*
 import java.util.*
 import android.app.DatePickerDialog
 import android.widget.EditText
 import com.example.europeesaanrijdingsformulier.utils.PrefManager
+import com.example.europeesaanrijdingsformulier.utils.SpinnerManager
 
 
 class ProfileLicenseFragment : Fragment() {
@@ -32,6 +29,8 @@ class ProfileLicenseFragment : Fragment() {
     private var category : String = ""
     private var licenseInput: License? = null
     private lateinit var prefManager: PrefManager
+    private val spinnerManager = SpinnerManager()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,8 +45,24 @@ class ProfileLicenseFragment : Fragment() {
         super.onStart()
         instantiateDatePicker()
 
+        val option = spinnerManager.instantiateSpinner(activity!!,R.id.spinner_profile_license_category,getResources().getStringArray(R.array.licenseCategory))
+        val adapter = option.adapter as ArrayAdapter<String>
+        if(licenseInput?.category != null){
+            val spinnerPosition = adapter.getPosition(licenseInput!!.category)
+            option.setSelection(spinnerPosition)
+        }
+
+        option.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                category = adapter.getItem(position)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+            }
+        }
+
+
         licenseInput = prefManager.getLicense()
-        instantiateSpinners()
         if(licenseInput != null){
             fillInTextFields()
         }
@@ -104,28 +119,4 @@ class ProfileLicenseFragment : Fragment() {
     }
 
 }
-
-    private fun instantiateSpinners(){
-
-        val option = activity!!.findViewById<Spinner>(R.id.spinner_profile_license_category)
-        val adapter = ArrayAdapter(activity!!, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.licenseCategory))
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        option.adapter = adapter
-        if(licenseInput?.category != null){
-            val spinnerPosition = adapter.getPosition(licenseInput!!.category)
-            option.setSelection(spinnerPosition)
-        }
-
-        option.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                category = adapter.getItem(position)
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>) {
-            }
-        };
-
-    }
-
-
 }

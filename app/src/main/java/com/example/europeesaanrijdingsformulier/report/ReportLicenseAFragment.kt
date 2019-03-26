@@ -14,6 +14,7 @@ import android.widget.Spinner
 
 import com.example.europeesaanrijdingsformulier.R
 import com.example.europeesaanrijdingsformulier.profile.License
+import com.example.europeesaanrijdingsformulier.utils.SpinnerManager
 import kotlinx.android.synthetic.main.fragment_report_license_a.*
 import java.util.*
 
@@ -22,7 +23,7 @@ class ReportLicenseAFragment : Fragment() {
 
     private lateinit var report: Report
     private var category: String = ""
-
+    private val spinnerManager = SpinnerManager()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,7 +35,23 @@ class ReportLicenseAFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        instantiateSpinners()
+        val option = spinnerManager.instantiateSpinner(activity!!,R.id.spinner_report_license_a_category,getResources().getStringArray(R.array.licenseCategory))
+        val adapter = option.adapter as ArrayAdapter<String>
+
+        if (report?.profiles.first().license?.category != null) {
+            val spinnerPosition = adapter.getPosition(report?.profiles.first().license?.category)
+            option.setSelection(spinnerPosition)
+        }
+
+        option.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                category = adapter.getItem(position)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+            }
+        }
+
         instantiateDatePicker()
         if (report.profiles.first().license != null) {
             fillInTextFields()
@@ -60,31 +77,6 @@ class ReportLicenseAFragment : Fragment() {
     private fun fillInTextFields() {
         textedit_report_license_a_expires.setText(report.profiles.first().license?.expires)
         textedit_report_license_a_licenseNumber.setText(report.profiles.first().license?.licenseNumber)
-    }
-
-    private fun instantiateSpinners() {
-
-        val option = activity!!.findViewById<Spinner>(R.id.spinner_report_license_a_category)
-        val adapter = ArrayAdapter(
-            activity!!,
-            android.R.layout.simple_spinner_item,
-            getResources().getStringArray(R.array.licenseCategory)
-        )
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        option.adapter = adapter
-        if (report?.profiles.first().license?.category != null) {
-            val spinnerPosition = adapter.getPosition(report?.profiles.first().license?.category)
-            option.setSelection(spinnerPosition)
-        }
-
-        option.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                category = adapter.getItem(position)
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>) {
-            }
-        }
     }
 
     private fun instantiateDatePicker() {

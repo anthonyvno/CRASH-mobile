@@ -16,6 +16,7 @@ import android.widget.EditText
 import android.widget.Spinner
 
 import com.example.europeesaanrijdingsformulier.R
+import com.example.europeesaanrijdingsformulier.utils.SpinnerManager
 import kotlinx.android.synthetic.main.fragment_report_crash_information.*
 import java.util.*
 
@@ -24,6 +25,7 @@ class ReportCrashInformation : Fragment() {
 
     private lateinit var report: Report
     private lateinit var country: String
+    private val spinnerManager = SpinnerManager()
 
 
 
@@ -41,6 +43,18 @@ class ReportCrashInformation : Fragment() {
     override fun onStart() {
         super.onStart()
         instantiate()
+        val optionCountries = spinnerManager.instantiateSpinner(activity!!,R.id.spinner_report_crash_information_country,getResources().getStringArray(R.array.countries_array))
+
+        optionCountries.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                country = optionCountries.adapter.getItem(position) as String
+            }
+
+        }
 
         button_report_crash_information_confirm.setOnClickListener{
             val date = textedit_report_crash_information_date.text.toString()
@@ -91,7 +105,6 @@ class ReportCrashInformation : Fragment() {
     private  fun instantiate(){
         instantiateDatePicker()
         instantiateTimePicker()
-        instantiateSpinners()
     }
 
     private fun instantiateTimePicker() {
@@ -109,25 +122,6 @@ class ReportCrashInformation : Fragment() {
             }, hour, minute,true)
 
             dpd.show()
-        }
-
-    }
-
-    private fun instantiateSpinners() {
-        val optionCountries = activity!!.findViewById<Spinner>(R.id.spinner_report_crash_information_country)
-        val adapterCountry = ArrayAdapter(activity!!, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.countries_array))
-        adapterCountry.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        optionCountries.adapter = adapterCountry
-
-        optionCountries.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-
-            }
-
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                country = adapterCountry.getItem(position)
-            }
-
         }
 
     }

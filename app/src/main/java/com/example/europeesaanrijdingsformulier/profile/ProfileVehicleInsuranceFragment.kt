@@ -19,11 +19,13 @@ import com.example.anthonyvannoppen.androidproject.ui.HubViewModel
 import com.example.europeesaanrijdingsformulier.R
 import com.example.europeesaanrijdingsformulier.insurer.Insurer
 import com.example.europeesaanrijdingsformulier.utils.PrefManager
+import com.example.europeesaanrijdingsformulier.utils.SpinnerManager
 import com.jakewharton.rxbinding2.widget.text
 import kotlinx.android.synthetic.main.fragment_profile_vehicle_detail.*
 import kotlinx.android.synthetic.main.fragment_profile_vehicle_insurance.*
 import kotlinx.android.synthetic.main.fragment_report_crash_information.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 class ProfileVehicleInsuranceFragment : Fragment() {
 
@@ -32,8 +34,7 @@ class ProfileVehicleInsuranceFragment : Fragment() {
     private lateinit var vehicle: Vehicle
     private lateinit var insurerName: String
     private lateinit var viewModel: HubViewModel
-
-
+    private val spinnerManager = SpinnerManager()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,7 +50,25 @@ class ProfileVehicleInsuranceFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        instantiateSpinners()
+        insurers = viewModel.getInsurers().value!!
+        val option = spinnerManager.instantiateSpinner(activity!!,R.id.spinner_profile_vehicle_insurance_insurer,
+            insurers.map { insurer -> insurer.name }.toTypedArray())
+
+        val adapter = option.adapter as ArrayAdapter<String>
+
+        if (vehicle!!.insurance != null) {
+            val spinnerPosition = adapter.getPosition(vehicle!!.insurance!!.insurer!!.name)
+            option.setSelection(spinnerPosition)
+        }
+
+        option.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                insurerName = adapter.getItem(position)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+            }
+        }
         instantiateDatePicker()
         if (vehicle!!.insurance != null) {
             fillInTextFields()
@@ -138,30 +157,6 @@ class ProfileVehicleInsuranceFragment : Fragment() {
             dpd.show()
         }
 
-    }
-
-    private fun instantiateSpinners() {
-        insurers = viewModel.getInsurers().value!!
-        Log.d("testpurp2", insurers.toString())
-        val option = activity!!.findViewById<Spinner>(R.id.spinner_profile_vehicle_insurance_insurer)
-        val adapter =
-            ArrayAdapter(activity!!, android.R.layout.simple_spinner_item, insurers.map { insurer -> insurer.name })
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        option.adapter = adapter
-
-        if (vehicle!!.insurance != null) {
-            val spinnerPosition = adapter.getPosition(vehicle!!.insurance!!.insurer!!.name)
-            option.setSelection(spinnerPosition)
-        }
-
-        option.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                insurerName = adapter.getItem(position)
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>) {
-            }
-        };
     }
 
     fun addObject(item: Vehicle) {

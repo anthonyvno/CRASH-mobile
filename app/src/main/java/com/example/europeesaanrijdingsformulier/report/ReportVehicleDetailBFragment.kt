@@ -12,6 +12,7 @@ import android.widget.Spinner
 
 import com.example.europeesaanrijdingsformulier.R
 import com.example.europeesaanrijdingsformulier.profile.Vehicle
+import com.example.europeesaanrijdingsformulier.utils.SpinnerManager
 import kotlinx.android.synthetic.main.fragment_report_vehicle_detail_b.*
 
 
@@ -20,6 +21,8 @@ class ReportVehicleDetailBFragment : Fragment() {
     private lateinit var report: Report
     private var category: String = "Auto"
     private var country: String = "Belgium"
+    private val spinnerManager = SpinnerManager()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,7 +34,36 @@ class ReportVehicleDetailBFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        instantiateSpinners()
+        val optionCountries = spinnerManager.instantiateSpinner(activity!!,R.id.spinner_report_vehicle_detail_b_country,getResources().getStringArray(R.array.countries_array))
+        val option = spinnerManager.instantiateSpinner(activity!!,R.id.spinner_report_vehicle_detail_b_type,getResources().getStringArray(R.array.vehicleCategory))
+        val adapter = option.adapter as ArrayAdapter<String>
+        val countriesAdapter = optionCountries.adapter as ArrayAdapter<String>
+        if (report.profiles.last().vehicles!!.isNotEmpty()  && report.profiles.last().vehicles?.first()?.type != null) {
+            val spinnerPosition = adapter.getPosition(report.profiles.last().vehicles?.first()!!.type)
+            option.setSelection(spinnerPosition)
+        }
+        if (report.profiles.last().vehicles!!.isNotEmpty()  && report.profiles.last().vehicles?.first()?.country != null) {
+            val spinnerPosition = countriesAdapter.getPosition(report.profiles.last().vehicles?.first()!!.country)
+            optionCountries.setSelection(spinnerPosition)
+        }
+
+        option.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                category = adapter.getItem(position)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+            }
+        };
+
+        optionCountries.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                country = countriesAdapter.getItem(position)
+            }
+        }
         if (report.profiles.last().vehicles!!.isNotEmpty() && report.profiles.last().vehicles?.first() != null) {
             fillInTextFields()
         }
@@ -64,62 +96,8 @@ class ReportVehicleDetailBFragment : Fragment() {
         textedit_report_vehicle_detail_b_model.setText(report.profiles.last().vehicles?.first()?.model)
     }
 
-
-
     fun addObject(item: Report) {
         this.report = item
     }
-
-    private fun instantiateSpinners() {
-
-        val option = activity!!.findViewById<Spinner>(R.id.spinner_report_vehicle_detail_b_type)
-        val optionCountries = activity!!.findViewById<Spinner>(R.id.spinner_report_vehicle_detail_b_country)
-        val adapter = ArrayAdapter(
-            activity!!,
-            android.R.layout.simple_spinner_item,
-            getResources().getStringArray(R.array.vehicleCategory)
-        )
-        val adapterCountry = ArrayAdapter(
-            activity!!,
-            android.R.layout.simple_spinner_item,
-            getResources().getStringArray(R.array.countries_array)
-        )
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        adapterCountry.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        option.adapter = adapter
-        optionCountries.adapter = adapterCountry
-
-        if (report.profiles.last().vehicles!!.isNotEmpty() && report.profiles.last().vehicles?.first()?.type != null) {
-            val spinnerPosition = adapter.getPosition(report.profiles.last().vehicles?.first()!!.type)
-            option.setSelection(spinnerPosition)
-        }
-        if (report.profiles.last().vehicles!!.isNotEmpty() && report.profiles.last().vehicles?.first()?.country != null) {
-            val spinnerPosition = adapterCountry.getPosition(report.profiles.last().vehicles?.first()!!.country)
-            optionCountries.setSelection(spinnerPosition)
-        }
-
-        option.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                category = adapter.getItem(position)
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>) {
-            }
-        };
-
-        optionCountries.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-
-            }
-
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                country = adapterCountry.getItem(position)
-            }
-
-        }
-
-
-    }
-
 
 }

@@ -20,6 +20,7 @@ import com.example.europeesaanrijdingsformulier.fragments.HomeFragment
 import com.example.europeesaanrijdingsformulier.insurer.Insurer
 import com.example.europeesaanrijdingsformulier.profile.Insurance
 import com.example.europeesaanrijdingsformulier.utils.PrefManager
+import com.example.europeesaanrijdingsformulier.utils.SpinnerManager
 import kotlinx.android.synthetic.main.fragment_report_vehicle_insurance_b.*
 import java.util.*
 
@@ -31,6 +32,8 @@ class ReportVehicleInsuranceBFragment : Fragment() {
     private lateinit var viewModel: HubViewModel
     private lateinit var insurers: List<Insurer>
     private lateinit var prefManager: PrefManager
+    private val spinnerManager = SpinnerManager()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,7 +48,25 @@ class ReportVehicleInsuranceBFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        instantiateSpinners()
+        insurers = viewModel.getInsurers().value!!
+        val option = spinnerManager.instantiateSpinner(activity!!,R.id.spinner_report_vehicle_insurance_b_insurer,
+            insurers.map { insurer -> insurer!!.name }.toTypedArray())
+
+        val adapter = option.adapter as ArrayAdapter<String>
+
+        if (report.profiles.last().vehicles?.first()?.insurance?.insurer != null) {
+            val spinnerPosition = adapter.getPosition(report.profiles.last().vehicles?.first()?.insurance!!.insurer!!.name)
+            option.setSelection(spinnerPosition)
+        }
+
+        option.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                insurerName = adapter.getItem(position)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+            }
+        }
         instantiateDatePicker()
         if (report.profiles.last().vehicles?.first()?.insurance != null) {
             fillInTextFields()
@@ -84,31 +105,6 @@ class ReportVehicleInsuranceBFragment : Fragment() {
                 .commit()
 
         }
-    }
-
-    private fun instantiateSpinners() {
-        insurers = viewModel.getInsurers().value!!
-        Log.d("testpurp2", insurers.toString())
-        val option = activity!!.findViewById<Spinner>(R.id.spinner_report_vehicle_insurance_b_insurer)
-        val adapter =
-            ArrayAdapter(activity!!, android.R.layout.simple_spinner_item, insurers.map { insurer -> insurer.name })
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        option.adapter = adapter
-
-        if (report.profiles.last().vehicles?.first()?.insurance != null) {
-            val spinnerPosition =
-                adapter.getPosition(report.profiles.last().vehicles?.first()?.insurance!!.insurer!!.name)
-            option.setSelection(spinnerPosition)
-        }
-
-        option.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                insurerName = adapter.getItem(position)
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>) {
-            }
-        };
     }
 
     private fun instantiateDatePicker() {
