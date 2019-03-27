@@ -39,8 +39,9 @@ class ReportConfirmationFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        val signaturePad =  signature_pad
-        signaturePad.setOnSignedListener(object : SignaturePad.OnSignedListener {
+        val signaturePadA = signature_pad_a
+        val signaturePadB = signature_pad_b
+        signaturePadB.setOnSignedListener(object : SignaturePad.OnSignedListener {
 
             override fun onStartSigning() {
                 //Event triggered when the pad is touched
@@ -55,6 +56,12 @@ class ReportConfirmationFragment : Fragment() {
             }
         })
 
+        button_report_confirmation_delete_a.setOnClickListener{
+            signaturePadA.clear()
+        }
+        button_report_confirmation_delete_b.setOnClickListener{
+            signaturePadB.clear()
+        }
         button_report_confirmation_confirm.setOnClickListener{
 
 

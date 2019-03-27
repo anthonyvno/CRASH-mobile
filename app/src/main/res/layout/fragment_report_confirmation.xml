@@ -28,21 +28,89 @@
             android:layout_marginTop="64dp"
             app:layout_constraintTop_toTopOf="parent"
             android:id="@+id/text_report_confirmation_title"/>
-    <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="534dp"
-            android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/text_report_confirmation_title"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/button_report_confirmation_confirm"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp" android:layout_marginRight="8dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp">
-        <com.github.gcacace.signaturepad.views.SignaturePad
-                android:layout_width="200dp"
-                android:layout_height="fill_parent"
-                android:background="@color/white"
-                android:id="@+id/signature_pad"/>
-    </LinearLayout>
+    <android.support.v4.widget.NestedScrollView android:layout_width="match_parent"
+                                                app:layout_constraintBottom_toTopOf="@id/button_report_confirmation_confirm"
+                                                app:layout_constraintStart_toStartOf="parent"
+                                                app:layout_constraintTop_toBottomOf="@id/text_report_confirmation_title"
+                                                android:layout_height="0dp" android:layout_marginBottom="8dp"
+                                                android:layout_marginTop="24dp">
+        <android.support.constraint.ConstraintLayout android:layout_width="match_parent"
+                                                     android:layout_height="match_parent">
 
+            <TextView
+                    android:text="Handtekening B"
+
+                    android:layout_width="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/linear_a"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_height="wrap_content" android:id="@+id/text_report_confirmation_handtekening_b"
+                    android:layout_marginTop="24dp" android:layout_marginLeft="8dp" android:layout_marginStart="8dp"
+                    android:textColor="@color/white"/>
+            <TextView
+                    android:text="Handtekening A"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/text_report_confirmation_handtekening_a"
+                    android:layout_marginLeft="8dp" android:layout_marginStart="8dp" android:textColor="@color/white"/>
+            <LinearLayout
+                    android:id="@+id/linear_a"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/text_report_confirmation_handtekening_a"
+                    app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp">
+                <com.github.gcacace.signaturepad.views.SignaturePad
+                        android:layout_width="wrap_content"
+                        android:layout_weight="4"
+                        android:layout_height="match_parent"
+                        app:clearOnDoubleClick="true"
+                        android:background="@color/white"
+                        android:id="@+id/signature_pad_a"/>
+                <LinearLayout android:layout_width="wrap_content"
+                              android:layout_height="match_parent"
+                              android:background="#e8e8e8"
+                              android:layout_weight="1">
+                    <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="60dp"
+                            android:id="@+id/button_report_confirmation_delete_a"
+                            android:background="@android:drawable/ic_delete"/>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                    android:id="@+id/linear_b"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/text_report_confirmation_handtekening_b"
+                    app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp">
+                <com.github.gcacace.signaturepad.views.SignaturePad
+                        android:layout_width="wrap_content"
+                        android:layout_weight="4"
+                        android:layout_height="match_parent"
+                        app:clearOnDoubleClick="true"
+                        android:background="@color/white"
+                        android:id="@+id/signature_pad_b"/>
+                <LinearLayout android:layout_width="wrap_content"
+                              android:layout_height="match_parent"
+                              android:background="#e8e8e8"
+                              android:layout_weight="1">
+                    <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="60dp"
+                            android:id="@+id/button_report_confirmation_delete_b"
+                            android:background="@android:drawable/ic_delete"/>
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v4.widget.NestedScrollView>
 </android.support.constraint.ConstraintLayout>
