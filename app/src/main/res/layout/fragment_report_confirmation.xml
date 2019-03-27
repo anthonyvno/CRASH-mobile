@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent"
+                                             tools:context=".report.ReportConfirmationFragment"
+                                             android:id="@+id/constraintLayout">
+
+    <Button
+            android:text="Bevestig"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" android:id="@+id/button_report_confirmation_confirm"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp" android:layout_marginRight="8dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"/>
+    <TextView
+            android:text="Bevestiging"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="30dp"
+            android:textStyle="bold"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
+            android:layout_marginTop="64dp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/text_report_confirmation_title"/>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="534dp"
+            android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/text_report_confirmation_title"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/button_report_confirmation_confirm"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp" android:layout_marginRight="8dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp">
+        <com.github.gcacace.signaturepad.views.SignaturePad
+                android:layout_width="200dp"
+                android:layout_height="fill_parent"
+                android:background="@color/white"
+                android:id="@+id/signature_pad"/>
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

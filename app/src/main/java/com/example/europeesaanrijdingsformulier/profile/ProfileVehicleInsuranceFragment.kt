@@ -1,4 +1,5 @@
 package com.example.europeesaanrijdingsformulier.profile
+
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -40,15 +41,16 @@ class ProfileVehicleInsuranceFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        datePickerManager.instantiateDatePicker(activity!!,R.id.textedit_profile_vehicle_insurance_expires)
+        datePickerManager.instantiateDatePicker(activity!!, R.id.textedit_profile_vehicle_insurance_expires)
 
         insurers = viewModel.getInsurers().value!!
-        val option = spinnerManager.instantiateSpinner(activity!!,R.id.spinner_profile_vehicle_insurance_insurer,
-            insurers.map { insurer -> insurer.name }.toTypedArray())
+        val option = spinnerManager.instantiateSpinner(activity!!, R.id.spinner_profile_vehicle_insurance_insurer,
+            insurers.map { insurer -> insurer.name }.toTypedArray()
+        )
 
         val adapter = option.adapter as ArrayAdapter<String>
 
-        if (vehicle!!.insurance != null) {
+        if (vehicle!!.insurance!!.insurer != null) {
             val spinnerPosition = adapter.getPosition(vehicle!!.insurance!!.insurer!!.name)
             option.setSelection(spinnerPosition)
         }
@@ -68,7 +70,7 @@ class ProfileVehicleInsuranceFragment : Fragment() {
             val date = textedit_profile_vehicle_insurance_expires.text.toString()
             val dateSplit = date.split("/")
             val dateExpires = Date(
-                dateSplit[2].toInt() - 1900, dateSplit[1].toInt() -1, dateSplit[0].toInt() +1
+                dateSplit[2].toInt() - 1900, dateSplit[1].toInt() - 1, dateSplit[0].toInt() + 1
             )
             val insurer4 = insurers.find { insurer -> insurer.name == insurerName }
             var insurance = Insurance(
@@ -102,8 +104,8 @@ class ProfileVehicleInsuranceFragment : Fragment() {
             prefManager.saveProfile(profile)
 
             this.fragmentManager!!.beginTransaction()
-                .setCustomAnimations(R.anim.abc_fade_in,R.anim.abc_fade_out,R.anim.abc_fade_in,R.anim.abc_fade_out)
-                .replace(R.id.container_main, ProfileSummaryFragment(),"summary")
+                .setCustomAnimations(R.anim.abc_fade_in, R.anim.abc_fade_out, R.anim.abc_fade_in, R.anim.abc_fade_out)
+                .replace(R.id.container_main, ProfileSummaryFragment(), "summary")
                 //.addToBackStack(null)
                 .commit()
         }
@@ -116,12 +118,15 @@ class ProfileVehicleInsuranceFragment : Fragment() {
         textedit_profile_vehicle_insurance_phone.setText(vehicle!!.insurance!!.phoneAgency)
         textedit_profile_vehicle_insurance_greenCard.setText(vehicle!!.insurance!!.greenCardNumber)
         textedit_profile_vehicle_insurance_insuranceNumber.setText(vehicle!!.insurance!!.insuranceNumber)
-        val expiresYear = vehicle.insurance!!.expires!!.year + 1900
-        val expiresMonth = vehicle.insurance!!.expires!!.month + 1
-        val expiresDate = vehicle.insurance!!.expires!!.date - 1
-        val expiresvalue = (""+expiresDate.toString() + "/" +
-                expiresMonth.toString() + "/" + expiresYear.toString() )
-        textedit_profile_vehicle_insurance_expires.setText(expiresvalue)
+        if (vehicle.insurance!!.expires != null) {
+            val expiresYear = vehicle.insurance!!.expires!!.year + 1900
+            val expiresMonth = vehicle.insurance!!.expires!!.month + 1
+            val expiresDate = vehicle.insurance!!.expires!!.date - 1
+            val expiresvalue = ("" + expiresDate.toString() + "/" +
+                    expiresMonth.toString() + "/" + expiresYear.toString())
+            textedit_profile_vehicle_insurance_expires.setText(expiresvalue)
+        }
+
     }
 
     fun addObject(item: Vehicle) {

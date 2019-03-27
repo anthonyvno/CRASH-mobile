@@ -6,6 +6,7 @@ import com.example.europeesaanrijdingsformulier.profile.Profile
 import com.example.europeesaanrijdingsformulier.profile.Vehicle
 import com.google.gson.Gson
 import org.json.JSONObject
+import java.util.*
 
 class QRManager {
 
@@ -26,6 +27,7 @@ class QRManager {
 
         var contractnumber = ""
         var emailAgency = ""
+        var expires = ""
 
         var brand = ""
         var licensePlate = ""
@@ -44,6 +46,7 @@ class QRManager {
             keys2.next()
             emailAgency = insurance.optString("representativeEmail")
             contractnumber = insurance.optString("contractNumber")
+            expires = insurance.optString("valid_until")
         }
         while (keys3.hasNext()) {
             keys3.next()
@@ -52,13 +55,16 @@ class QRManager {
             country = vehicle.optString("country")
         }
 
+        val dateSplit = expires.split("-")
+        val dateExpires =
+            Date(dateSplit[0].toInt() - 1900, dateSplit[1].toInt() - 1, dateSplit[2].substring(0, 2).toInt() + 1)
 
         return Profile(
             1, firstname, lastname, "", null,
             listOf(
                 Vehicle(
                     1, country, licensePlate, brand, "", "",
-                    Insurance(1, contractnumber, "", emailAgency, null, "")
+                    Insurance(1, contractnumber, "", emailAgency, dateExpires, "")
                 )
             )
         )
@@ -67,7 +73,7 @@ class QRManager {
 
     fun handleProfileScan(scannedJson: String): Profile {
 
-        return gson.fromJson(scannedJson,Profile::class.java)
+        return gson.fromJson(scannedJson, Profile::class.java)
 
     }
 }

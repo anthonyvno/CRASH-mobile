@@ -30,8 +30,8 @@ class ReportVehicleInsuranceBFragment : Fragment() {
 
     private lateinit var report: Report
     private lateinit var insurerName: String
-    private lateinit var viewModel: HubViewModel
     private lateinit var insurers: List<Insurer>
+    private lateinit var viewModel: HubViewModel
     private lateinit var prefManager: PrefManager
     private val spinnerManager = SpinnerManager()
     private val datePickerManager = DatePickerManager()
@@ -40,7 +40,7 @@ class ReportVehicleInsuranceBFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        prefManager = PrefManager(activity)
+        //prefManager = PrefManager(activity)
         viewModel = ViewModelProviders.of(activity!!).get(HubViewModel::class.java)
 
         // Inflate the layout for this fragment
@@ -91,9 +91,10 @@ class ReportVehicleInsuranceBFragment : Fragment() {
 
             report.profiles.last().vehicles?.first()?.insurance = insurance
 
-            prefManager.saveReport(report)
-            viewModel.postReport(report)
-            val fragment = HomeFragment()
+            //prefManager.saveReport(report)
+            //viewModel.postReport(report)
+            val fragment = ReportConfirmationFragment()
+            fragment.addObject(report)
             this.fragmentManager!!.beginTransaction()
                 .setCustomAnimations(
                     R.anim.enter_from_right,
