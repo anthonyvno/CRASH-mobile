@@ -1,7 +1,11 @@
 package com.example.europeesaanrijdingsformulier.fragments
 
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
@@ -33,6 +37,17 @@ class HomeFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (ActivityCompat.checkSelfPermission(context!!,android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED) {
+                //you code..
+                //read_file()
+            } else {
+                //request permission
+                ActivityCompat.requestPermissions(activity!!, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE) , 0);
+            }
+        }
 
         button_home_startReport.setOnClickListener{
             this.fragmentManager!!.beginTransaction()

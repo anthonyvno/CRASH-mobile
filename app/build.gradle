@@ -66,6 +66,9 @@ dependencies {
     implementation('com.github.gcacace:signature-pad:1.2.1'){
         exclude group: 'com.android.support'
     }
+    //PDF
+    implementation 'com.itextpdf:itext-pdfa:5.5.10'
+    implementation 'com.itextpdf:itextg:5.5.9'
     //QR
     implementation 'com.journeyapps:zxing-android-embedded:3.6.0'
     implementation 'com.journeyapps:zxing-android-embedded:3.6.0@aar'

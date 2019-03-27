@@ -1,9 +1,16 @@
 package com.example.europeesaanrijdingsformulier.report
 
 
+import android.Manifest
 import android.app.DatePickerDialog
 import android.arch.lifecycle.ViewModelProviders
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
@@ -21,8 +28,18 @@ import com.example.europeesaanrijdingsformulier.insurer.Insurer
 import com.example.europeesaanrijdingsformulier.profile.Insurance
 import com.example.europeesaanrijdingsformulier.utils.DatePickerManager
 import com.example.europeesaanrijdingsformulier.utils.PrefManager
+import com.example.europeesaanrijdingsformulier.utils.QRManager
 import com.example.europeesaanrijdingsformulier.utils.SpinnerManager
+import com.itextpdf.text.Document
+import com.itextpdf.text.Image
+import com.itextpdf.text.PageSize
+import com.itextpdf.text.Paragraph
+import com.itextpdf.text.pdf.PdfContentByte
+import com.itextpdf.text.pdf.PdfWriter
 import kotlinx.android.synthetic.main.fragment_report_vehicle_insurance_b.*
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
 import java.util.*
 
 
@@ -50,13 +67,15 @@ class ReportVehicleInsuranceBFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         insurers = viewModel.getInsurers().value!!
-        val option = spinnerManager.instantiateSpinner(activity!!,R.id.spinner_report_vehicle_insurance_b_insurer,
-            insurers.map { insurer -> insurer!!.name }.toTypedArray())
+        val option = spinnerManager.instantiateSpinner(activity!!, R.id.spinner_report_vehicle_insurance_b_insurer,
+            insurers.map { insurer -> insurer!!.name }.toTypedArray()
+        )
 
         val adapter = option.adapter as ArrayAdapter<String>
 
         if (report.profiles.last().vehicles?.first()?.insurance?.insurer != null) {
-            val spinnerPosition = adapter.getPosition(report.profiles.last().vehicles?.first()?.insurance!!.insurer!!.name)
+            val spinnerPosition =
+                adapter.getPosition(report.profiles.last().vehicles?.first()?.insurance!!.insurer!!.name)
             option.setSelection(spinnerPosition)
         }
 
@@ -68,7 +87,7 @@ class ReportVehicleInsuranceBFragment : Fragment() {
             override fun onNothingSelected(parent: AdapterView<*>) {
             }
         }
-        datePickerManager.instantiateDatePicker(activity!!,R.id.textedit_report_vehicle_insurance_b_expires)
+        datePickerManager.instantiateDatePicker(activity!!, R.id.textedit_report_vehicle_insurance_b_expires)
         if (report.profiles.last().vehicles?.first()?.insurance != null) {
             fillInTextFields()
         }
@@ -93,6 +112,7 @@ class ReportVehicleInsuranceBFragment : Fragment() {
 
             //prefManager.saveReport(report)
             //viewModel.postReport(report)
+            generatePDF()
             val fragment = ReportConfirmationFragment()
             fragment.addObject(report)
             this.fragmentManager!!.beginTransaction()
@@ -122,6 +142,43 @@ class ReportVehicleInsuranceBFragment : Fragment() {
                     expiresMonth.toString() + "/" + expiresYear.toString())
             textedit_report_vehicle_insurance_b_expires.setText(expiresvalue)
         }
+
+    }
+
+    fun generatePDF() {
+
+        val pdfFolder = File(
+            Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DOWNLOADS
+            ), "pdfdemo"
+        )
+        if (!pdfFolder.exists()) {
+            pdfFolder.mkdirs()
+        }
+        val file = File(pdfFolder, "aanrijdingsformulier.pdf")
+
+
+        var document = Document(PageSize.A4,0F,0F,0F,0F)
+        val writer = PdfWriter.getInstance(document, FileOutputStream(file))
+        document.open()
+        val canvas: PdfContentByte
+        canvas = writer.directContentUnder
+
+        val d = getResources().getDrawable(R.drawable.aanrijdingsform)
+        val bitDw = (d as BitmapDrawable)
+        val bmp = bitDw.getBitmap()
+        val stream = ByteArrayOutputStream()
+        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream)
+        val image = Image.getInstance(stream.toByteArray())
+
+
+        //val image = Image.getInstance("http://www.quiviveverzekeringen.be/image/735-0/cb04af7aa673baea44a439a2622a151629.jpg")
+        //image.scaleAbsolute(PageSize.A4.rotate())
+        image.setAbsolutePosition(0F,0F)
+        canvas.addImage(image)
+        //document.add(Paragraph("Hallo"))
+        document.close()
+
 
     }
 
