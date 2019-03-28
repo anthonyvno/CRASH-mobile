@@ -26,10 +26,7 @@ import com.example.europeesaanrijdingsformulier.R
 import com.example.europeesaanrijdingsformulier.fragments.HomeFragment
 import com.example.europeesaanrijdingsformulier.insurer.Insurer
 import com.example.europeesaanrijdingsformulier.profile.Insurance
-import com.example.europeesaanrijdingsformulier.utils.DatePickerManager
-import com.example.europeesaanrijdingsformulier.utils.PrefManager
-import com.example.europeesaanrijdingsformulier.utils.QRManager
-import com.example.europeesaanrijdingsformulier.utils.SpinnerManager
+import com.example.europeesaanrijdingsformulier.utils.*
 import com.itextpdf.text.Document
 import com.itextpdf.text.Image
 import com.itextpdf.text.PageSize
@@ -46,6 +43,7 @@ import java.util.*
 class ReportVehicleInsuranceBFragment : Fragment() {
 
     private lateinit var report: Report
+    private lateinit var pdfWriterManager : PdfWriterManager
     private lateinit var insurerName: String
     private lateinit var insurers: List<Insurer>
     private lateinit var viewModel: HubViewModel
@@ -59,7 +57,6 @@ class ReportVehicleInsuranceBFragment : Fragment() {
     ): View? {
         //prefManager = PrefManager(activity)
         viewModel = ViewModelProviders.of(activity!!).get(HubViewModel::class.java)
-
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_report_vehicle_insurance_b, container, false)
     }
@@ -112,7 +109,8 @@ class ReportVehicleInsuranceBFragment : Fragment() {
 
             //prefManager.saveReport(report)
             //viewModel.postReport(report)
-            generatePDF()
+            pdfWriterManager = PdfWriterManager()
+            pdfWriterManager.writePDF(report,activity)
             val fragment = ReportConfirmationFragment()
             fragment.addObject(report)
             this.fragmentManager!!.beginTransaction()
@@ -142,43 +140,6 @@ class ReportVehicleInsuranceBFragment : Fragment() {
                     expiresMonth.toString() + "/" + expiresYear.toString())
             textedit_report_vehicle_insurance_b_expires.setText(expiresvalue)
         }
-
-    }
-
-    fun generatePDF() {
-
-        val pdfFolder = File(
-            Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DOWNLOADS
-            ), "pdfdemo"
-        )
-        if (!pdfFolder.exists()) {
-            pdfFolder.mkdirs()
-        }
-        val file = File(pdfFolder, "aanrijdingsformulier.pdf")
-
-
-        var document = Document(PageSize.A4,0F,0F,0F,0F)
-        val writer = PdfWriter.getInstance(document, FileOutputStream(file))
-        document.open()
-        val canvas: PdfContentByte
-        canvas = writer.directContentUnder
-
-        val d = getResources().getDrawable(R.drawable.aanrijdingsform)
-        val bitDw = (d as BitmapDrawable)
-        val bmp = bitDw.getBitmap()
-        val stream = ByteArrayOutputStream()
-        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream)
-        val image = Image.getInstance(stream.toByteArray())
-
-
-        //val image = Image.getInstance("http://www.quiviveverzekeringen.be/image/735-0/cb04af7aa673baea44a439a2622a151629.jpg")
-        //image.scaleAbsolute(PageSize.A4.rotate())
-        image.setAbsolutePosition(0F,0F)
-        canvas.addImage(image)
-        //document.add(Paragraph("Hallo"))
-        document.close()
-
 
     }
 

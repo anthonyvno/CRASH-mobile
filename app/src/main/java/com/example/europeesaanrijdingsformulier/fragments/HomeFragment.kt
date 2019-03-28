@@ -13,12 +13,19 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.europeesaanrijdingsformulier.R
 import com.example.europeesaanrijdingsformulier.profile.ProfileSummaryFragment
+import com.example.europeesaanrijdingsformulier.report.Report
 import com.example.europeesaanrijdingsformulier.report.ReportAlgemeenAFragment
 import com.example.europeesaanrijdingsformulier.report.ReportCrashInformation
+import com.example.europeesaanrijdingsformulier.utils.PdfWriterManager
+import com.example.europeesaanrijdingsformulier.utils.PrefManager
 import kotlinx.android.synthetic.main.fragment_home.*
 
 
 class HomeFragment : Fragment() {
+
+    private lateinit var pdfWriterManager: PdfWriterManager
+    private lateinit var prefManager: PrefManager
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,13 +38,15 @@ class HomeFragment : Fragment() {
         val bar = activity!! as AppCompatActivity
         bar.supportActionBar!!.setDisplayHomeAsUpEnabled(false)
         bar.supportActionBar!!.setDisplayShowHomeEnabled(false)
+        prefManager = PrefManager(activity!!)
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
     override fun onStart() {
         super.onStart()
-
+        pdfWriterManager = PdfWriterManager()
+        pdfWriterManager.writePDF(prefManager.getReport()!!,activity)
         if (Build.VERSION.SDK_INT >= 23) {
             if (ActivityCompat.checkSelfPermission(context!!,android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 == PackageManager.PERMISSION_GRANTED) {

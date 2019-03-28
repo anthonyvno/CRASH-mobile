@@ -61,7 +61,7 @@ class ReportLicenseAFragment : Fragment() {
         }
         button_report_license_a_confirm.setOnClickListener {
 
-            val expires = textedit_report_license_a_licenseNumber.text.toString()
+            val expires = textedit_report_license_a_expires.text.toString()
             val licenseNumber = textedit_report_license_a_licenseNumber.text.toString()
 
             report.profiles.first().license = License(1, category, licenseNumber, expires)
