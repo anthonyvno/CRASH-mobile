@@ -3,7 +3,9 @@ package com.example.europeesaanrijdingsformulier.report
 import android.os.Parcelable
 import com.example.europeesaanrijdingsformulier.profile.Profile
 import com.squareup.moshi.Json
+import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
+import java.io.File
 import java.io.Serializable
 import java.util.*
 
@@ -17,8 +19,9 @@ class Report(
     @field:Json(name = "streetNumber") val streetNumber: String? = "",
     @field:Json(name = "postalCode") val postalCode: String? = "",
     @field:Json(name = "city") val city: String? = "",
-    @field:Json(name = "country") val country: String? = ""
-) : Parcelable,Serializable {
+    @field:Json(name = "country") val country: String? = "",
+    @Transient var imagePDF: File? = null
+) : Parcelable, Serializable {
 
 
 }

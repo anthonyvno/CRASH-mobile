@@ -23,13 +23,6 @@ import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment() {
 
-    private lateinit var pdfWriterManager: PdfWriterManager
-    private lateinit var prefManager: PrefManager
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,15 +31,14 @@ class HomeFragment : Fragment() {
         val bar = activity!! as AppCompatActivity
         bar.supportActionBar!!.setDisplayHomeAsUpEnabled(false)
         bar.supportActionBar!!.setDisplayShowHomeEnabled(false)
-        prefManager = PrefManager(activity!!)
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
     override fun onStart() {
         super.onStart()
-        pdfWriterManager = PdfWriterManager()
-        pdfWriterManager.writePDF(prefManager.getReport()!!,activity)
+        //pdfWriterManager = PdfWriterManager()
+        //pdfWriterManager.writePDF(prefManager.getReport()!!,activity)
         if (Build.VERSION.SDK_INT >= 23) {
             if (ActivityCompat.checkSelfPermission(context!!,android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 == PackageManager.PERMISSION_GRANTED) {
@@ -77,10 +69,6 @@ class HomeFragment : Fragment() {
 
     }
 
-    override fun onResume() {
-        super.onResume()
-
-    }
 
     override fun onStop() {
         super.onStop()

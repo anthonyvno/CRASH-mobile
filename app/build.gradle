@@ -63,12 +63,15 @@ dependencies {
     testImplementation 'junit:junit:4.12'
 
     //Handtekening
-    implementation('com.github.gcacace:signature-pad:1.2.1'){
+    implementation('com.github.gcacace:signature-pad:1.2.1') {
         exclude group: 'com.android.support'
     }
     //PDF
     implementation 'com.itextpdf:itext-pdfa:5.5.10'
     implementation 'com.itextpdf:itextg:5.5.9'
+
+    implementation 'com.joanzapata.pdfview:android-pdfview:1.0.4@aar'
+
     //QR
     implementation 'com.journeyapps:zxing-android-embedded:3.6.0'
     implementation 'com.journeyapps:zxing-android-embedded:3.6.0@aar'

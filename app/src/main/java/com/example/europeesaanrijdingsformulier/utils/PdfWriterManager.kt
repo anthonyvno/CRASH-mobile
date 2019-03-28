@@ -4,23 +4,22 @@ import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.os.Environment
 import android.support.v4.app.FragmentActivity
+import android.util.Base64
 import com.example.europeesaanrijdingsformulier.R
 import com.example.europeesaanrijdingsformulier.report.Report
 import com.itextpdf.text.*
-import com.itextpdf.text.pdf.BaseFont
-import com.itextpdf.text.pdf.ColumnText
-import com.itextpdf.text.pdf.PdfContentByte
-import com.itextpdf.text.pdf.PdfWriter
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import com.itextpdf.text.Phrase
+import com.itextpdf.text.pdf.*
+import org.vudroid.core.DecodeServiceBase
 
 
 class PdfWriterManager {
 
 
-    fun writePDF(report: Report, activity: FragmentActivity?): String {
+    fun writePDF(report: Report, activity: FragmentActivity?): File {
 
         val pdfFolder = File(
             Environment.getExternalStoragePublicDirectory(
@@ -32,6 +31,7 @@ class PdfWriterManager {
         }
         val file = File(pdfFolder, "aanrijdingsformulier.pdf")
 
+        val streamPDF = ByteArrayOutputStream()
         var document = Document(PageSize.A4, 0F, 0F, 0F, 0F)
         val writer = PdfWriter.getInstance(document, FileOutputStream(file))
         document.open()
@@ -57,13 +57,13 @@ class PdfWriterManager {
         )
         setPara(
             writer.getDirectContent(),
-            Phrase((report.dateCrash!!.hours+1).toString()+":"+report.dateCrash.minutes.toString(), Font(Font.FontFamily.COURIER, 9F)),
+            Phrase((report.dateCrash!!.hours).toString()+":"+report.dateCrash.minutes.toString(), Font(Font.FontFamily.COURIER, 9F)),
             2.69F,
             0.87F
         )
         setPara(
             writer.getDirectContent(),
-            Phrase(report.country, Font(Font.FontFamily.COURIER, 9F)),
+            Phrase(report.country, Font(Font.FontFamily.COURIER, 6F)),
             4.21F,
             0.87F
         )
@@ -295,9 +295,28 @@ class PdfWriterManager {
             13.57F
         )
 
+/*
+
+        PDFToImage.main()
+
+        val targetstream = ByteArrayInputStream(streamPDF.toByteArray())
+        val baos = ByteArrayOutputStream()
+        val pddoc:PDDocument
+        pddoc = PDDocument.load(targetstream)
+        val renderer = PDFRenderer(pddoc)
+        val bi = renderer.renderImageWithDPI(1,300F)
+
+        val reader = PdfReader(stream.toByteArray())
+        val page = writer.getImportedPage(reader,1)
+
+*/
+
+
+
+
         document.close()
 
-        return "test"
+        return file//Base64.encodeToString(file.readBytes(),Base64.NO_WRAP)
 
     }
 

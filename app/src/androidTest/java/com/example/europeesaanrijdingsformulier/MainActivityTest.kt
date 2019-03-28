@@ -32,6 +32,7 @@ import android.support.test.espresso.matcher.ViewMatchers.withClassName
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.ViewAction
 import android.widget.TimePicker
+import kotlin.concurrent.thread
 
 
 class MainActivityTest{
@@ -284,5 +285,6 @@ class MainActivityTest{
         Espresso.onView(ViewMatchers.withId(R.id.textedit_report_vehicle_insurance_b_phone)).perform(ViewActions.typeText(agencyPhone2))
         Espresso.closeSoftKeyboard()
         Espresso.onView(ViewMatchers.withId(R.id.button_report_vehicle_insurance_b_confirm)).perform(ViewActions.click())
+        Thread.sleep(10000)
     }
 }

@@ -27,6 +27,7 @@ import com.example.europeesaanrijdingsformulier.fragments.HomeFragment
 import com.example.europeesaanrijdingsformulier.insurer.Insurer
 import com.example.europeesaanrijdingsformulier.profile.Insurance
 import com.example.europeesaanrijdingsformulier.utils.*
+import com.google.gson.Gson
 import com.itextpdf.text.Document
 import com.itextpdf.text.Image
 import com.itextpdf.text.PageSize
@@ -43,7 +44,7 @@ import java.util.*
 class ReportVehicleInsuranceBFragment : Fragment() {
 
     private lateinit var report: Report
-    private lateinit var pdfWriterManager : PdfWriterManager
+    private lateinit var pdfWriterManager: PdfWriterManager
     private lateinit var insurerName: String
     private lateinit var insurers: List<Insurer>
     private lateinit var viewModel: HubViewModel
@@ -57,6 +58,7 @@ class ReportVehicleInsuranceBFragment : Fragment() {
     ): View? {
         //prefManager = PrefManager(activity)
         viewModel = ViewModelProviders.of(activity!!).get(HubViewModel::class.java)
+        prefManager = PrefManager(activity!!)
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_report_vehicle_insurance_b, container, false)
     }
@@ -64,7 +66,8 @@ class ReportVehicleInsuranceBFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         insurers = viewModel.getInsurers().value!!
-        val option = spinnerManager.instantiateSpinner(activity!!, R.id.spinner_report_vehicle_insurance_b_insurer,
+        val option = spinnerManager.instantiateSpinner(
+            activity!!, R.id.spinner_report_vehicle_insurance_b_insurer,
             insurers.map { insurer -> insurer!!.name }.toTypedArray()
         )
 
@@ -110,8 +113,11 @@ class ReportVehicleInsuranceBFragment : Fragment() {
             //prefManager.saveReport(report)
             //viewModel.postReport(report)
             pdfWriterManager = PdfWriterManager()
-            pdfWriterManager.writePDF(report,activity)
-            val fragment = ReportConfirmationFragment()
+            report.imagePDF = pdfWriterManager.writePDF(report, activity)
+            val gson = Gson()
+            val log = gson.toJson(report.imagePDF)
+            Log.d("bytearray: ", log)
+            val fragment = ReportOverviewFragment()
             fragment.addObject(report)
             this.fragmentManager!!.beginTransaction()
                 .setCustomAnimations(
