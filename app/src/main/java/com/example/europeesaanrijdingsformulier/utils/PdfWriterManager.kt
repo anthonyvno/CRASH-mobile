@@ -13,7 +13,6 @@ import java.io.File
 import java.io.FileOutputStream
 import com.itextpdf.text.Phrase
 import com.itextpdf.text.pdf.*
-import org.vudroid.core.DecodeServiceBase
 
 
 class PdfWriterManager {
@@ -48,7 +47,7 @@ class PdfWriterManager {
 
         image.setAbsolutePosition(0F, 0F)
         canvas.addImage(image)
-        //Aanrijingsgegevens
+        //Aanrijdingsgegevens
         setPara(
             writer.getDirectContent(),
             Phrase(report.dateCrash!!.date.toString()+"/"+(report.dateCrash!!.month+1).toString()+"/"+(report.dateCrash!!.year+1900).toString(), Font(Font.FontFamily.COURIER, 9F)),
