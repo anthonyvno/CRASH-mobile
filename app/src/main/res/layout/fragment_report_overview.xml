@@ -25,7 +25,7 @@
             android:layout_marginLeft="8dp" android:layout_marginStart="8dp" android:layout_width="wrap_content"
             android:textSize="30sp" android:textColor="@color/white" android:textStyle="bold"/>
     <Button
-            android:text="Button"
+            android:text="Volgende >"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/button_report_overview_confirm" android:layout_marginBottom="8dp"

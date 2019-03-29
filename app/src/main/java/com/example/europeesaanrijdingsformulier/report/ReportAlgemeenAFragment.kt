@@ -1,11 +1,12 @@
 package com.example.europeesaanrijdingsformulier.report
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import com.example.europeesaanrijdingsformulier.R
 import com.example.europeesaanrijdingsformulier.profile.Profile
+import com.example.europeesaanrijdingsformulier.utils.PrefManager
 import kotlinx.android.synthetic.main.fragment_report_algemeen_a.*
 
 
@@ -13,6 +14,8 @@ class   ReportAlgemeenAFragment : Fragment() {
 
     private lateinit var report: Report
     private var profile: Profile?=null
+    private lateinit var prefManager: PrefManager
+
 
 
     override fun onCreateView(
@@ -20,6 +23,9 @@ class   ReportAlgemeenAFragment : Fragment() {
         savedInstanceState: Bundle?
 
     ): View? {
+
+        prefManager = PrefManager(activity)
+        setHasOptionsMenu(true)
 
 
         // Inflate the layout for this fragment
@@ -66,5 +72,29 @@ class   ReportAlgemeenAFragment : Fragment() {
         this.profile = item
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        //menu?.clear()
+        //inflater!!.inflate(R.menu.menu_main,menu)
+        super.onCreateOptionsMenu(menu, inflater)
+
+        var item = menu!!.findItem(R.id.action_belVerzekeraar)
+        if(!prefManager.getVehicles().isNullOrEmpty()&&prefManager.getVehicles()?.first()?.insurance?.phoneAgency != ""){
+            item.isVisible = true
+        }
+
+
+
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_belVerzekeraar -> {
+                val intent = Intent(Intent.ACTION_DIAL)
+                intent.data = Uri.parse("tel:"+prefManager.getVehicles()?.first()?.insurance?.phoneAgency)
+                startActivity(intent)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
 
 }

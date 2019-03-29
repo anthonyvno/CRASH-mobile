@@ -11,5 +11,11 @@
           android:title="Taal"
           android:orderInCategory="1"
           app:showAsAction="never"/>
+    <item android:id="@+id/action_belVerzekeraar"
+          android:title="Bel verzekeraar"
+          android:orderInCategory="3"
+          app:showAsAction="never"
+          android:visible="false"/>
+
 
 </menu>

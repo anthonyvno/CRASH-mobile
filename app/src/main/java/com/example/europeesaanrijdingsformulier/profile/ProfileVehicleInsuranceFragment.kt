@@ -50,8 +50,8 @@ class ProfileVehicleInsuranceFragment : Fragment() {
 
         val adapter = option.adapter as ArrayAdapter<String>
 
-        if (vehicle!!.insurance!!.insurer != null) {
-            val spinnerPosition = adapter.getPosition(vehicle!!.insurance!!.insurer!!.name)
+        if (vehicle.insurance?.insurer != null) {
+            val spinnerPosition = adapter.getPosition(vehicle.insurance!!.insurer!!.name)
             option.setSelection(spinnerPosition)
         }
 

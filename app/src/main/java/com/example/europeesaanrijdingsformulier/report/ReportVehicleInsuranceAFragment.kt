@@ -3,12 +3,12 @@ package com.example.europeesaanrijdingsformulier.report
 
 import android.app.DatePickerDialog
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
@@ -19,6 +19,7 @@ import com.example.europeesaanrijdingsformulier.R
 import com.example.europeesaanrijdingsformulier.insurer.Insurer
 import com.example.europeesaanrijdingsformulier.profile.Insurance
 import com.example.europeesaanrijdingsformulier.utils.DatePickerManager
+import com.example.europeesaanrijdingsformulier.utils.PrefManager
 import com.example.europeesaanrijdingsformulier.utils.SpinnerManager
 import kotlinx.android.synthetic.main.fragment_report_vehicle_insurance_a.*
 import java.util.*
@@ -31,12 +32,17 @@ class ReportVehicleInsuranceAFragment : Fragment() {
     private lateinit var insurers: List<Insurer?>
     private val spinnerManager = SpinnerManager()
     private val datePickerManager = DatePickerManager()
+    private lateinit var prefManager: PrefManager
+
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        prefManager = PrefManager(activity)
+        setHasOptionsMenu(true)
+
         viewModel = ViewModelProviders.of(activity!!).get(HubViewModel::class.java)
 
         // Inflate the layout for this fragment
@@ -114,5 +120,30 @@ class ReportVehicleInsuranceAFragment : Fragment() {
     }
     fun addObject(item: Report) {
         this.report = item
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        //menu?.clear()
+        //inflater!!.inflate(R.menu.menu_main,menu)
+        super.onCreateOptionsMenu(menu, inflater)
+
+        var item = menu!!.findItem(R.id.action_belVerzekeraar)
+        if(!prefManager.getVehicles().isNullOrEmpty()&&prefManager.getVehicles()?.first()?.insurance?.phoneAgency != ""){
+            item.isVisible = true
+        }
+
+
+
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_belVerzekeraar -> {
+                val intent = Intent(Intent.ACTION_DIAL)
+                intent.data = Uri.parse("tel:"+prefManager.getVehicles()?.first()?.insurance?.phoneAgency)
+                startActivity(intent)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

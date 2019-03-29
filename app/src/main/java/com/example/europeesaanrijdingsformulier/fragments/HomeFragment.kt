@@ -8,11 +8,10 @@ import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import com.example.europeesaanrijdingsformulier.R
 import com.example.europeesaanrijdingsformulier.profile.ProfileSummaryFragment
+import com.example.europeesaanrijdingsformulier.profile.Vehicle
 import com.example.europeesaanrijdingsformulier.report.Report
 import com.example.europeesaanrijdingsformulier.report.ReportAlgemeenAFragment
 import com.example.europeesaanrijdingsformulier.report.ReportCrashInformation
@@ -24,6 +23,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
 class HomeFragment : Fragment() {
 
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,6 +31,9 @@ class HomeFragment : Fragment() {
         val bar = activity!! as AppCompatActivity
         bar.supportActionBar!!.setDisplayHomeAsUpEnabled(false)
         bar.supportActionBar!!.setDisplayShowHomeEnabled(false)
+
+
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
@@ -68,6 +71,8 @@ class HomeFragment : Fragment() {
 
 
     }
+
+
 
 
     override fun onStop() {
