@@ -95,7 +95,7 @@ object NetworkModule {
             .add(KotlinJsonAdapterFactory())
             .add(Date::class.java, Rfc3339DateJsonAdapter().nullSafe())
             .build()
-        return MoshiConverterFactory.create(moshi)
+        return MoshiConverterFactory.create(moshi).asLenient()
     }
 
     /**

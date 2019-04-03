@@ -12,6 +12,7 @@ import com.example.europeesaanrijdingsformulier.profile.License
 import com.example.europeesaanrijdingsformulier.profile.Profile
 import com.example.europeesaanrijdingsformulier.profile.Vehicle
 import com.example.europeesaanrijdingsformulier.report.Report
+import com.example.europeesaanrijdingsformulier.utils.PdfReport
 import com.orhanobut.logger.Logger
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -123,8 +124,8 @@ class HubViewModel: InjectedViewModel(){
                 { result -> Log.v("POSTED ARTICLE", "" + report ) },
                 { error -> Log.e("ERROR", error.message ) })
     }
-    fun createPdf():Observable<ByteArray>{
-        val pdf  = hubApi.createPdf("application/pdf")
+    fun createPdf():Observable<PdfReport>{
+        val pdf  = hubApi.createPdf()
         return pdf
     }
 

@@ -12,12 +12,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.anthonyvannoppen.androidproject.ui.HubViewModel
-
 import com.example.europeesaanrijdingsformulier.R
-import com.google.gson.Gson
 import com.itextpdf.text.Image
 import kotlinx.android.synthetic.main.fragment_report_overview.*
-import java.io.FileInputStream
 
 
 class ReportOverviewFragment : Fragment() {
@@ -38,35 +35,10 @@ class ReportOverviewFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        val gson = Gson()
 
-/*
-        val decodedString = Base64.decode(report.imagePDF, Base64.DEFAULT)
-        val decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
-        Log.d("bytearray",gson.toJson(decodedByte))
-
-        image_report_overview_pdf.setImageBitmap(decodedByte)
-        */
         val bytePdf = viewModel.createPdf().blockingFirst()
-/*
-        pdfview_report_confirmation.fromFile(report.imagePDF).load()
-        pdfview_report_confirmation.f*/
-
-        pdfView.fromBytes(bytePdf).load()
-
-
-
-
-
-
-        /*
-
-        Log.d("bytearray:",report.imagePDF!!.size.toString())
-        val bmp = BitmapFactory.decodeByteArray(report.imagePDF, 0, report.imagePDF!!.size)
-        image_report_overview_pdf.setImageBitmap(
-            Bitmap.createBitmap(bmp)
-        )
-        */
+        val bytes = Base64.decode(bytePdf.pdf, Base64.DEFAULT)
+        pdfView.fromBytes(bytes).load()
 
 
         button_report_overview_confirm.setOnClickListener {
