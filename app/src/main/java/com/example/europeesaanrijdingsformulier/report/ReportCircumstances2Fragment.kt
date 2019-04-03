@@ -27,6 +27,29 @@ class ReportCircumstances2Fragment : Fragment() {
         super.onStart()
 
         button_report_circ_save.setOnClickListener {
+
+            report.circumstances!![0].plus(booleanArrayOf(
+                switch_circ_9a.isChecked,
+                switch_circ_10a.isChecked,
+                switch_circ_11a.isChecked,
+                switch_circ_12a.isChecked,
+                switch_circ_13a.isChecked,
+                switch_circ_14a.isChecked,
+                switch_circ_15a.isChecked,
+                switch_circ_16a.isChecked,
+                switch_circ_17a.isChecked))
+
+            report.circumstances!![1].plus(booleanArrayOf(
+                switch_circ_9b.isChecked,
+                switch_circ_10b.isChecked,
+                switch_circ_11b.isChecked,
+                switch_circ_12b.isChecked,
+                switch_circ_13b.isChecked,
+                switch_circ_14b.isChecked,
+                switch_circ_15b.isChecked,
+                switch_circ_16b.isChecked,
+                switch_circ_17b.isChecked))
+
             val fragment = ReportOverviewFragment()
             fragment.addObject(report)
             this.fragmentManager!!.beginTransaction()

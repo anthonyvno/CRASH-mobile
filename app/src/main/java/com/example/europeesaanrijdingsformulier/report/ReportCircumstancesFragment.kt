@@ -26,9 +26,29 @@ class ReportCircumstancesFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        button_report_circ_confirm.setOnClickListener{
+        button_report_circ_confirm.setOnClickListener {
 
-            report.circumstances!![1] = booleanArrayOf(switch_circ_1a,false)
+            report.circumstances!![0] = booleanArrayOf(
+                switch_circ_1a.isChecked,
+                switch_circ_2a.isChecked,
+                switch_circ_3a.isChecked,
+                switch_circ_4a.isChecked,
+                switch_circ_5a.isChecked,
+                switch_circ_6a.isChecked,
+                switch_circ_7a.isChecked,
+                switch_circ_8a.isChecked
+            )
+
+            report.circumstances!![1] = booleanArrayOf(
+                switch_circ_1b.isChecked,
+                switch_circ_2b.isChecked,
+                switch_circ_3b.isChecked,
+                switch_circ_4b.isChecked,
+                switch_circ_5b.isChecked,
+                switch_circ_6b.isChecked,
+                switch_circ_7b.isChecked,
+                switch_circ_8b.isChecked
+            )
 
 
             val fragment = ReportCircumstances2Fragment()
