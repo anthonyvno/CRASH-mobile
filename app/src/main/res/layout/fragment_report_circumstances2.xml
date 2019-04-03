@@ -256,7 +256,6 @@
                     android:layout_marginRight="8dp" app:layout_constraintStart_toEndOf="@+id/switch_circ_17a"
                     android:layout_marginLeft="8dp" android:layout_marginStart="8dp"/>
 
-
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
     <TextView

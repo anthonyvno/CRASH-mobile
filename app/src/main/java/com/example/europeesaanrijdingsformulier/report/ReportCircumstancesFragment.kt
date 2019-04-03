@@ -27,6 +27,10 @@ class ReportCircumstancesFragment : Fragment() {
         super.onStart()
 
         button_report_circ_confirm.setOnClickListener{
+
+            report.circumstances!![1] = booleanArrayOf(switch_circ_1a,false)
+
+
             val fragment = ReportCircumstances2Fragment()
             fragment.addObject(report)
             this.fragmentManager!!.beginTransaction()

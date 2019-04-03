@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.example.europeesaanrijdingsformulier.R
-
+import kotlinx.android.synthetic.main.fragment_report_circumstances2.*
 
 
 class ReportCircumstances2Fragment : Fragment() {
