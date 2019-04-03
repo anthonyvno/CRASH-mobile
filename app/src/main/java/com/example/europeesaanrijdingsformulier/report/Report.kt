@@ -20,7 +20,7 @@ class Report(
     @field:Json(name = "postalCode") val postalCode: String? = "",
     @field:Json(name = "city") val city: String? = "",
     @field:Json(name = "country") val country: String? = "",
-    @Transient var imagePDF: File? = null
+    @field: Json(name= "pdfReport") val pdfReport: String? = ""
 ) : Parcelable, Serializable {
 
 

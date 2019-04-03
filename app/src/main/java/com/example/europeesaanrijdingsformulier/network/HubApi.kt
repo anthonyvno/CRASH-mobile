@@ -6,10 +6,8 @@ import com.example.europeesaanrijdingsformulier.profile.License
 import com.example.europeesaanrijdingsformulier.profile.Profile
 import com.example.europeesaanrijdingsformulier.profile.Vehicle
 import com.example.europeesaanrijdingsformulier.report.Report
-import com.example.europeesaanrijdingsformulier.utils.PdfReport
 import io.reactivex.Observable
 import retrofit2.http.*
-import okhttp3.ResponseBody
 import retrofit2.http.DELETE
 
 
@@ -33,7 +31,7 @@ interface HubApi {
     fun addInsurance(@Body insurance: Insurance):Observable<Insurance>
     //@Headers("Content-Type: application/pdf")
     @POST("/reports/pdf")
-    fun createPdf(): Observable<PdfReport>
+    fun createPdf(@Body report: Report): Observable<Report>
 
     @PUT("/reports/{id}")
     fun updateReport(@Path("id") id: Int, @Body report: Report): Observable<Report>

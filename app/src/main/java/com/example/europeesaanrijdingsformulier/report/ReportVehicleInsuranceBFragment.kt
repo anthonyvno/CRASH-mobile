@@ -113,10 +113,10 @@ class ReportVehicleInsuranceBFragment : Fragment() {
             //prefManager.saveReport(report)
             //viewModel.postReport(report)
             pdfWriterManager = PdfWriterManager()
-            report.imagePDF = pdfWriterManager.writePDF(report, activity)
+            /*report.imagePDF = pdfWriterManager.writePDF(report, activity)
             val gson = Gson()
             val log = gson.toJson(report.imagePDF)
-            Log.d("bytearray: ", log)
+            Log.d("bytearray: ", log)*/
             val fragment = ReportOverviewFragment()
             fragment.addObject(report)
             this.fragmentManager!!.beginTransaction()

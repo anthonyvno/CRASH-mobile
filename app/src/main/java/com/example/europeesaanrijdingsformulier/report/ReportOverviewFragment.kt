@@ -36,8 +36,8 @@ class ReportOverviewFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        val bytePdf = viewModel.createPdf().blockingFirst()
-        val bytes = Base64.decode(bytePdf.pdf, Base64.DEFAULT)
+        val bytePdf = viewModel.createPdf(report).blockingFirst()
+        val bytes = Base64.decode(bytePdf.pdfReport, Base64.DEFAULT)
         pdfView.fromBytes(bytes).load()
 
 
