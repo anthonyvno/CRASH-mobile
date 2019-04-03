@@ -41,6 +41,7 @@ class ReportConfirmationFragment : Fragment() {
 
         val signaturePadA = signature_pad_a
         val signaturePadB = signature_pad_b
+
         signaturePadB.setOnSignedListener(object : SignaturePad.OnSignedListener {
 
             override fun onStartSigning() {

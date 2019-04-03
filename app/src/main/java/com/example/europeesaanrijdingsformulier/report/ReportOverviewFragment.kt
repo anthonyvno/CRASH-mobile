@@ -1,6 +1,7 @@
 package com.example.europeesaanrijdingsformulier.report
 
 
+import android.arch.lifecycle.ViewModelProviders
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -10,6 +11,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.anthonyvannoppen.androidproject.ui.HubViewModel
 
 import com.example.europeesaanrijdingsformulier.R
 import com.google.gson.Gson
@@ -22,11 +24,14 @@ class ReportOverviewFragment : Fragment() {
 
     private lateinit var report: Report
     private lateinit var image:Image
+    private lateinit var viewModel: HubViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        viewModel = ViewModelProviders.of(activity!!).get(HubViewModel::class.java)
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_report_overview, container, false)
     }
@@ -42,7 +47,12 @@ class ReportOverviewFragment : Fragment() {
 
         image_report_overview_pdf.setImageBitmap(decodedByte)
         */
+        val bytePdf = viewModel.createPdf().blockingFirst()
+/*
         pdfview_report_confirmation.fromFile(report.imagePDF).load()
+        pdfview_report_confirmation.f*/
+
+        pdfView.fromBytes(bytePdf).load()
 
 
 

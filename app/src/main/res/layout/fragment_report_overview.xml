@@ -6,6 +6,7 @@
                                              android:layout_height="match_parent"
                                              tools:context=".report.ReportOverviewFragment"
                                              android:id="@+id/constraintLayout">
+    <!--
 
     <com.joanzapata.pdfview.PDFView
             android:id="@+id/pdfview_report_confirmation"
@@ -16,6 +17,12 @@
             app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"/>
+            -->
+
+    <com.github.barteksc.pdfviewer.PDFView
+            android:id="@+id/pdfView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     <TextView
             android:layout_height="0dp"
             android:text="Overzicht"

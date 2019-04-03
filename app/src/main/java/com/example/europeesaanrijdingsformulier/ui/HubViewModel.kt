@@ -123,6 +123,10 @@ class HubViewModel: InjectedViewModel(){
                 { result -> Log.v("POSTED ARTICLE", "" + report ) },
                 { error -> Log.e("ERROR", error.message ) })
     }
+    fun createPdf():Observable<ByteArray>{
+        val pdf  = hubApi.createPdf("application/pdf")
+        return pdf
+    }
 
     fun updateProfile(profile: Profile): Observable<Profile> {
         val returnedProfiel  = hubApi.updateProfile(profile.id,profile)

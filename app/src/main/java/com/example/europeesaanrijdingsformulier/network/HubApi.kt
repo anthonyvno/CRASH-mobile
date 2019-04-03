@@ -30,6 +30,9 @@ interface HubApi {
     fun addVehicle(@Body vehicle: Vehicle):Observable<Vehicle>
     @POST("/insurances")
     fun addInsurance(@Body insurance: Insurance):Observable<Insurance>
+    //@Headers("Content-Type: application/pdf")
+    @POST("/reports/pdf")
+    fun createPdf(@Header("Content-Type")  content_type:String):Observable<ByteArray>
 
     @PUT("/reports/{id}")
     fun updateReport(@Path("id") id: Int, @Body report: Report): Observable<Report>
