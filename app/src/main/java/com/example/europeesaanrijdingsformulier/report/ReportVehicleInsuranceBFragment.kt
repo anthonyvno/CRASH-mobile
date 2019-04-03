@@ -117,7 +117,7 @@ class ReportVehicleInsuranceBFragment : Fragment() {
             val gson = Gson()
             val log = gson.toJson(report.imagePDF)
             Log.d("bytearray: ", log)*/
-            val fragment = ReportOverviewFragment()
+            val fragment = ReportCircumstancesFragment()
             fragment.addObject(report)
             this.fragmentManager!!.beginTransaction()
                 .setCustomAnimations(
