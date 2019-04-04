@@ -28,6 +28,7 @@ class ReportCircumstancesFragment : Fragment() {
 
         button_report_circ_confirm.setOnClickListener {
 
+
             report.circumstances!![0] = booleanArrayOf(
                 switch_circ_1a.isChecked,
                 switch_circ_2a.isChecked,

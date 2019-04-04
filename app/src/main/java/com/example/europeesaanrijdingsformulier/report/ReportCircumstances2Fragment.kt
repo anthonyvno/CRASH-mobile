@@ -28,7 +28,7 @@ class ReportCircumstances2Fragment : Fragment() {
 
         button_report_circ_save.setOnClickListener {
 
-            report.circumstances!![0].plus(booleanArrayOf(
+            report.circumstances!![0]+= (booleanArrayOf(
                 switch_circ_9a.isChecked,
                 switch_circ_10a.isChecked,
                 switch_circ_11a.isChecked,
@@ -39,7 +39,7 @@ class ReportCircumstances2Fragment : Fragment() {
                 switch_circ_16a.isChecked,
                 switch_circ_17a.isChecked))
 
-            report.circumstances!![1].plus(booleanArrayOf(
+            report.circumstances!![1] += (booleanArrayOf(
                 switch_circ_9b.isChecked,
                 switch_circ_10b.isChecked,
                 switch_circ_11b.isChecked,

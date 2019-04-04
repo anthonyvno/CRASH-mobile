@@ -21,8 +21,10 @@ class Report(
     @field:Json(name = "city") val city: String? = "",
     @field:Json(name = "country") val country: String? = "",
     @field: Json(name= "pdfReport") val pdfReport: String? = "",
-    @field: Json(name= "circumstances") var circumstances: Array<BooleanArray>?= emptyArray()
+    @field: Json(name= "circumstances") var circumstances: Array<BooleanArray>?= arrayOf(BooleanArray(17),BooleanArray(17))
 ) : Parcelable, Serializable {
+
+
 
 
 }
