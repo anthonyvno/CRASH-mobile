@@ -50,7 +50,7 @@ class ReportCircumstances2Fragment : Fragment() {
                 switch_circ_16b.isChecked,
                 switch_circ_17b.isChecked))
 
-            val fragment = ReportOverviewFragment()
+            val fragment = ReportSketchFragment()
             fragment.addObject(report)
             this.fragmentManager!!.beginTransaction()
                 .setCustomAnimations(

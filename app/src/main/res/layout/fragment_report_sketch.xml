@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent"
+                                             tools:context=".report.ReportSketchFragment"
+                                             android:id="@+id/constraintLayout">
+    <Button
+            android:text="Volgende >"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" android:id="@+id/button_report_sketch_confirm"
+            android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"/>
+    <TextView
+            android:text="Schets van de situatie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/textView12" android:textSize="24sp"
+            android:textColor="@color/color_white" android:textStyle="bold" android:layout_marginTop="64dp"
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="8dp" android:layout_marginStart="8dp" android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginRight="8dp"/>
+
+    <com.divyanshu.draw.widget.DrawView android:layout_width="match_parent" android:layout_height="0dp"
+                                        app:layout_constraintTop_toBottomOf="@+id/textView12"
+                                        android:layout_marginTop="16dp" app:layout_constraintStart_toStartOf="parent"
+                                        android:layout_marginLeft="8dp" android:layout_marginStart="8dp"
+                                        android:id="@+id/drawview_report_sketch"
+                                        android:background="@color/white"
+                                        app:layout_constraintBottom_toTopOf="@+id/button_report_sketch_confirm"
+                                        app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+                                        android:layout_marginRight="8dp" android:layout_marginBottom="8dp"/>
+
+
+</android.support.constraint.ConstraintLayout>

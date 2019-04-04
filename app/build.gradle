@@ -20,7 +20,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.europeesaanrijdingsformulier"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -73,6 +73,9 @@ dependencies {
     implementation 'com.github.barteksc:android-pdf-viewer:2.7.0'
 
     implementation 'com.joanzapata.pdfview:android-pdfview:1.0.4@aar'
+
+    //Sketch
+    implementation 'com.github.divyanshub024:AndroidDraw:v0.1'
 
     //QR
     implementation 'com.journeyapps:zxing-android-embedded:3.6.0'
