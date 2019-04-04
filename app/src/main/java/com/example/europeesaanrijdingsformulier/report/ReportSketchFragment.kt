@@ -1,6 +1,9 @@
 package com.example.europeesaanrijdingsformulier.report
 
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Canvas
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -9,6 +12,7 @@ import android.view.ViewGroup
 
 import com.example.europeesaanrijdingsformulier.R
 import kotlinx.android.synthetic.main.fragment_report_sketch.*
+import kotlinx.android.synthetic.main.fragment_report_sketch.view.*
 
 
 class ReportSketchFragment : Fragment() {
@@ -27,6 +31,15 @@ class ReportSketchFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
+
+/*
+        val bitmap = BitmapFactory.decodeResource(context!!.getResources(),
+            R.drawable.redcar)
+        val destBitmap = bitmap.copy(Bitmap.Config.ARGB_8888,true)
+        val canvas = Canvas(destBitmap)
+
+        drawview_report_sketch.
+*/
         button_report_sketch_confirm.setOnClickListener{
 
             val fragment = ReportOverviewFragment()
