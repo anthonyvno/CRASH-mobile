@@ -11,17 +11,31 @@ import com.example.europeesaanrijdingsformulier.R
 class customDrawView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
-    var bitmap: Bitmap
 
 
-    var xcoord: Float = 0.toFloat()
-    var ycoord: Float = 0.toFloat()
+    //A
+    var bitmapA: Bitmap
+    var xcoordA: Float = 0.toFloat()
+    var xcoordDownA: Float = 0.toFloat()
+    var ycoordA: Float = 0.toFloat()
+    var ycoordDownA: Float = 0.toFloat()
     var boolA: Boolean = false
+
+    //B
+    var bitmapB: Bitmap
+    var xcoordB: Float = 300.toFloat()
+    var xcoordDownB: Float = 0.toFloat()
+    var ycoordB: Float = 300.toFloat()
+    var ycoordDownB: Float = 0.toFloat()
+    var boolB: Boolean = false
 
 
     init {
-        bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.redcar)
-        bitmap = Bitmap.createScaledBitmap(bitmap, 200, 200, false)
+        bitmapA = BitmapFactory.decodeResource(context.getResources(), R.drawable.redcar)
+        bitmapA = Bitmap.createScaledBitmap(bitmapA, 150, 200, false)
+
+        bitmapB = BitmapFactory.decodeResource(context.getResources(), R.drawable.greencar)
+        bitmapB = Bitmap.createScaledBitmap(bitmapB, 150, 200, false)
     }
 
 
@@ -29,31 +43,54 @@ class customDrawView @JvmOverloads constructor(
 
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
-                if (event.x.toInt().toFloat() >= xcoord && event.x.toInt().toFloat() <= xcoord + 200
-                    && event.y.toInt().toFloat() <= ycoord + 200 && event.y.toInt().toFloat() >= ycoord
+                if (event.x.toInt().toFloat() >= xcoordA && event.x.toInt().toFloat() <= xcoordA + 150
+                    && event.y.toInt().toFloat() <= ycoordA + 200 && event.y.toInt().toFloat() >= ycoordA
                 ) {
+                    xcoordDownA = event.x.toInt().toFloat() - xcoordA
+                    ycoordDownA = event.y.toInt().toFloat() - ycoordA
                     boolA = true
                 }
-                println("..................$xcoord......$ycoord") //x= 345 y=530
+                if (event.x.toInt().toFloat() >= xcoordB && event.x.toInt().toFloat() <= xcoordB + 150
+                    && event.y.toInt().toFloat() <= ycoordB + 200 && event.y.toInt().toFloat() >= ycoordB
+                ) {
+                    xcoordDownB = event.x.toInt().toFloat() - xcoordB
+                    ycoordDownB = event.y.toInt().toFloat() - ycoordB
+                    boolB = true
+                }
             }
 
             MotionEvent.ACTION_MOVE -> {
 
                 if (boolA) {
-                    xcoord = event.x.toInt().toFloat()
-                    ycoord = event.y.toInt().toFloat()
-                    println("..................$xcoord......$ycoord") //x= 345 y=530
+                    if (event.x.toInt().toFloat()-xcoordDownA + 150 < xcoordB
+                        || event.y.toInt().toFloat()-ycoordDownA + 200 < ycoordB
+                        || event.x.toInt().toFloat()-xcoordDownA > xcoordB + 150
+                        || event.y.toInt().toFloat()-ycoordDownA > ycoordB + 200
+                    ) {
+                        xcoordA = event.x.toInt().toFloat() - xcoordDownA
+                        ycoordA = event.y.toInt().toFloat() - ycoordDownA
+                    }
 
-                    invalidate()
+
                 }
+                if (boolB) {
+                    xcoordB = event.x.toInt().toFloat() - xcoordDownB
+                    ycoordB = event.y.toInt().toFloat() - ycoordDownB
+
+
+                }
+                invalidate()
 
 
             }
 
             MotionEvent.ACTION_UP -> {
 
-                if(boolA){
-                    boolA=false
+                if (boolA) {
+                    boolA = false
+                }
+                if (boolB) {
+                    boolB = false
                 }
                 invalidate()
             }
@@ -65,6 +102,7 @@ class customDrawView @JvmOverloads constructor(
         val paint = Paint()
         paint.setStyle(Paint.Style.FILL)
         paint.setColor(Color.CYAN)
-        canvas.drawBitmap(bitmap, xcoord, ycoord, paint)  //originally bitmap draw at x=o and y=0
+        canvas.drawBitmap(bitmapB, xcoordB, ycoordB, paint)
+        canvas.drawBitmap(bitmapA, xcoordA, ycoordA, paint)  //originally bitmap draw at x=o and y=0
     }
 }
