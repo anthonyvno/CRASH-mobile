@@ -3,7 +3,9 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Patterns
 import android.view.*
+import android.widget.Toast
 import com.example.europeesaanrijdingsformulier.R
 import com.example.europeesaanrijdingsformulier.profile.Profile
 import com.example.europeesaanrijdingsformulier.utils.PrefManager
@@ -56,12 +58,18 @@ class   ReportAlgemeenAFragment : Fragment() {
 
             report.profiles = profiles
 
-            val reportLicenseAFragment = ReportLicenseAFragment()
-            this.fragmentManager!!.beginTransaction()
-                .replace(R.id.container_main, reportLicenseAFragment)
-                //.addToBackStack(null)
-                .commit()
-            reportLicenseAFragment.addObject(report)
+            if(email.isValidEmail()){
+                val reportLicenseAFragment = ReportLicenseAFragment()
+                this.fragmentManager!!.beginTransaction()
+                    .replace(R.id.container_main, reportLicenseAFragment)
+                    //.addToBackStack(null)
+                    .commit()
+                reportLicenseAFragment.addObject(report)
+            } else{
+                Toast.makeText(activity, "Message : "+ "Dit is geen geldig e-mailadres", Toast.LENGTH_SHORT).show()
+            }
+
+
         }
     }
 
@@ -96,5 +104,9 @@ class   ReportAlgemeenAFragment : Fragment() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
+    fun String.isValidEmail(): Boolean
+            = this.isNotEmpty() &&
+            Patterns.EMAIL_ADDRESS.matcher(this).matches()
 
 }
