@@ -18,20 +18,7 @@ class customDrawView @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr),RotationGestureDetector.OnRotationGestureListener {
 
 
-    override fun OnRotation(rotationDetector: RotationGestureDetector) {
-        angle = rotationDetector.angle
 
-        val matrix = Matrix()
-        matrix.postRotate(-angle)
-
-        var bitmapA2 = BitmapFactory.decodeResource(context.getResources(), R.drawable.redcar)
-        bitmapA2 = Bitmap.createScaledBitmap(bitmapA2, carWidth, carLength, false)
-
-        bitmapA =
-            Bitmap.createBitmap(bitmapA2, 0, 0, carWidth, carLength, matrix, true)
-
-        Log.d("RotationGestureDetector", "Rotation: " + java.lang.Float.toString(angle))
-    }
 
 
     private var rotationGestureDetector: RotationGestureDetector = RotationGestureDetector(this)
@@ -67,7 +54,48 @@ class customDrawView @JvmOverloads constructor(
         bitmapB = BitmapFactory.decodeResource(context.getResources(), R.drawable.greencar)
         bitmapB = Bitmap.createScaledBitmap(bitmapB, carWidth, carLength, false)
 
+        this.isDrawingCacheEnabled = true
 
+    }
+
+    override fun OnRotation(rotationDetector: RotationGestureDetector) {
+        angle = rotationDetector.angle
+        val angle2 = 45 - angle
+
+        val matrix = Matrix()
+        matrix.postRotate(angle2)
+
+        if(boolA){
+            var bitmapA2 = BitmapFactory.decodeResource(context.getResources(), R.drawable.redcar)
+            bitmapA2 = Bitmap.createScaledBitmap(bitmapA2, carWidth, carLength, false)
+
+            bitmapA =
+                Bitmap.createBitmap(bitmapA2, 0, 0, carWidth, carLength, matrix, true)
+
+            println("angle: $angle")
+            println("X voor rotation: $xcoordA")
+            println("Y voor rotation: $ycoordA")
+
+
+            xcoordA = ((xcoordA+carLength/2)+
+                    ((Math.sqrt(Math.pow(carLength.toDouble(),2.0)+Math.pow(carLength.toDouble(),2.0)))/2)*Math.cos(angle2.toDouble())).toFloat()
+            ycoordA = ((ycoordA+carLength/2)+
+                    ((Math.sqrt(Math.pow(carLength.toDouble(),2.0)+Math.pow(carLength.toDouble(),2.0)))/2)*Math.sin(angle2.toDouble())).toFloat()
+
+            println("X na rotation: $xcoordA")
+            println("Y na rotation: $ycoordA")
+        }
+        if(boolB){
+            var bitmapA2 = BitmapFactory.decodeResource(context.getResources(), R.drawable.greencar)
+            bitmapA2 = Bitmap.createScaledBitmap(bitmapA2, carWidth, carLength, false)
+
+            bitmapB =
+                Bitmap.createBitmap(bitmapA2, 0, 0, carWidth, carLength, matrix, true)
+        }
+
+
+
+        Log.d("RotationGestureDetector", "Rotation: " + java.lang.Float.toString(angle))
     }
 
 
@@ -106,8 +134,12 @@ class customDrawView @JvmOverloads constructor(
                             && event.x.toInt().toFloat() - xcoordDownA > -1F
                             && event.y.toInt().toFloat() - ycoordDownA > -1F
                         ) {
+                            println("X voor move: $xcoordA")
+                            println("Y voor move: $ycoordA")
                             xcoordA = event.x.toInt().toFloat() - xcoordDownA
                             ycoordA = event.y.toInt().toFloat() - ycoordDownA
+                            println("X na move: $xcoordA")
+                            println("Y na move: $ycoordA")
                         }
                     }
 
@@ -119,8 +151,15 @@ class customDrawView @JvmOverloads constructor(
                         || event.x.toInt().toFloat() - xcoordDownB > xcoordA + carWidth
                         || event.y.toInt().toFloat() - ycoordDownB > ycoordA + carLength
                     ) {
-                        xcoordB = event.x.toInt().toFloat() - xcoordDownB
-                        ycoordB = event.y.toInt().toFloat() - ycoordDownB
+                        if (event.x.toInt().toFloat() - xcoordDownB + carWidth < canvasW + 1F
+                            && event.y.toInt().toFloat() - ycoordDownB + carLength < canvasH + 1F
+                            && event.x.toInt().toFloat() - xcoordDownB > -1F
+                            && event.y.toInt().toFloat() - ycoordDownB > -1F
+                        ) {
+                            xcoordB = event.x.toInt().toFloat() - xcoordDownB
+                            ycoordB = event.y.toInt().toFloat() - ycoordDownB
+                        }
+
                     }
 
                 }
@@ -130,6 +169,8 @@ class customDrawView @JvmOverloads constructor(
             }
 
             MotionEvent.ACTION_UP -> {
+
+
 
                 if (boolA) {
                     boolA = false
@@ -160,5 +201,12 @@ class customDrawView @JvmOverloads constructor(
         paint.setColor(Color.CYAN)
         canvas.drawBitmap(bitmapB, xcoordB, ycoordB, paint)
         canvas.drawBitmap(bitmapA, xcoordA, ycoordA, paint)  //originally bitmap draw at x=o and y=0
+
     }
+
+    fun getBitmap(): Bitmap{
+        return this.drawingCache
+    }
+
+
 }
