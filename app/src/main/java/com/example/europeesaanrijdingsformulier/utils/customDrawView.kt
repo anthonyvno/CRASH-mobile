@@ -13,14 +13,9 @@ import com.itextpdf.awt.geom.AffineTransform
 import com.itextpdf.awt.geom.Rectangle
 
 
-
-
 class customDrawView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : View(context, attrs, defStyleAttr),RotationGestureDetector.OnRotationGestureListener {
-
-
-
+) : View(context, attrs, defStyleAttr), RotationGestureDetector.OnRotationGestureListener {
 
 
     private var rotationGestureDetector: RotationGestureDetector = RotationGestureDetector(this)
@@ -34,6 +29,7 @@ class customDrawView @JvmOverloads constructor(
 
     //A
     var bitmapA: Bitmap
+    var rectA = RectF()
     var xcoordA: Float = (-100).toFloat()
     var xcoordDownA: Float = (-100).toFloat()
     var ycoordA: Float = (-100).toFloat()
@@ -57,6 +53,7 @@ class customDrawView @JvmOverloads constructor(
         bitmapB = BitmapFactory.decodeResource(context.getResources(), R.drawable.greencar)
         bitmapB = Bitmap.createScaledBitmap(bitmapB, carWidth, carLength, false)
 
+
         this.isDrawingCacheEnabled = true
 
     }
@@ -70,16 +67,18 @@ class customDrawView @JvmOverloads constructor(
         var regionA = Region().quick
 */
         val matrix = Matrix()
-        
-        matrix.postRotate(-angle,xcoordA+(carWidth/2),ycoordA+(carLength/2))
+
+        matrix.postRotate(-angle, xcoordA + (carWidth / 2), ycoordA + (carLength / 2))
         //matrix.postRotate(-angle)
 
-        if(boolA){
+        if (boolA) {
             var bitmapA2 = BitmapFactory.decodeResource(context.getResources(), R.drawable.redcar)
             bitmapA2 = Bitmap.createScaledBitmap(bitmapA2, carWidth, carLength, false)
 
             bitmapA =
                 Bitmap.createBitmap(bitmapA2, 0, 0, bitmapA2.width, bitmapA2.height, matrix, true)
+
+
 /*
             println("angle: $angle")
             println("X voor rotation: $xcoordA")
@@ -97,7 +96,7 @@ class customDrawView @JvmOverloads constructor(
             println("X na rotation: $xcoordA")
             println("Y na rotation: $ycoordA")*/
         }
-        if(boolB){
+        if (boolB) {
             var bitmapA2 = BitmapFactory.decodeResource(context.getResources(), R.drawable.greencar)
             bitmapA2 = Bitmap.createScaledBitmap(bitmapA2, carWidth, carLength, false)
 
@@ -116,8 +115,8 @@ class customDrawView @JvmOverloads constructor(
 
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
-                if (event.x.toInt().toFloat() >= xcoordA && event.x.toInt().toFloat() <= xcoordA + carWidth
-                    && event.y.toInt().toFloat() <= ycoordA + carLength && event.y.toInt().toFloat() >= ycoordA
+
+                if (rectA.contains(event.x, event.y)
                 ) {
                     xcoordDownA = event.x.toInt().toFloat() - xcoordA
                     ycoordDownA = event.y.toInt().toFloat() - ycoordA
@@ -179,7 +178,6 @@ class customDrawView @JvmOverloads constructor(
             MotionEvent.ACTION_UP -> {
 
 
-
                 if (boolA) {
                     boolA = false
                 }
@@ -207,13 +205,27 @@ class customDrawView @JvmOverloads constructor(
         val paint = Paint()
         paint.setStyle(Paint.Style.FILL)
         paint.setColor(Color.CYAN)
+
         canvas.drawBitmap(bitmapB, xcoordB, ycoordB, paint)
 
-        canvas.drawBitmap(bitmapA, xcoordA, ycoordA, paint)  //originally bitmap draw at x=o and y=0
+
+            rectA = RectF(
+                xcoordA - bitmapA.width / 2, ycoordA - bitmapA.height / 2
+                , (xcoordA + bitmapA.width) - bitmapA.width / 2, (ycoordA + bitmapA.height) - bitmapA.height / 2
+            )
+
+
+        canvas.drawRect(rectA, paint)
+        canvas.drawBitmap(
+            bitmapA,
+            xcoordA - bitmapA.width / 2,
+            ycoordA - bitmapA.height / 2,
+            paint
+        )  //originally bitmap draw at x=o and y=0
 
     }
 
-    fun getBitmap(): Bitmap{
+    fun getBitmap(): Bitmap {
         return this.drawingCache
     }
 
