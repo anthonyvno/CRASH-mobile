@@ -61,7 +61,8 @@ class customDrawView @JvmOverloads constructor(
 
     override fun OnRotation(rotationDetector: RotationGestureDetector) {
         angle = rotationDetector.angle
-        val angle2 = 180 / angle
+
+        val angle2 =  angle/180
 
         val matrix = Matrix()
         matrix.postRotate(-angle)
@@ -72,19 +73,22 @@ class customDrawView @JvmOverloads constructor(
 
             bitmapA =
                 Bitmap.createBitmap(bitmapA2, 0, 0, carWidth, carLength, matrix, true)
-
+/*
             println("angle: $angle")
             println("X voor rotation: $xcoordA")
             println("Y voor rotation: $ycoordA")
 
 
+
             xcoordA = ((xcoordA+carLength/2)+
-                    ((Math.sqrt(Math.pow(carLength.toDouble(),2.0)+Math.pow(carLength.toDouble(),2.0)))/2)*Math.cos(angle2.toDouble())).toFloat()
+                    ((Math.sqrt(Math.pow(carLength.toDouble(),2.0)+Math.pow(carLength.toDouble(),2.0)))/2)
+                    *Math.cos(angle2.toDouble()*Math.PI)).toFloat()
             ycoordA = ((ycoordA+carLength/2)+
-                    ((Math.sqrt(Math.pow(carLength.toDouble(),2.0)+Math.pow(carLength.toDouble(),2.0)))/2)*Math.sin(angle2.toDouble())).toFloat()
+                    ((Math.sqrt(Math.pow(carLength.toDouble(),2.0)+Math.pow(carLength.toDouble(),2.0)))/2)
+                    *Math.sin(angle2.toDouble()*Math.PI)).toFloat()
 
             println("X na rotation: $xcoordA")
-            println("Y na rotation: $ycoordA")
+            println("Y na rotation: $ycoordA")*/
         }
         if(boolB){
             var bitmapA2 = BitmapFactory.decodeResource(context.getResources(), R.drawable.greencar)
@@ -105,14 +109,14 @@ class customDrawView @JvmOverloads constructor(
 
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
-                if (event.x.toInt().toFloat() >= xcoordA && event.x.toInt().toFloat() <= xcoordA + carWidth
+                if (event.x.toInt().toFloat() >= xcoordA && event.x.toInt().toFloat() <= xcoordA + carLength
                     && event.y.toInt().toFloat() <= ycoordA + carLength && event.y.toInt().toFloat() >= ycoordA
                 ) {
                     xcoordDownA = event.x.toInt().toFloat() - xcoordA
                     ycoordDownA = event.y.toInt().toFloat() - ycoordA
                     boolA = true
                 }
-                if (event.x.toInt().toFloat() >= xcoordB && event.x.toInt().toFloat() <= xcoordB + carWidth
+                if (event.x.toInt().toFloat() >= xcoordB && event.x.toInt().toFloat() <= xcoordB + carLength
                     && event.y.toInt().toFloat() <= ycoordB + carLength && event.y.toInt().toFloat() >= ycoordB
                 ) {
                     xcoordDownB = event.x.toInt().toFloat() - xcoordB
