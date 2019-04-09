@@ -61,8 +61,7 @@ class customDrawView @JvmOverloads constructor(
 
     override fun OnRotation(rotationDetector: RotationGestureDetector) {
         angle = rotationDetector.angle
-
-        val angle2 =  angle/180
+        Log.d("Angle: ", angle.toString())
 
         val matrix = Matrix()
         matrix.postRotate(-angle)
@@ -139,12 +138,8 @@ class customDrawView @JvmOverloads constructor(
                             && event.x.toInt().toFloat() - xcoordDownA > -1F
                             && event.y.toInt().toFloat() - ycoordDownA > -1F
                         ) {
-                            println("X voor move: $xcoordA")
-                            println("Y voor move: $ycoordA")
                             xcoordA = event.x.toInt().toFloat() - xcoordDownA
                             ycoordA = event.y.toInt().toFloat() - ycoordDownA
-                            println("X na move: $xcoordA")
-                            println("Y na move: $ycoordA")
                         }
                     }
 
@@ -204,9 +199,8 @@ class customDrawView @JvmOverloads constructor(
         val paint = Paint()
         paint.setStyle(Paint.Style.FILL)
         paint.setColor(Color.CYAN)
-        //canvas.drawBitmap(bitmapB, xcoordB, ycoordB, paint)
-        bitmapA = BitmapFactory.decodeResource(context.getResources(), R.drawable.redcar)
-        bitmapA = Bitmap.createScaledBitmap(bitmapA, carWidth, canvasH.toInt()-20, false)
+        canvas.drawBitmap(bitmapB, xcoordB, ycoordB, paint)
+
         canvas.drawBitmap(bitmapA, xcoordA, ycoordA, paint)  //originally bitmap draw at x=o and y=0
 
     }

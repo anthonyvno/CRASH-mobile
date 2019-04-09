@@ -74,6 +74,7 @@ class ReportLicenseAFragment : Fragment() {
 
             val reportVehicleDetailAFragment = ReportVehicleDetailAFragment()
             this.fragmentManager!!.beginTransaction()
+                .setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left,R.anim.enter_from_left,R.anim.exit_to_right)
                 .replace(R.id.container_main, reportVehicleDetailAFragment)
                 //.addToBackStack(null)
                 .commit()

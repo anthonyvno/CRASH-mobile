@@ -79,7 +79,7 @@ class ReportCrashInformation : Fragment() {
             fragment.addObject(report)
             this.fragmentManager!!.beginTransaction()
                 .replace(R.id.container_main, fragment)
-                .addToBackStack(null)
+               // .addToBackStack(null)
                 .commit()
         }
     }

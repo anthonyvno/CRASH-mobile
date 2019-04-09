@@ -43,8 +43,9 @@ class ReportStartBFragment : Fragment() {
             prefManager.saveReport(report)
             fragment.addReport(report)
             this.fragmentManager!!.beginTransaction()
+                .setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left,R.anim.enter_from_left,R.anim.exit_to_right)
                 .replace(R.id.container_main, fragment)
-                .addToBackStack(null)
+                //.addToBackStack(null)
                 .commit()
         }
         button_report_start_b_QR.setOnClickListener{
