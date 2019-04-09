@@ -39,6 +39,7 @@ class customDrawView @JvmOverloads constructor(
     var boolA: Boolean = false
 
     //B
+
     var bitmapB: Bitmap
     var xcoordB: Float = (-100).toFloat()
     var xcoordDownB: Float = (-100).toFloat()
@@ -60,10 +61,10 @@ class customDrawView @JvmOverloads constructor(
 
     override fun OnRotation(rotationDetector: RotationGestureDetector) {
         angle = rotationDetector.angle
-        val angle2 = 45 - angle
+        val angle2 = 180 / angle
 
         val matrix = Matrix()
-        matrix.postRotate(angle2)
+        matrix.postRotate(-angle)
 
         if(boolA){
             var bitmapA2 = BitmapFactory.decodeResource(context.getResources(), R.drawable.redcar)
@@ -199,7 +200,9 @@ class customDrawView @JvmOverloads constructor(
         val paint = Paint()
         paint.setStyle(Paint.Style.FILL)
         paint.setColor(Color.CYAN)
-        canvas.drawBitmap(bitmapB, xcoordB, ycoordB, paint)
+        //canvas.drawBitmap(bitmapB, xcoordB, ycoordB, paint)
+        bitmapA = BitmapFactory.decodeResource(context.getResources(), R.drawable.redcar)
+        bitmapA = Bitmap.createScaledBitmap(bitmapA, carWidth, canvasH.toInt()-20, false)
         canvas.drawBitmap(bitmapA, xcoordA, ycoordA, paint)  //originally bitmap draw at x=o and y=0
 
     }

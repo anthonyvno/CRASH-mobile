@@ -7,7 +7,20 @@
                                              tools:context=".report.ReportLicenseAFragment"
                                              android:id="@+id/ConstraintLayout">
 
-
+    <android.support.v7.widget.AppCompatSeekBar
+            android:layout_width="match_parent"
+            android:id="@+id/seekbar_home"
+            android:paddingStart="0dp"
+            android:paddingEnd="0dp"
+            android:focusableInTouchMode="false"
+            android:progressTint="@color/white"
+            android:layout_height="wrap_content" android:layout_marginTop="53dp"
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            android:progress="20"
+            android:thumb="@color/white"
+    />
     <TextView
             android:text="Rijbewijs"
             android:textColor="@color/white"
