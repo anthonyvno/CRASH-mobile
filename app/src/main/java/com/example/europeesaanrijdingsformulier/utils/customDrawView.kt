@@ -125,8 +125,6 @@ class customDrawView @JvmOverloads constructor(
 
                 if (boolA) {
                     if (!isCollision(rectA,rectB)
-
-
                     ) {
                         if (-xcoordDownA + carWidth < canvasW + 1F
                             && event.y.toInt().toFloat() - ycoordDownA + carLength < canvasH + 1F
@@ -136,13 +134,18 @@ class customDrawView @JvmOverloads constructor(
                             xcoordA = event.x.toInt().toFloat() - xcoordDownA
                             ycoordA = event.y.toInt().toFloat() - ycoordDownA
                         }
+                    }else if (event.x.toInt().toFloat() - xcoordDownA + carWidth < xcoordB
+                        || event.y.toInt().toFloat() - ycoordDownA + carLength < ycoordB
+                        || event.x.toInt().toFloat() - xcoordDownA > xcoordB + carWidth
+                        || event.y.toInt().toFloat() - ycoordDownA > ycoordB + carLength){
+                        xcoordA = event.x.toInt().toFloat() - xcoordDownA
+                        ycoordA = event.y.toInt().toFloat() - ycoordDownA
                     }
 
 
                 }
                 if (boolB) {
                     if (!isCollision(rectB,rectA)
-
                     ) {
                         if (event.x.toInt().toFloat() - xcoordDownB + carWidth < canvasW + 1F
                             && event.y.toInt().toFloat() - ycoordDownB + carLength < canvasH + 1F
@@ -152,7 +155,12 @@ class customDrawView @JvmOverloads constructor(
                             xcoordB = event.x.toInt().toFloat() - xcoordDownB
                             ycoordB = event.y.toInt().toFloat() - ycoordDownB
                         }
-
+                    }else if (event.x.toInt().toFloat() - xcoordDownB + carWidth < xcoordA
+                        || event.y.toInt().toFloat() - ycoordDownB + carLength < ycoordA
+                        || event.x.toInt().toFloat() - xcoordDownB > xcoordA + carWidth
+                        || event.y.toInt().toFloat() - ycoordDownB > ycoordA + carLength){
+                        xcoordB = event.x.toInt().toFloat() - xcoordDownB
+                        ycoordB = event.y.toInt().toFloat() - ycoordDownB
                     }
 
                 }
