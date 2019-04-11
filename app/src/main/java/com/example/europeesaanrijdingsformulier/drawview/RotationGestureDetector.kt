@@ -1,4 +1,4 @@
-package com.example.europeesaanrijdingsformulier.utils
+package com.example.europeesaanrijdingsformulier.drawview
 
 import android.view.MotionEvent
 
@@ -43,11 +43,15 @@ class RotationGestureDetector(private val mListener: OnRotationGestureListener?)
 
                 mListener?.OnRotation(this)
             }
-            MotionEvent.ACTION_UP -> ptrID1 = INVALID_POINTER_ID
-            MotionEvent.ACTION_POINTER_UP -> ptrID2 = INVALID_POINTER_ID
+            MotionEvent.ACTION_UP -> ptrID1 =
+                INVALID_POINTER_ID
+            MotionEvent.ACTION_POINTER_UP -> ptrID2 =
+                INVALID_POINTER_ID
             MotionEvent.ACTION_CANCEL -> {
-                ptrID1 = INVALID_POINTER_ID
-                ptrID2 = INVALID_POINTER_ID
+                ptrID1 =
+                    INVALID_POINTER_ID
+                ptrID2 =
+                    INVALID_POINTER_ID
             }
         }
         return true

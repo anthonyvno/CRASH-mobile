@@ -1,4 +1,4 @@
-package com.example.europeesaanrijdingsformulier.utils
+package com.example.europeesaanrijdingsformulier.drawview
 
 import android.view.MotionEvent
 import android.content.Context
@@ -9,19 +9,28 @@ import android.view.View
 import android.util.Log
 import com.example.europeesaanrijdingsformulier.R
 import android.graphics.Bitmap
-import com.itextpdf.awt.geom.AffineTransform
-import com.itextpdf.awt.geom.Rectangle
 
-
-class customDrawView @JvmOverloads constructor(
+class CustomDrawView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : View(context, attrs, defStyleAttr), RotationGestureDetector.OnRotationGestureListener {
+) : View(context, attrs, defStyleAttr),
+    RotationGestureDetector.OnRotationGestureListener {
 
 
-    private var rotationGestureDetector: RotationGestureDetector = RotationGestureDetector(this)
+    private var rotationGestureDetector: RotationGestureDetector =
+        RotationGestureDetector(this)
+
+    var isDrawing = false
+    var mPath = MyPath()
+    var drawPaint = Paint()
+    private var mPaths = LinkedHashMap<MyPath, Paint>()
+    private var mLastPaths = LinkedHashMap<MyPath, Paint>()
+    private var mUndonePaths = LinkedHashMap<MyPath, Paint>()
+    private var mCurX = 0f
+    private var mCurY = 0f
+    private var mStartX = 0f
+    private var mStartY = 0f
 
     var angle = 0F
-    var oldAngle = 0F
     val carWidth = 200
     val carLength = 400
     var canvasW = 0F
@@ -30,6 +39,8 @@ class customDrawView @JvmOverloads constructor(
 
 
     //A
+    var angleA = 0F
+    var oldAngleA = 0F
     var bitmapA: Bitmap
     var rectA = RectF()
     var xcoordA: Float = (-100).toFloat()
@@ -39,6 +50,8 @@ class customDrawView @JvmOverloads constructor(
     var boolA: Boolean = false
 
     //B
+    var angleB = 0F
+    var oldAngleB = 0F
     var bitmapB: Bitmap
     var rectB = RectF()
     var xcoordB: Float = (-100).toFloat()
@@ -54,6 +67,15 @@ class customDrawView @JvmOverloads constructor(
 
         bitmapB = BitmapFactory.decodeResource(context.getResources(), R.drawable.greencar)
         bitmapB = Bitmap.createScaledBitmap(bitmapB, carWidth, carLength, false)
+
+        drawPaint.apply {
+            color = Color.BLACK
+            style = Paint.Style.STROKE
+            strokeJoin = Paint.Join.ROUND
+            strokeCap = Paint.Cap.ROUND
+            strokeWidth = 8f
+            isAntiAlias = true
+        }
 
         paint.setStyle(Paint.Style.FILL)
         paint.setColor(Color.CYAN)
@@ -77,6 +99,7 @@ class customDrawView @JvmOverloads constructor(
             //matrix.postRotate(-angle)
 
             if (boolA) {
+                angleA = angle
                 var bitmapA2 = BitmapFactory.decodeResource(context.getResources(), R.drawable.redcar)
                 bitmapA2 = Bitmap.createScaledBitmap(bitmapA2, carWidth, carLength, false)
 
@@ -85,6 +108,7 @@ class customDrawView @JvmOverloads constructor(
 
             }
             if (boolB) {
+                angleB = angle
                 var bitmapA2 = BitmapFactory.decodeResource(context.getResources(), R.drawable.greencar)
                 bitmapA2 = Bitmap.createScaledBitmap(bitmapA2, carWidth, carLength, false)
 
@@ -106,105 +130,128 @@ class customDrawView @JvmOverloads constructor(
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
 
-                if (rectA.contains(event.x,event.y)
-                ) {
-                    xcoordDownA = event.x.toInt().toFloat() - xcoordA
-                    ycoordDownA = event.y.toInt().toFloat() - ycoordA
-                    boolA = true
+                if (isDrawing) {
+                    mStartX = event.x
+                    mStartY = event.y
+                    actionDown(event.x, event.y)
+                    mUndonePaths.clear()
+
+
+                } else {
+                    if (rectA.contains(event.x, event.y)
+                    ) {
+                        xcoordDownA = event.x.toInt().toFloat() - xcoordA
+                        ycoordDownA = event.y.toInt().toFloat() - ycoordA
+                        boolA = true
+                    }
+                    if (rectB.contains(event.x, event.y)
+                    ) {
+                        xcoordDownB = event.x.toInt().toFloat() - xcoordB
+                        ycoordDownB = event.y.toInt().toFloat() - ycoordB
+                        boolB = true
+                    }
                 }
-                if (rectB.contains(event.x, event.y)
-                ) {
-                    xcoordDownB = event.x.toInt().toFloat() - xcoordB
-                    ycoordDownB = event.y.toInt().toFloat() - ycoordB
-                    boolB = true
-                }
+
             }
 
             MotionEvent.ACTION_MOVE -> {
 
+                if (isDrawing) {
+                    actionMove(event.x, event.y)
+                } else {
+                    if (boolA) {
+                        if (!isCollision(rectA, rectB)
 
-                if (boolA) {
-                    if (!isCollision(rectA,rectB)
 
-
-                    ) {
-                        if (-xcoordDownA + carWidth < canvasW + 1F
-                            && event.y.toInt().toFloat() - ycoordDownA + carLength < canvasH + 1F
-                            && event.x.toInt().toFloat() - xcoordDownA > -1F
-                            && event.y.toInt().toFloat() - ycoordDownA > -1F
                         ) {
-                            xcoordA = event.x.toInt().toFloat() - xcoordDownA
-                            ycoordA = event.y.toInt().toFloat() - ycoordDownA
-                        }
-                    }
-
-
-                }
-                if (boolB) {
-                    if (!isCollision(rectB,rectA)
-
-                    ) {
-                        if (event.x.toInt().toFloat() - xcoordDownB + carWidth < canvasW + 1F
-                            && event.y.toInt().toFloat() - ycoordDownB + carLength < canvasH + 1F
-                            && event.x.toInt().toFloat() - xcoordDownB > -1F
-                            && event.y.toInt().toFloat() - ycoordDownB > -1F
-                        ) {
-                            xcoordB = event.x.toInt().toFloat() - xcoordDownB
-                            ycoordB = event.y.toInt().toFloat() - ycoordDownB
+                            if (-xcoordDownA + carWidth < canvasW + 1F
+                                && event.y.toInt().toFloat() - ycoordDownA + carLength < canvasH + 1F
+                                && event.x.toInt().toFloat() - xcoordDownA > -1F
+                                && event.y.toInt().toFloat() - ycoordDownA > -1F
+                            ) {
+                                xcoordA = event.x.toInt().toFloat() - xcoordDownA
+                                ycoordA = event.y.toInt().toFloat() - ycoordDownA
+                            }
                         }
 
+
                     }
+                    if (boolB) {
+                        if (!isCollision(rectB, rectA)
 
+                        ) {
+                            if (event.x.toInt().toFloat() - xcoordDownB + carWidth < canvasW + 1F
+                                && event.y.toInt().toFloat() - ycoordDownB + carLength < canvasH + 1F
+                                && event.x.toInt().toFloat() - xcoordDownB > -1F
+                                && event.y.toInt().toFloat() - ycoordDownB > -1F
+                            ) {
+                                xcoordB = event.x.toInt().toFloat() - xcoordDownB
+                                ycoordB = event.y.toInt().toFloat() - ycoordDownB
+                            }
+
+                        }
+
+                    }
                 }
-                invalidate()
-
 
             }
 
             MotionEvent.ACTION_UP -> {
 
 
-                if (boolA) {
-                    boolA = false
+                if (isDrawing) {
+                    actionUp()
+                } else {
+                    if (boolA) {
+                        boolA = false
+                    }
+                    if (boolB) {
+                        boolB = false
+                    }
                 }
-                if (boolB) {
-                    boolB = false
-                }
-                invalidate()
+
             }
         }
+        invalidate()
+
         return true
     }
 
     override fun onDraw(canvas: Canvas) {
         initiateCanvas(canvas)
+
+        for ((key, value) in mPaths) {
+            //changePaint(value)
+            canvas.drawPath(key, value)
+        }
+        canvas.drawPath(mPath, drawPaint)
+
         //println("$canvasW $canvasH")
         drawCarA(canvas)
 
         drawCarB(canvas)
 
-        oldAngle = angle
 
     }
 
     private fun drawCarA(canvas: Canvas) {
-        if (angle != oldAngle && boolA) {
+        if (angleA != oldAngleA && boolA) {
 
             canvas.save()
             canvas.translate(xcoordA - bitmapA.width / 2, ycoordA - bitmapA.height / 2)
-            canvas.rotate(-angle, (bitmapA.width / 2).toFloat(), (bitmapA.height / 2).toFloat())
+            canvas.rotate(-angleA, (bitmapA.width / 2).toFloat(), (bitmapA.height / 2).toFloat())
             rectA = RectF(0F, 0F, carWidth.toFloat(), carLength.toFloat())
             println("er wordt gedraaid")
-            if (angle >= 0F) {
+            if (angleA >= 0F) {
                 rectA.offset(
-                    ((-carWidth / 2) * Math.sin(-angle * Math.PI / 180)).toFloat(),
-                    ((carLength / 4) * Math.sin(-angle * Math.PI / 180)).toFloat()
+                    ((-carWidth / 2) * Math.sin(-angleA * Math.PI / 180)).toFloat(),
+                    ((carLength / 4) * Math.sin(-angleA * Math.PI / 180)).toFloat()
                 )
 
             } else {
                 rectA.offset(
-                    ((carWidth / 2) * Math.sin(-angle * Math.PI / 180)).toFloat(),
-                    ((-carLength / 4) * Math.sin(-angle * Math.PI / 180)).toFloat()
+                    ((carWidth / 2) * Math.sin(-angleA * Math.PI / 180)).toFloat(),
+                    ((-carLength / 4) * Math.sin(-angleA * Math.PI / 180)).toFloat()
                 )
 
             }
@@ -214,7 +261,7 @@ class customDrawView @JvmOverloads constructor(
             canvas.save()
 
             //println("de rect wordt bewogen")
-            canvas.rotate(-angle, xcoordA, ycoordA)
+            canvas.rotate(-angleA, xcoordA, ycoordA)
             rectA.offset(xcoordA - carWidth / 2 - rectA.left, ycoordA - carLength / 2 - rectA.top)
             canvas.drawRect(rectA, paint)
             canvas.restore()
@@ -228,7 +275,7 @@ class customDrawView @JvmOverloads constructor(
             canvas.save()
 
             println("de rect wordt bewogen")
-            canvas.rotate(-angle, xcoordA, ycoordA)
+            canvas.rotate(-angleA, xcoordA, ycoordA)
             rectA.offset(xcoordA - carWidth / 2 - rectA.left, ycoordA - carLength / 2 - rectA.top)
             canvas.drawRect(rectA, paint)
             canvas.restore()
@@ -240,26 +287,27 @@ class customDrawView @JvmOverloads constructor(
             ycoordA - bitmapA.height / 2,
             paint
         )
+        oldAngleA = angleA
     }
 
     private fun drawCarB(canvas: Canvas) {
-        if (angle != oldAngle && boolB) {
+        if (angleB != oldAngleB && boolB) {
 
             canvas.save()
             canvas.translate(xcoordB - bitmapB.width / 2, ycoordB - bitmapB.height / 2)
-            canvas.rotate(-angle, (bitmapB.width / 2).toFloat(), (bitmapB.height / 2).toFloat())
+            canvas.rotate(-angleB, (bitmapB.width / 2).toFloat(), (bitmapB.height / 2).toFloat())
             rectB = RectF(0F, 0F, carWidth.toFloat(), carLength.toFloat())
             println("er wordt gedraaid")
-            if (angle >= 0F) {
+            if (angleB >= 0F) {
                 rectB.offset(
-                    ((-carWidth / 2) * Math.sin(-angle * Math.PI / 180)).toFloat(),
-                    ((carLength / 4) * Math.sin(-angle * Math.PI / 180)).toFloat()
+                    ((-carWidth / 2) * Math.sin(-angleB * Math.PI / 180)).toFloat(),
+                    ((carLength / 4) * Math.sin(-angleB * Math.PI / 180)).toFloat()
                 )
 
             } else {
                 rectB.offset(
-                    ((carWidth / 2) * Math.sin(-angle * Math.PI / 180)).toFloat(),
-                    ((-carLength / 4) * Math.sin(-angle * Math.PI / 180)).toFloat()
+                    ((carWidth / 2) * Math.sin(-angleB * Math.PI / 180)).toFloat(),
+                    ((-carLength / 4) * Math.sin(-angleB * Math.PI / 180)).toFloat()
                 )
 
             }
@@ -269,7 +317,7 @@ class customDrawView @JvmOverloads constructor(
             canvas.save()
 
             //println("de rect wordt bewogen")
-            canvas.rotate(-angle, xcoordB, ycoordB)
+            canvas.rotate(-angleB, xcoordB, ycoordB)
             rectB.offset(xcoordB - carWidth / 2 - rectB.left, ycoordB - carLength / 2 - rectB.top)
             canvas.drawRect(rectB, paint)
             canvas.restore()
@@ -283,7 +331,7 @@ class customDrawView @JvmOverloads constructor(
             canvas.save()
 
             println("de rect wordt bewogen")
-            canvas.rotate(-angle, xcoordB, ycoordB)
+            canvas.rotate(-angleB, xcoordB, ycoordB)
             rectB.offset(xcoordB - carWidth / 2 - rectB.left, ycoordB - carLength / 2 - rectB.top)
             canvas.drawRect(rectB, paint)
             canvas.restore()
@@ -295,6 +343,7 @@ class customDrawView @JvmOverloads constructor(
             ycoordB - bitmapB.height / 2,
             paint
         )
+        oldAngleB = angleB
     }
 
     private fun initiateCanvas(canvas: Canvas) {
@@ -319,10 +368,12 @@ class customDrawView @JvmOverloads constructor(
 
     }
 
-    private fun isCollision(rect1: RectF, rect2:RectF):Boolean{
-        val rect3 =  RectF(rect1)
-        
-        val rect4 = RectF(rect2)
+    private fun isCollision(rect1: RectF, rect2: RectF): Boolean {
+        var rect3 = RectF()
+        rect3.union(rect1)
+
+        var rect4 = RectF()
+        rect4.union((rect2))
         val bool = rect3.intersect(rect4)
         println(rect3.left)
         println(rect3.right)
@@ -335,5 +386,77 @@ class customDrawView @JvmOverloads constructor(
         return this.drawingCache
     }
 
+    fun toggleDrawing() {
+        isDrawing = !isDrawing
+    }
+
+    private fun actionDown(x: Float, y: Float) {
+        mPath.reset()
+        mPath.moveTo(x, y)
+        mCurX = x
+        mCurY = y
+
+    }
+
+    private fun actionMove(x: Float, y: Float) {
+        mPath.quadTo(mCurX, mCurY, (x + mCurX) / 2, (y + mCurY) / 2)
+        mCurX = x
+        mCurY = y
+    }
+
+    private fun actionUp() {
+        mPath.lineTo(mCurX, mCurY)
+
+        // draw a dot on click
+        if (mStartX == mCurX && mStartY == mCurY) {
+            mPath.lineTo(mCurX, mCurY + 2)
+            mPath.lineTo(mCurX + 1, mCurY + 2)
+            mPath.lineTo(mCurX + 1, mCurY)
+        }
+
+        mPaths[mPath] = drawPaint
+        mPath = MyPath()
+        //mPaintOptions = PaintOptions(mPaintOptions.color, mPaintOptions.strokeWidth, mPaintOptions.alpha, mPaintOptions.isEraserOn)
+    }
+    fun addPath(path: MyPath, options: Paint) {
+        mPaths[path] = options
+    }
+
+    fun undo() {
+        if (mPaths.isEmpty() && mLastPaths.isNotEmpty()) {
+            mPaths = mLastPaths.clone() as LinkedHashMap<MyPath, Paint>
+            mLastPaths.clear()
+            invalidate()
+            return
+        }
+        if (mPaths.isEmpty()) {
+            return
+        }
+        val lastPath = mPaths.values.lastOrNull()
+        val lastKey = mPaths.keys.lastOrNull()
+
+        mPaths.remove(lastKey)
+        if (lastPath != null && lastKey != null) {
+            mUndonePaths[lastKey] = lastPath
+        }
+        invalidate()
+    }
+
+    fun redo() {
+        if (mUndonePaths.keys.isEmpty()) {
+            return
+        }
+
+        val lastKey = mUndonePaths.keys.last()
+        addPath(lastKey, mUndonePaths.values.last())
+        mUndonePaths.remove(lastKey)
+        invalidate()
+    }
+    fun clearCanvas() {
+        mLastPaths = mPaths.clone() as LinkedHashMap<MyPath, Paint>
+        mPath.reset()
+        mPaths.clear()
+        invalidate()
+    }
 
 }
