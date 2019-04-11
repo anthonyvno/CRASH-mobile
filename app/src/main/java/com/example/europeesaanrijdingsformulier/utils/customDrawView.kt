@@ -194,7 +194,7 @@ class customDrawView @JvmOverloads constructor(
         oldAngle = angle
 
     }
-
+    
     private fun drawCarA(canvas: Canvas) {
         if (angle != oldAngle && boolA) {
 
