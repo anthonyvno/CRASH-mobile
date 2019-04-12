@@ -21,14 +21,6 @@
             android:progress="85"
             android:thumb="@color/white"
     />
-    <ImageView
-            android:layout_width="0dp"
-            android:layout_height="0dp" tools:src="@tools:sample/avatars"
-            android:id="@+id/image_report_image_picture" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/seekbar_home"
-            android:layout_marginBottom="8dp" app:layout_constraintBottom_toTopOf="@+id/button_report_image_confirm"/>
     <Button
             android:text="Volgende >"
             android:layout_width="0dp"
@@ -48,4 +40,29 @@
             tools:scaleY="1.5" tools:scaleX="1.5" android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="8dp"
             app:layout_constraintStart_toStartOf="parent"/>
+
+    <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:columnCount="2"
+            android:rowCount="2"
+            android:alignmentMode="alignMargins"
+            android:columnOrderPreserved="false"
+            android:layout_margin="16dp" android:id="@+id/gridloller" android:layout_marginStart="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/button_report_image_camera" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/textView7" android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent">
+    </GridLayout>
+    <TextView
+            android:text="Voeg foto's toe van het ongeval"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView7" android:textStyle="bold"
+            android:textColor="@color/color_white" android:textSize="24sp" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toTopOf="@+id/seekbar_home" android:layout_marginStart="8dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
 </android.support.constraint.ConstraintLayout>
