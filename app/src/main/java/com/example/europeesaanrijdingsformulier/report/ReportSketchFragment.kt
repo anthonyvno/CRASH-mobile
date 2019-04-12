@@ -3,16 +3,19 @@ package com.example.europeesaanrijdingsformulier.report
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
+import android.graphics.Bitmap
 
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
 import com.example.europeesaanrijdingsformulier.R
 import kotlinx.android.synthetic.main.fragment_report_sketch.*
+import java.io.ByteArrayOutputStream
 
 
 class ReportSketchFragment : Fragment() {
@@ -64,6 +67,15 @@ class ReportSketchFragment : Fragment() {
             drawview_report_sketch.clearCanvas()
         }
         button_report_sketch_confirm.setOnClickListener{
+
+            val bitmap = drawview_report_sketch.getBitmap()
+            val stream = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.PNG,100,stream)
+            val bytearray = stream.toByteArray()
+            val encoded = Base64.encodeToString(bytearray,Base64.DEFAULT)
+
+            report.sketch = encoded
+
 
             val fragment = ReportImageFragment()
             fragment.addObject(report)
