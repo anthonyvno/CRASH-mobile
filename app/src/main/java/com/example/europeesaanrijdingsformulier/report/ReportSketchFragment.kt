@@ -65,7 +65,7 @@ class ReportSketchFragment : Fragment() {
         }
         button_report_sketch_confirm.setOnClickListener{
 
-            val fragment = ReportOverviewFragment()
+            val fragment = ReportImageFragment()
             fragment.addObject(report)
             this.fragmentManager!!.beginTransaction()
                 .setCustomAnimations(

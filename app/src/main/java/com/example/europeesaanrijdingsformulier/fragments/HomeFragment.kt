@@ -54,7 +54,7 @@ class HomeFragment : Fragment() {
         button_home_startReport.setOnClickListener{
             this.fragmentManager!!.beginTransaction()
                 .setCustomAnimations(R.anim.abc_fade_in,R.anim.abc_fade_out,R.anim.abc_fade_in,R.anim.abc_fade_out)
-                .replace(R.id.container_main, ReportSketchFragment())
+                .replace(R.id.container_main, ReportImageFragment())
                 .addToBackStack(null)
                 .commit()
         }
