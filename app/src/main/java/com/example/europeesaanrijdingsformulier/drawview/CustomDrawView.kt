@@ -82,6 +82,7 @@ class CustomDrawView @JvmOverloads constructor(
 
         this.isDrawingCacheEnabled = true
 
+
     }
 
     override fun OnRotation(rotationDetector: RotationGestureDetector) {
@@ -95,7 +96,7 @@ class CustomDrawView @JvmOverloads constructor(
 */
             val matrix = Matrix()
 
-            matrix.postRotate(-angle, xcoordA + (carWidth / 2), ycoordA + (carLength / 2))
+            matrix.postRotate(-angle, 0F, 0F)
             //matrix.postRotate(-angle)
 
             if (boolA) {
@@ -159,8 +160,9 @@ class CustomDrawView @JvmOverloads constructor(
                 if (isDrawing) {
                     actionMove(event.x, event.y)
                 } else {
+                    println(rectA.right)
                     if (boolA) {
-                        if (!isCollision(rectA, rectB)
+                        if (!rectB.contains(event.x-xcoordDownA,event.y-ycoordDownA)
 
 
                         ) {
@@ -177,7 +179,7 @@ class CustomDrawView @JvmOverloads constructor(
 
                     }
                     if (boolB) {
-                        if (!isCollision(rectB, rectA)
+                        if (!rectA.contains(event.x-xcoordDownB,event.y-ycoordDownB)
 
                         ) {
                             if (event.x.toInt().toFloat() - xcoordDownB + carWidth < canvasW + 1F
@@ -369,16 +371,13 @@ class CustomDrawView @JvmOverloads constructor(
     }
 
     private fun isCollision(rect1: RectF, rect2: RectF): Boolean {
-        var rect3 = RectF()
-        rect3.union(rect1)
+        //var rect3 = RectF()
+        //rect3.union(rect1)
 
-        var rect4 = RectF()
-        rect4.union((rect2))
-        val bool = rect3.intersect(rect4)
-        println(rect3.left)
-        println(rect3.right)
-        println(rect3.top)
-        println(rect3.bottom)
+        //var rect4 = RectF()
+        //rect4.union((rect2))
+        val bool = rect1.intersect(rect2)
+
         return bool
     }
 
