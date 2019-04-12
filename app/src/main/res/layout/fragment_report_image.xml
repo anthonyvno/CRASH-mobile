@@ -47,6 +47,7 @@
             android:layout_weight="1"
             android:columnCount="2"
             android:rowCount="2"
+            android:background="@drawable/noimage"
             android:alignmentMode="alignMargins"
             android:columnOrderPreserved="false"
             android:layout_margin="16dp" android:id="@+id/gridloller" android:layout_marginStart="8dp"

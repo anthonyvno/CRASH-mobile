@@ -2,6 +2,7 @@ package com.example.europeesaanrijdingsformulier.report
 
 
 import android.content.Intent
+import android.opengl.Visibility
 import android.os.Build
 import android.os.Bundle
 import android.support.annotation.RequiresApi
@@ -32,11 +33,14 @@ class ReportImageFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_report_image, container, false)
     }
 
     override fun onStart() {
         super.onStart()
+
+
 
         button_report_image_camera.setOnClickListener {
             ImagePicker.create(this)
@@ -64,6 +68,7 @@ class ReportImageFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
+            gridloller.background = null
             //val linearList = listOf(LinearLayout1, LinearLayout2, LinearLayout3, LinearLayout4)
             // Get a list of picked images
             images = ImagePicker.getImages(data)
