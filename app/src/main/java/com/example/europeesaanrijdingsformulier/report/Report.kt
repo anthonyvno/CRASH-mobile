@@ -23,9 +23,11 @@ class Report(
     @field: Json(name = "pdfReport") var pdfReport: String? = "",
     @field: Json(name = "circumstances") var circumstances: Array<BooleanArray>? = arrayOf(BooleanArray(17), BooleanArray(17)),
     @field: Json(name = "sketch") var sketch: String? = "",
-    @field: Json(name = "signatures") var signatures: Array<String>? = emptyArray()
+    @field: Json(name = "signatures") var signatures: Array<String>? = emptyArray(),
+    @field: Json(name = "pictures") var pictures: Array<String>? = emptyArray()
 
-) : Parcelable, Serializable {
+
+    ) : Parcelable, Serializable {
 
 
 }
