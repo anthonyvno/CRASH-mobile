@@ -2,6 +2,7 @@ package com.example.europeesaanrijdingsformulier.report
 
 
 import android.annotation.SuppressLint
+import android.content.pm.ActivityInfo
 import android.content.res.ColorStateList
 import android.graphics.Bitmap
 
@@ -91,6 +92,16 @@ class ReportSketchFragment : Fragment() {
                 .commit()
 
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        activity?.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        activity?.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
     }
 
     fun addObject(item: Report) {

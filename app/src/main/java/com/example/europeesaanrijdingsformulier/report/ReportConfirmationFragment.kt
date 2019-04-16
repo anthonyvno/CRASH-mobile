@@ -2,8 +2,10 @@ package com.example.europeesaanrijdingsformulier.report
 
 
 import android.arch.lifecycle.ViewModelProviders
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,9 +16,8 @@ import com.example.europeesaanrijdingsformulier.fragments.HomeFragment
 import com.example.europeesaanrijdingsformulier.utils.PrefManager
 import com.github.gcacace.signaturepad.views.SignaturePad
 import kotlinx.android.synthetic.main.fragment_report_confirmation.*
-
-
-
+import kotlinx.android.synthetic.main.fragment_report_sketch.*
+import java.io.ByteArrayOutputStream
 
 
 class ReportConfirmationFragment : Fragment() {
@@ -65,7 +66,22 @@ class ReportConfirmationFragment : Fragment() {
         }
         button_report_confirmation_confirm.setOnClickListener{
 
+            val bitmapA = signaturePadA.signatureBitmap
+            val streamA = ByteArrayOutputStream()
+            bitmapA.compress(Bitmap.CompressFormat.PNG,100,streamA)
+            val bytearrayA = streamA.toByteArray()
+            val encodedA = Base64.encodeToString(bytearrayA, Base64.DEFAULT)
 
+            val bitmapB = signaturePadB.signatureBitmap
+            val streamB = ByteArrayOutputStream()
+            bitmapB.compress(Bitmap.CompressFormat.PNG,100,streamB)
+            val bytearrayB = streamB.toByteArray()
+            val encodedB = Base64.encodeToString(bytearrayB, Base64.DEFAULT)
+
+            report.signatures = arrayOf(encodedA,encodedB)
+
+            println("pdf: " + report.pdfReport)
+            println("sketch: " + report.sketch)
 
 
             prefManager.saveReport(report)

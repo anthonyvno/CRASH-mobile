@@ -287,6 +287,7 @@ class CustomDrawView @JvmOverloads constructor(
             rectA.offset(xcoordA - carWidth / 2 - rectA.left, ycoordA - carLength / 2 - rectA.top)
             canvas.drawRect(rectA, paint)
             canvas.restore()
+            var rec = RectF()
         }
 
         canvas.drawBitmap(

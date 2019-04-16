@@ -40,6 +40,7 @@ class ReportOverviewFragment : Fragment() {
         val bytes = Base64.decode(bytePdf.pdfReport, Base64.DEFAULT)
         pdfView.fromBytes(bytes).load()
 
+        report.pdfReport = bytePdf.pdfReport
 
         button_report_overview_confirm.setOnClickListener {
 
