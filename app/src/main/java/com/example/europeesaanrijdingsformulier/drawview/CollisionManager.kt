@@ -4,5 +4,5 @@ import android.graphics.Canvas
 
 class CollisionManager {
     lateinit var canvas: Canvas
-    
+
 }
