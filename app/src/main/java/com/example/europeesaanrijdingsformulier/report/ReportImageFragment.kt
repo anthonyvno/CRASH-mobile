@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.Bundle
 import android.support.annotation.RequiresApi
 import android.support.v4.app.Fragment
+import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,12 +20,13 @@ import kotlinx.android.synthetic.main.fragment_report_image.*
 import android.view.Gravity
 import android.widget.GridLayout
 import com.example.europeesaanrijdingsformulier.R
+import java.io.File
 
 
 class ReportImageFragment : Fragment() {
 
     private lateinit var report: Report
-    private lateinit var images: List<Image>
+    private var images = mutableListOf<Image>()
     private lateinit var image: Image
 
 
@@ -50,6 +52,19 @@ class ReportImageFragment : Fragment() {
         }
 
         button_report_image_confirm.setOnClickListener {
+            val temp = mutableListOf<String>()
+
+                var counter = 0
+                for (img in images) {
+                    val file = File(images[counter].path)
+                    temp.add(Base64.encodeToString(file.readBytes(), Base64.DEFAULT))
+                    counter++
+                }
+
+
+            report.pictures = temp.toTypedArray()
+
+
             val fragment = ReportOverviewFragment()
             fragment.addObject(report)
             this.fragmentManager!!.beginTransaction()
@@ -69,23 +84,22 @@ class ReportImageFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
             gridloller.background = null
-            //val linearList = listOf(LinearLayout1, LinearLayout2, LinearLayout3, LinearLayout4)
             // Get a list of picked images
             images = ImagePicker.getImages(data)
             gridloller.removeAllViews()
             // or get a single image only
-            if(images.size ==1){
+            if (images.size == 1) {
                 gridloller.columnCount = 1
-            }else{
+            } else {
                 gridloller.columnCount = 2
             }
-            gridloller.rowCount = Math.ceil((images.size.toDouble()/2)).toInt()
+            gridloller.rowCount = Math.ceil((images.size.toDouble() / 2)).toInt()
 
             for ((counter, img) in images.withIndex()) {
 
                 //linearList[counter].removeAllViews()
                 val iv = ImageView(activity)
-                iv.scaleType=ImageView.ScaleType.FIT_XY
+                iv.scaleType = ImageView.ScaleType.FIT_XY
                 iv.foreground = resources.getDrawable(R.drawable.black_border)
                 //iv.adjustViewBounds = false
                 Glide.with(iv)
@@ -93,15 +107,15 @@ class ReportImageFragment : Fragment() {
                     .into(iv)
 
                 val param = GridLayout.LayoutParams()
-                if(images.size == 1){
+                if (images.size == 1) {
                     param.height = gridloller.measuredHeight
                     param.width = gridloller.measuredWidth
-                } else if(images.size == 2){
-                    param.height = (gridloller.measuredHeight/1.5).toInt()
-                    param.width = gridloller.measuredWidth/2
+                } else if (images.size == 2) {
+                    param.height = (gridloller.measuredHeight / 1.5).toInt()
+                    param.width = gridloller.measuredWidth / 2
                 } else {
-                    param.height = gridloller.measuredHeight/2
-                    param.width = gridloller.measuredWidth/2
+                    param.height = gridloller.measuredHeight / 2
+                    param.width = gridloller.measuredWidth / 2
                 }
 
 

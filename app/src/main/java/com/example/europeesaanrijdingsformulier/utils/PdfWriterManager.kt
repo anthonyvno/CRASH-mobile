@@ -294,23 +294,6 @@ class PdfWriterManager {
             13.57F
         )
 
-/*
-
-        PDFToImage.main()
-
-        val targetstream = ByteArrayInputStream(streamPDF.toByteArray())
-        val baos = ByteArrayOutputStream()
-        val pddoc:PDDocument
-        pddoc = PDDocument.load(targetstream)
-        val renderer = PDFRenderer(pddoc)
-        val bi = renderer.renderImageWithDPI(1,300F)
-
-        val reader = PdfReader(stream.toByteArray())
-        val page = writer.getImportedPage(reader,1)
-
-*/
-
-
 
 
         document.close()
