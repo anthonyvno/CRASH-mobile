@@ -96,6 +96,20 @@ class ReportSketchFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        var drawableA: Int
+        var drawableB: Int
+        when(report.profiles.get(0).vehicles?.get(0)?.type){
+            "Auto" -> drawableA = R.drawable.redcar
+            "Motorfiets" -> drawableA = R.drawable.redmotorcycle
+            else -> drawableA = R.drawable.redcar
+        }
+        when(report.profiles.get(1).vehicles?.get(0)?.type){
+            "Auto" -> drawableB = R.drawable.redcar
+            "Motorfiets" -> drawableB = R.drawable.greenmotorcycle
+            else -> drawableB = R.drawable.redcar
+        }
+
+        drawview_report_sketch.setSituation(drawableA,drawableB)
         activity?.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
     }
 

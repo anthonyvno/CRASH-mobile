@@ -71,7 +71,7 @@ class SituationManager(
             yDeltaFingerCenterA = y.toInt().toFloat() - rectA.center.y
             vehicleASelected = true
         }
-        if (rectB.contains(PointF(x, y))
+        if (rectB.contains(PointF(x, y)) && !vehicleASelected
         ) {
             xDeltaFingerCenterB = x.toInt().toFloat() - rectB.center.x
             yDeltaFingerCenterB = y.toInt().toFloat() - rectB.center.y
@@ -133,7 +133,7 @@ class SituationManager(
             if (vehicleASelected && !collisionDetector.isRectanglesIntersecting(rectA.calculateRotate(angle),rectB)) {
                 rectA = rectA.calculateRotate(angle)
                 var bitmapA2 = BitmapFactory.decodeResource(context.getResources(), drawableA)
-                bitmapA2 = Bitmap.createScaledBitmap(bitmapA2, rectA.carWidth.toInt(), rectA.carLength.toInt(), false)
+                bitmapA2 = Bitmap.createScaledBitmap(bitmapA2, rectA.carWidth.toInt()+30, rectA.carLength.toInt()+30, false)
 
                 bitmapA =
                     Bitmap.createBitmap(bitmapA2, 0, 0, bitmapA2.width, bitmapA2.height, matrix, true)
@@ -142,7 +142,7 @@ class SituationManager(
             if (vehicleBSelected && !collisionDetector.isRectanglesIntersecting(rectB.calculateRotate(angle),rectA)) {
                 rectB = rectB.calculateRotate(angle)
                 var bitmapA2 = BitmapFactory.decodeResource(context.getResources(), drawableB)
-                bitmapA2 = Bitmap.createScaledBitmap(bitmapA2, rectB.carWidth.toInt(), rectB.carLength.toInt(), false)
+                bitmapA2 = Bitmap.createScaledBitmap(bitmapA2, rectB.carWidth.toInt()+30, rectB.carLength.toInt()+30, false)
 
                 bitmapB =
                     Bitmap.createBitmap(bitmapA2, 0, 0, bitmapA2.width, bitmapA2.height, matrix, true)
