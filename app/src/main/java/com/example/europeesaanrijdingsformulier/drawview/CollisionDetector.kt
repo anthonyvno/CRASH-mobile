@@ -3,11 +3,8 @@ package com.example.europeesaanrijdingsformulier.drawview
 
 import android.graphics.PointF
 
-
-
-
 class CollisionDetector {
-    
+
     fun isPolygonsIntersecting(a: MyRectangle, b: MyRectangle): Boolean {
         for (x in 0..1) {
             val polygon = if (x == 0) a else b

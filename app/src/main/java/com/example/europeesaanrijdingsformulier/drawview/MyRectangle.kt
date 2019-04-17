@@ -27,30 +27,30 @@ class MyRectangle(
     fun getTopLeft(): PointF{
 
         var point = PointF()
-        point.x = (center.x+((-carWidth/2)*Math.cos(angle!! * Math.PI / 180) - ((carLength/2) * Math.sin(angle!! * Math.PI / 180)))).toFloat()
-        point.y = (center.y+((-carWidth/2)*Math.sin(angle!! * Math.PI / 180) + ((carLength/2) * Math.cos(angle!! * Math.PI / 180)))).toFloat()
+        point.x = (center.x+((-carWidth/2)*Math.cos(angle!! * Math.PI / 180)) - ((carLength/2) * Math.sin(angle!! * Math.PI / 180))).toFloat()
+        point.y = (center.y+((-carWidth/2)*Math.sin(angle!! * Math.PI / 180)) + ((carLength/2) * Math.cos(angle!! * Math.PI / 180))).toFloat()
         return point
     }
 
     fun getTopRight(): PointF{
 
         var point = PointF()
-        point.x = (center.x+((carWidth/2)*Math.cos(angle!! * Math.PI / 180) - ((carLength/2) * Math.sin(angle!! * Math.PI / 180)))).toFloat()
-        point.y = (center.y+((carWidth/2)*Math.sin(angle!! * Math.PI / 180) + ((carLength/2) * Math.cos(angle!! * Math.PI / 180)))).toFloat()
+        point.x = (center.x+((carWidth/2)*Math.cos(angle!! * Math.PI / 180)) - ((carLength/2) * Math.sin(angle!! * Math.PI / 180))).toFloat()
+        point.y = (center.y+((carWidth/2)*Math.sin(angle!! * Math.PI / 180)) + ((carLength/2) * Math.cos(angle!! * Math.PI / 180))).toFloat()
         return point
     }
     fun getBottomLeft(): PointF{
 
         var point = PointF()
-        point.x = (center.x+((-carWidth/2)*Math.cos(angle!! * Math.PI / 180) - ((-carLength/2) * Math.sin(angle!! * Math.PI / 180)))).toFloat()
-        point.y = (center.y+((-carWidth/2)*Math.sin(angle!! * Math.PI / 180) + ((-carLength/2) * Math.cos(angle!! * Math.PI / 180)))).toFloat()
+        point.x = (center.x+((-carWidth/2)*Math.cos(angle!! * Math.PI / 180)) - ((-carLength/2) * Math.sin(angle!! * Math.PI / 180))).toFloat()
+        point.y = (center.y+((-carWidth/2)*Math.sin(angle!! * Math.PI / 180)) + ((-carLength/2) * Math.cos(angle!! * Math.PI / 180))).toFloat()
         return point
     }
     fun getBottomRight(): PointF{
 
         var point = PointF()
-        point.x = (center.x+((carWidth/2)*Math.cos(angle!! * Math.PI / 180) - ((-carLength/2) * Math.sin(angle!! * Math.PI / 180)))).toFloat()
-        point.y = (center.y+((carWidth/2)*Math.sin(angle!! * Math.PI / 180) + ((-carLength/2) * Math.cos(angle!! * Math.PI / 180)))).toFloat()
+        point.x = (center.x+((carWidth/2)*Math.cos(angle!! * Math.PI / 180)) - ((-carLength/2) * Math.sin(angle!! * Math.PI / 180))).toFloat()
+        point.y = (center.y+((carWidth/2)*Math.sin(angle!! * Math.PI / 180)) + ((-carLength/2) * Math.cos(angle!! * Math.PI / 180))).toFloat()
         return point
     }
 
