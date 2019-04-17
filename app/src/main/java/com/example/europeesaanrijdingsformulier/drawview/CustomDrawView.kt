@@ -46,10 +46,10 @@ class CustomDrawView @JvmOverloads constructor(
     var bitmapA: Bitmap
     var rectA = RectF()
     var xcoordA: Float = (-100).toFloat()
-    var xcoordDownA: Float = 0.toFloat()
+    var xDeltaFingerCenterA: Float = 0.toFloat()
     var ycoordA: Float = (-100).toFloat()
-    var ycoordDownA: Float = 0.toFloat()
-    var boolA: Boolean = false
+    var yDeltaFingerCenterA: Float = 0.toFloat()
+    var vehicleASelected: Boolean = false
     var noXCollisionB = 0F
     var noYCollisionB = 0F
 
@@ -59,10 +59,10 @@ class CustomDrawView @JvmOverloads constructor(
     var bitmapB: Bitmap
     var rectB = RectF()
     var xcoordB: Float = (-100).toFloat()
-    var xcoordDownB: Float = 0.toFloat()
+    var xDeltaFingerCenterB: Float = 0.toFloat()
     var ycoordB: Float = (-100).toFloat()
-    var ycoordDownB: Float = 0.toFloat()
-    var boolB: Boolean = false
+    var yDeltaFingerCenterB: Float = 0.toFloat()
+    var vehicleBSelected: Boolean = false
 
 
     init {
@@ -87,10 +87,11 @@ class CustomDrawView @JvmOverloads constructor(
         this.isDrawingCacheEnabled = true
 
 
+
     }
 
     override fun OnRotation(rotationDetector: RotationGestureDetector) {
-        if (boolA || boolB) {
+        if (vehicleASelected || vehicleBSelected) {
             angle = rotationDetector.angle
 /*
         var rectA = Rectangle(xcoordA.toDouble(),ycoordA.toDouble(),carWidth.toDouble(),carLength.toDouble())
@@ -102,7 +103,7 @@ class CustomDrawView @JvmOverloads constructor(
             matrix.postRotate(-angle, 0F, 0F)
             //matrix.postRotate(-angle)
 
-            if (boolA) {
+            if (vehicleASelected) {
                 angleA = angle
                 var bitmapA2 = BitmapFactory.decodeResource(context.getResources(), R.drawable.redcar)
                 bitmapA2 = Bitmap.createScaledBitmap(bitmapA2, carWidth, carLength, false)
@@ -111,7 +112,7 @@ class CustomDrawView @JvmOverloads constructor(
                     Bitmap.createBitmap(bitmapA2, 0, 0, bitmapA2.width, bitmapA2.height, matrix, true)
 
             }
-            if (boolB) {
+            if (vehicleBSelected) {
                 angleB = angle
                 var bitmapA2 = BitmapFactory.decodeResource(context.getResources(), R.drawable.greencar)
                 bitmapA2 = Bitmap.createScaledBitmap(bitmapA2, carWidth, carLength, false)
@@ -140,15 +141,15 @@ class CustomDrawView @JvmOverloads constructor(
                 } else {
                     if (rectA.contains(event.x, event.y)
                     ) {
-                        xcoordDownA = event.x.toInt().toFloat() - xcoordA
-                        ycoordDownA = event.y.toInt().toFloat() - ycoordA
-                        boolA = true
+                        xDeltaFingerCenterA = event.x.toInt().toFloat() - xcoordA
+                        yDeltaFingerCenterA = event.y.toInt().toFloat() - ycoordA
+                        vehicleASelected = true
                     }
                     if (rectB.contains(event.x, event.y)
                     ) {
-                        xcoordDownB = event.x.toInt().toFloat() - xcoordB
-                        ycoordDownB = event.y.toInt().toFloat() - ycoordB
-                        boolB = true
+                        xDeltaFingerCenterB = event.x.toInt().toFloat() - xcoordB
+                        yDeltaFingerCenterB = event.y.toInt().toFloat() - ycoordB
+                        vehicleBSelected = true
                     }
                 }
 
@@ -160,40 +161,40 @@ class CustomDrawView @JvmOverloads constructor(
                     actionMove(event.x, event.y)
                 } else {
                     println(rectA.right)
-                    if (boolA) {
-                        if (!rectB.contains(event.x-xcoordDownA,event.y-ycoordDownA)
+                    if (vehicleASelected) {
+                        if (!rectB.contains(event.x-xDeltaFingerCenterA,event.y-yDeltaFingerCenterA)
 
 
                         ) {
 
-                            if (-xcoordDownA + carWidth < canvasW + 1F
-                                && event.y.toInt().toFloat() - ycoordDownA + carLength < canvasH + 1F
-                                && event.x.toInt().toFloat() - xcoordDownA > -1F
-                                && event.y.toInt().toFloat() - ycoordDownA > -1F
+                            if (-xDeltaFingerCenterA + carWidth < canvasW + 1F
+                                && event.y.toInt().toFloat() - yDeltaFingerCenterA + carLength < canvasH + 1F
+                                && event.x.toInt().toFloat() - xDeltaFingerCenterA > -1F
+                                && event.y.toInt().toFloat() - yDeltaFingerCenterA > -1F
                             ) {
                                 noXCollisionA = xcoordA
                                 noYCollisionA = ycoordA
-                                xcoordA = event.x.toInt().toFloat() - xcoordDownA
-                                ycoordA = event.y.toInt().toFloat() - ycoordDownA
+                                xcoordA = event.x.toInt().toFloat() - xDeltaFingerCenterA
+                                ycoordA = event.y.toInt().toFloat() - yDeltaFingerCenterA
                             }
                         }
                     }else{
                         hasCollided = true
                     }
-                    if (boolB) {
-                        if (!rectA.contains(event.x-xcoordDownB,event.y-ycoordDownB)
+                    if (vehicleBSelected) {
+                        if (!rectA.contains(event.x-xDeltaFingerCenterB,event.y-yDeltaFingerCenterB)
 
                         ) {
 
-                            if (event.x.toInt().toFloat() - xcoordDownB + carWidth < canvasW + 1F
-                                && event.y.toInt().toFloat() - ycoordDownB + carLength < canvasH + 1F
-                                && event.x.toInt().toFloat() - xcoordDownB > -1F
-                                && event.y.toInt().toFloat() - ycoordDownB > -1F
+                            if (event.x.toInt().toFloat() - xDeltaFingerCenterB + carWidth < canvasW + 1F
+                                && event.y.toInt().toFloat() - yDeltaFingerCenterB + carLength < canvasH + 1F
+                                && event.x.toInt().toFloat() - xDeltaFingerCenterB > -1F
+                                && event.y.toInt().toFloat() - yDeltaFingerCenterB > -1F
                             )
                                 noXCollisionB = xcoordB
                                 noYCollisionB = ycoordB
-                                xcoordB = event.x.toInt().toFloat() - xcoordDownB
-                                ycoordB = event.y.toInt().toFloat() - ycoordDownB
+                                xcoordB = event.x.toInt().toFloat() - xDeltaFingerCenterB
+                                ycoordB = event.y.toInt().toFloat() - yDeltaFingerCenterB
                             }
                         }else{
                         hasCollided = true
@@ -208,16 +209,16 @@ class CustomDrawView @JvmOverloads constructor(
                 if (isDrawing) {
                     actionUp()
                 } else {
-                    if (boolA) {
-                        boolA = false
+                    if (vehicleASelected) {
+                        vehicleASelected = false
                         if(hasCollided && noXCollisionA != 0F && noYCollisionA != 0F){
                             xcoordA = noXCollisionA
                             ycoordA = noYCollisionA
                         }
                         hasCollided = false
                     }
-                    if (boolB) {
-                        boolB = false
+                    if (vehicleBSelected) {
+                        vehicleBSelected = false
                         if(hasCollided && noXCollisionB != 0F && noYCollisionB != 0F){
                             xcoordB = noXCollisionB
                             ycoordB = noYCollisionB
@@ -249,7 +250,7 @@ class CustomDrawView @JvmOverloads constructor(
     }
 
     private fun drawCarA(canvas: Canvas) {
-        if (angleA != oldAngleA && boolA) {
+        if (angleA != oldAngleA && vehicleASelected) {
 
             canvas.save()
             canvas.translate(xcoordA - bitmapA.width / 2, ycoordA - bitmapA.height / 2)
@@ -275,7 +276,7 @@ class CustomDrawView @JvmOverloads constructor(
             canvas.drawRect(rectA, paint)
             canvas.restore()
 
-        } else if (boolA) {
+        } else if (vehicleASelected) {
             /*
             rectA = RectF(
                 xcoordA - bitmapA.width / 2, ycoordA - bitmapA.height / 2
@@ -300,7 +301,7 @@ class CustomDrawView @JvmOverloads constructor(
     }
 
     private fun drawCarB(canvas: Canvas) {
-        if (angleB != oldAngleB && boolB) {
+        if (angleB != oldAngleB && vehicleBSelected) {
 
             canvas.save()
             canvas.translate(xcoordB - bitmapB.width / 2, ycoordB - bitmapB.height / 2)
@@ -330,7 +331,7 @@ class CustomDrawView @JvmOverloads constructor(
             canvas.drawRect(rectB, paint)
             canvas.restore()
 
-        } else if (boolB) {
+        } else if (vehicleBSelected) {
             /*
             rectA = RectF(
                 xcoordA - bitmapA.width / 2, ycoordA - bitmapA.height / 2
