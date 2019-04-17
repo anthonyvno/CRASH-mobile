@@ -8,18 +8,23 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.example.europeesaanrijdingsformulier.R
+import com.example.europeesaanrijdingsformulier.utils.PrefManager
 import kotlinx.android.synthetic.main.fragment_report_circumstances2.*
 
 
 class ReportCircumstances2Fragment : Fragment() {
 
     private lateinit var report: Report
+    private lateinit var prefManager: PrefManager
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        prefManager = PrefManager(activity!!)
+
         return inflater.inflate(R.layout.fragment_report_circumstances2, container, false)
     }
 
@@ -49,6 +54,8 @@ class ReportCircumstances2Fragment : Fragment() {
                 switch_circ_15b.isChecked,
                 switch_circ_16b.isChecked,
                 switch_circ_17b.isChecked))
+
+            prefManager.saveReport(report)
 
             val fragment = ReportSketchFragment()
             fragment.addObject(report)
