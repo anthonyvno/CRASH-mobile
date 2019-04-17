@@ -18,7 +18,7 @@ class MyRectangleUnitTest {
 
         @Before
         fun setup() {
-            rectangle1 = MyRectangle(4F, 2F, PointF(4, 3), 0F)
+            rectangle1 = MyRectangle(4F, 2F, FakePointF(4F, 3F), 0F)
             rectangle2 = MyRectangle(7.07F,7.07F , PointF(5, 10), 45F)
             rectangle3 = MyRectangle(4F, 2F, PointF(4, 3), 0F)
             rectangle4 = MyRectangle(4F, 2F, PointF(4, 3), 0F)
@@ -38,5 +38,14 @@ c
             assertEquals(PointF(5F,15F), rectangle2.getTopRight())
             assertEquals(PointF(5F,5F), rectangle2.getBottomLeft())
             assertEquals(PointF(10F,10F), rectangle2.getBottomRight())
+        }
+
+
+    }
+
+    class FakePointF internal constructor(x: Float, y: Float) : PointF() {
+        init {
+            this.x = x
+            this.y = y
         }
     }
