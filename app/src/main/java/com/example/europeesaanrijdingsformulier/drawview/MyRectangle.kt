@@ -4,35 +4,68 @@ package com.example.europeesaanrijdingsformulier.drawview
 import android.graphics.PointF
 import android.graphics.RectF
 
-class MyRectangle() : RectF() {
+class MyRectangle(
+    val carWidth: Float,
+    val carLength: Float,
+    val center: PointF,
+    val angle: Float? = 0F
+) {
 
 
-    val carWidth = 200
-    val carLength = 400
-    var angle = 0F
-    var oldAngle = 0F
+    //var oldAngle = 0F
 
     //var bitmapA: Bitmap
-    var xcoord: Float = (-100).toFloat()
-    var xcoordDown: Float = 0.toFloat()
-    var ycoord: Float = (-100).toFloat()
-    var ycoordDown: Float = 0.toFloat()
-
-    var left = 0F
-    var top = 0F
-    var right = 0F
-    var bottom = 0F
+    //var xcoordDown: Float = 0.toFloat()
+    //var ycoordDown: Float = 0.toFloat()
 
     var lb = PointF(0F, 0F)
     var rb = PointF(0F, 0F)
     var lo = PointF(0F, 0F)
     var ro = PointF(0F, 0F)
 
-    override fun set(left: Float, top: Float, right: Float, bottom: Float) {
-        super.set(left, top, right, bottom)
 
-        //lb.set(xcoord+((carWidth/2)*Math.cos(angle))
+    fun getTopLeft(): PointF{
+
+        var point = PointF()
+        point.x = (center.x+((-carWidth/2)*Math.cos(angle!! * Math.PI / 180) - ((carLength/2) * Math.sin(angle!! * Math.PI / 180)))).toFloat()
+        point.y = (center.y+((-carWidth/2)*Math.sin(angle!! * Math.PI / 180) + ((carLength/2) * Math.cos(angle!! * Math.PI / 180)))).toFloat()
+        return point
     }
+
+    fun getTopRight(): PointF{
+
+        var point = PointF()
+        point.x = (center.x+((carWidth/2)*Math.cos(angle!! * Math.PI / 180) - ((carLength/2) * Math.sin(angle!! * Math.PI / 180)))).toFloat()
+        point.y = (center.y+((carWidth/2)*Math.sin(angle!! * Math.PI / 180) + ((carLength/2) * Math.cos(angle!! * Math.PI / 180)))).toFloat()
+        return point
+    }
+    fun getBottomLeft(): PointF{
+
+        var point = PointF()
+        point.x = (center.x+((-carWidth/2)*Math.cos(angle!! * Math.PI / 180) - ((-carLength/2) * Math.sin(angle!! * Math.PI / 180)))).toFloat()
+        point.y = (center.y+((-carWidth/2)*Math.sin(angle!! * Math.PI / 180) + ((-carLength/2) * Math.cos(angle!! * Math.PI / 180)))).toFloat()
+        return point
+    }
+    fun getBottomRight(): PointF{
+
+        var point = PointF()
+        point.x = (center.x+((carWidth/2)*Math.cos(angle!! * Math.PI / 180) - ((-carLength/2) * Math.sin(angle!! * Math.PI / 180)))).toFloat()
+        point.y = (center.y+((carWidth/2)*Math.sin(angle!! * Math.PI / 180) + ((-carLength/2) * Math.cos(angle!! * Math.PI / 180)))).toFloat()
+        return point
+    }
+
+    fun getPoints(): Array<PointF>{
+        return arrayOf(getTopLeft(),getTopRight(),getBottomRight(),getBottomLeft())
+    }
+
+    fun calculateMove(x:Float,y:Float): MyRectangle{
+        return MyRectangle(this.carWidth,this.carLength,PointF(center.x+x,center.y+y),this.angle)
+    }
+    fun calculateRotate(newAngle: Float): MyRectangle{
+        return MyRectangle(this.carWidth,this.carLength,center,newAngle)
+    }
+
+
 
 
 }
