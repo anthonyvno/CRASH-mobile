@@ -4,5 +4,5 @@ import android.graphics.Canvas
 
 class SituationManager {
     lateinit var canvas: Canvas
-    
+
 }
