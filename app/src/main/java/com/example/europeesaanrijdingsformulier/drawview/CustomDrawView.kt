@@ -38,6 +38,7 @@ class CustomDrawView @JvmOverloads constructor(
 
 
 
+
     //A
 
     var bitmapA: Bitmap
@@ -63,8 +64,8 @@ class CustomDrawView @JvmOverloads constructor(
         bitmapB = BitmapFactory.decodeResource(context.getResources(), R.drawable.greencar)
         bitmapB = Bitmap.createScaledBitmap(bitmapB, carWidth.toInt(), carLength.toInt(), false)
 
-        rectA = MyRectangle(0F, 0F, PointF(-100F, -100F))
-        rectB = MyRectangle(0F, 0F, PointF(-100F, -100F))
+        rectA = MyRectangle(carWidth, carLength, PointF(-100F, -100F))
+        rectB = MyRectangle(carWidth, carLength, PointF(-100F, -100F))
 
 
         drawPaint.apply {
@@ -325,6 +326,10 @@ class CustomDrawView @JvmOverloads constructor(
         mPath.reset()
         mPaths.clear()
         invalidate()
+    }
+
+    fun setSituation(drawableA: Int, drawableB: Int){
+        //situationManager.setSituation(drawableA,drawableB)
     }
 
 }

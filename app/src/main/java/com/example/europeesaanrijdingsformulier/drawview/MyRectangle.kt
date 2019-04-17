@@ -12,7 +12,7 @@ class MyRectangle(
     val center: PointF,
     val angle: Float? = 0F
 ) {
-    
+
     fun getTopLeft(): PointF {
 
         var point = PointF()
