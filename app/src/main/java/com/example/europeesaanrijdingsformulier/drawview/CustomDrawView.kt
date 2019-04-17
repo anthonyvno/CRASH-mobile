@@ -87,6 +87,7 @@ class CustomDrawView @JvmOverloads constructor(
         this.isDrawingCacheEnabled = true
 
 
+
     }
 
     override fun OnRotation(rotationDetector: RotationGestureDetector) {
