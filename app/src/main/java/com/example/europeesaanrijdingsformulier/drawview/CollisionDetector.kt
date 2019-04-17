@@ -5,14 +5,14 @@ import android.graphics.PointF
 
 class CollisionDetector {
 
-    fun isPolygonsIntersecting(a: MyRectangle, b: MyRectangle): Boolean {
+    fun isRectanglesIntersecting(a: MyRectangle, b: MyRectangle): Boolean {
         for (x in 0..1) {
-            val polygon = if (x == 0) a else b
+            val rect = if (x == 0) a else b
 
-            for (i1 in 0 until polygon.getPoints().size) {
-                val i2 = (i1 + 1) % polygon.getPoints().size
-                val p1 = polygon.getPoints()[i1]
-                val p2 = polygon.getPoints()[i2]
+            for (i1 in 0 until rect.getPoints().size) {
+                val i2 = (i1 + 1) % rect.getPoints().size
+                val p1 = rect.getPoints()[i1]
+                val p2 = rect.getPoints()[i2]
 
                 val normal = PointF(p2.y - p1.y, p1.x - p2.x)
 

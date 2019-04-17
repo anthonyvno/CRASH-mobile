@@ -89,7 +89,7 @@ class CustomDrawView @JvmOverloads constructor(
             val matrix = Matrix()
             matrix.postRotate(-rotationDetector.angle, 0F, 0F)
 
-            if (vehicleASelected && !collisionDetector.isPolygonsIntersecting(rectA.calculateRotate(rotationDetector.angle),rectB)) {
+            if (vehicleASelected && !collisionDetector.isRectanglesIntersecting(rectA.calculateRotate(rotationDetector.angle),rectB)) {
                 rectA = rectA.calculateRotate(rotationDetector.angle)
                 var bitmapA2 = BitmapFactory.decodeResource(context.getResources(), R.drawable.redcar)
                 bitmapA2 = Bitmap.createScaledBitmap(bitmapA2, carWidth.toInt(), carLength.toInt(), false)
@@ -98,7 +98,7 @@ class CustomDrawView @JvmOverloads constructor(
                     Bitmap.createBitmap(bitmapA2, 0, 0, bitmapA2.width, bitmapA2.height, matrix, true)
 
             }
-            if (vehicleBSelected && !collisionDetector.isPolygonsIntersecting(rectB.calculateRotate(rotationDetector.angle),rectA)) {
+            if (vehicleBSelected && !collisionDetector.isRectanglesIntersecting(rectB.calculateRotate(rotationDetector.angle),rectA)) {
                 rectB = rectB.calculateRotate(rotationDetector.angle)
                 var bitmapA2 = BitmapFactory.decodeResource(context.getResources(), R.drawable.greencar)
                 bitmapA2 = Bitmap.createScaledBitmap(bitmapA2, carWidth.toInt(), carLength.toInt(), false)
@@ -147,14 +147,14 @@ class CustomDrawView @JvmOverloads constructor(
                     actionMove(event.x, event.y)
                 } else {
                     if (vehicleASelected) {
-                        if (!collisionDetector.isPolygonsIntersecting(rectA.calculateMove(event.x- xDeltaFingerCenterA-rectA.center.x, event.y- yDeltaFingerCenterA-rectA.center.y), rectB)) {
+                        if (!collisionDetector.isRectanglesIntersecting(rectA.calculateMove(event.x- xDeltaFingerCenterA-rectA.center.x, event.y- yDeltaFingerCenterA-rectA.center.y), rectB)) {
 
                             rectA = rectA.calculateMove(event.x- xDeltaFingerCenterA-rectA.center.x, event.y- yDeltaFingerCenterA-rectA.center.y)
 
                         }
                     }
                     if (vehicleBSelected) {
-                        if (!collisionDetector.isPolygonsIntersecting(rectB.calculateMove(event.x- xDeltaFingerCenterB-rectB.center.x, event.y- yDeltaFingerCenterB-rectB.center.y), rectA)) {
+                        if (!collisionDetector.isRectanglesIntersecting(rectB.calculateMove(event.x- xDeltaFingerCenterB-rectB.center.x, event.y- yDeltaFingerCenterB-rectB.center.y), rectA)) {
 
                             rectB = rectB.calculateMove(event.x- xDeltaFingerCenterB-rectB.center.x, event.y- yDeltaFingerCenterB-rectB.center.y)
 
