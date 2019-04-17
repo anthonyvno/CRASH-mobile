@@ -12,20 +12,7 @@ class MyRectangle(
     val center: PointF,
     val angle: Float? = 0F
 ) {
-
-
-    //var oldAngle = 0F
-
-    //var bitmapA: Bitmap
-    //var xcoordDown: Float = 0.toFloat()
-    //var ycoordDown: Float = 0.toFloat()
-
-    var lb = PointF(0F, 0F)
-    var rb = PointF(0F, 0F)
-    var lo = PointF(0F, 0F)
-    var ro = PointF(0F, 0F)
-
-
+    
     fun getTopLeft(): PointF {
 
         var point = PointF()
