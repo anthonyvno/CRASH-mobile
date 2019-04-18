@@ -15,7 +15,7 @@ class QRManager {
     fun handleGreenCardScan(scannedJson: String): Profile {
         val json = JSONObject(scannedJson)
         val insured = json.getJSONObject("insured")
-        val insurance = json.getJSONObject("Insurer")
+        val insurance = json.getJSONObject("insurer")
         val vehicle = json.getJSONObject("vehicle")
         //Log.d("insured",insured.toString())
         val keys = insured.keys()
