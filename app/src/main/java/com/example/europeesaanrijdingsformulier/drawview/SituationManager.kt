@@ -46,7 +46,7 @@ class SituationManager(
         canvas.drawBitmap(
             bitmapA,
             rectA.center.x - bitmapA.width / 2,
-            rectA.center.y - bitmapA.height / 2,
+            rectA.center.y,
             paint
         )
 
@@ -58,7 +58,7 @@ class SituationManager(
         canvas.drawBitmap(
             bitmapB,
             rectB.center.x - bitmapB.width / 2,
-            rectB.center.y - bitmapB.height / 2,
+            rectB.center.y ,
             paint
         )
     }
