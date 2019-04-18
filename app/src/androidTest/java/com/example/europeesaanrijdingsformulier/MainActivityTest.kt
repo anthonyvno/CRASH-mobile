@@ -6,10 +6,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.support.test.InstrumentationRegistry
 import android.support.test.espresso.Espresso
-import android.support.test.espresso.action.ViewActions
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers
-import android.support.test.espresso.matcher.ViewMatchers.withText
 import android.support.test.rule.ActivityTestRule
 import org.junit.After
 import org.junit.Assert.*
@@ -18,7 +16,6 @@ import org.junit.Rule
 import org.junit.Test
 import android.support.test.espresso.Espresso.onData
 import android.support.test.espresso.contrib.RecyclerViewActions
-import android.support.test.espresso.matcher.ViewMatchers.withSpinnerText
 import android.support.v7.widget.RecyclerView
 import org.hamcrest.CoreMatchers.anything
 import org.hamcrest.CoreMatchers.containsString
@@ -28,9 +25,10 @@ import android.content.Intent
 import android.support.test.espresso.contrib.PickerActions
 import android.widget.DatePicker
 import org.hamcrest.Matchers
-import android.support.test.espresso.matcher.ViewMatchers.withClassName
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.ViewAction
+import android.support.test.espresso.action.*
+import android.support.test.espresso.matcher.ViewMatchers.*
 import android.widget.TimePicker
 import kotlin.concurrent.thread
 
@@ -52,9 +50,9 @@ class MainActivityTest{
     private var licenseNumber2 = "147302847"
     // private var licenseExpiringDate = "24/03/2022"
 
-    private var vehicleType = "Auto"
+    private var vehicleType = "Vrachtwagen"
     private var brand = "Mercedes"
-    private var model = "CLA"
+    private var model = "Actros"
     private var licensePlate = "1-ABC-456"
     private var country = "Belgium"
     private var brand2 = "Honda"
@@ -217,7 +215,7 @@ class MainActivityTest{
         Espresso.onView(ViewMatchers.withId(R.id.button_report_license_a_confirm)).perform(ViewActions.click())
 
         Espresso.onView(ViewMatchers.withId(R.id.spinner_report_vehicle_detail_a_type)).perform(ViewActions.click())
-        onData(anything()).atPosition(0).perform(ViewActions.click());
+        onData(anything()).atPosition(2).perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withId(R.id.textedit_report_vehicle_detail_a_brand)).perform(ViewActions.typeText(brand))
         Espresso.onView(ViewMatchers.withId(R.id.textedit_report_vehicle_detail_a_model)).perform(ViewActions.typeText(model))
         Espresso.onView(ViewMatchers.withId(R.id.textedit_report_vehicle_detail_a_licensePlate)).perform(ViewActions.typeText(licensePlate))
@@ -261,7 +259,7 @@ class MainActivityTest{
         Espresso.onView(ViewMatchers.withId(R.id.button_report_license_b_confirm)).perform(ViewActions.click())
 
         Espresso.onView(ViewMatchers.withId(R.id.spinner_report_vehicle_detail_b_type)).perform(ViewActions.click())
-        onData(anything()).atPosition(2).perform(ViewActions.click());
+        onData(anything()).atPosition(3).perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withId(R.id.textedit_report_vehicle_detail_b_brand)).perform(ViewActions.typeText(brand2))
         Espresso.onView(ViewMatchers.withId(R.id.textedit_report_vehicle_detail_b_model)).perform(ViewActions.typeText(model2))
         Espresso.onView(ViewMatchers.withId(R.id.textedit_report_vehicle_detail_b_licensePlate)).perform(ViewActions.typeText(licensePlate2))
@@ -285,6 +283,67 @@ class MainActivityTest{
         Espresso.onView(ViewMatchers.withId(R.id.textedit_report_vehicle_insurance_b_phone)).perform(ViewActions.typeText(agencyPhone2))
         Espresso.closeSoftKeyboard()
         Espresso.onView(ViewMatchers.withId(R.id.button_report_vehicle_insurance_b_confirm)).perform(ViewActions.click())
+
+        Espresso.onView(ViewMatchers.withId(R.id.switch_circ_1a)).perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(R.id.switch_circ_3a)).perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(R.id.switch_circ_7a)).perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(R.id.switch_circ_4b)).perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(R.id.button_report_circ_confirm)).perform(ViewActions.click())
+
+        Espresso.onView(ViewMatchers.withId(R.id.switch_circ_10a)).perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(R.id.switch_circ_12b)).perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(R.id.switch_circ_15b)).perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(R.id.switch_circ_16b)).perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(R.id.button_report_circ_save)).perform(ViewActions.click())
+
+        Espresso.onView(ViewMatchers.withId(R.id.drawview_report_sketch)).perform(
+            GeneralSwipeAction(
+                Swipe.SLOW,
+                GeneralLocation.CENTER ,
+                GeneralLocation.CENTER_RIGHT,
+                Press.FINGER
+            )
+        )
+
+
+        Espresso.onView(ViewMatchers.withId(R.id.button_sketch_draw)).perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(R.id.drawview_report_sketch)).perform(ViewActions.swipeDown())
+        Thread.sleep(500)
+        Espresso.onView(ViewMatchers.withId(R.id.button_sketch_undo)).perform(ViewActions.click())
+        Thread.sleep(500)
+        Espresso.onView(ViewMatchers.withId(R.id.button_sketch_redo)).perform(ViewActions.click())
+        Thread.sleep(500)
+        Espresso.onView(ViewMatchers.withId(R.id.button_sketch_clear)).perform(ViewActions.click())
+        Thread.sleep(500)
+        Espresso.onView(ViewMatchers.withId(R.id.drawview_report_sketch)).perform(ViewActions.swipeDown())
+        Thread.sleep(500)
+        Espresso.onView(ViewMatchers.withId(R.id.button_report_sketch_confirm)).perform(ViewActions.click())
+
+        Espresso.onView(ViewMatchers.withId(R.id.button_report_image_camera)).perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0,
+            ViewActions.click()))
+        Espresso.onView(ViewMatchers.withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(1,
+            ViewActions.click()))
+        Espresso.onView(ViewMatchers.withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(2,
+            ViewActions.click()))
+        Espresso.onView(ViewMatchers.withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(3,
+            ViewActions.click()))
+        Espresso.onView(ViewMatchers.withId(R.id.menu_done)).perform(ViewActions.click())
+        Thread.sleep(1000)
+        Espresso.onView(ViewMatchers.withId(R.id.button_report_image_confirm)).perform(ViewActions.click())
+
+        Thread.sleep(1000)
+        Espresso.onView(ViewMatchers.withId(R.id.button_report_overview_confirm)).perform(ViewActions.click())
+
+        Espresso.onView(ViewMatchers.withId(R.id.signature_pad_a)).perform(ViewActions.swipeDown())
+        Espresso.onView(ViewMatchers.withId(R.id.signature_pad_b)).perform(ViewActions.swipeLeft())
+        Espresso.onView(ViewMatchers.withId(R.id.button_report_confirmation_confirm)).perform(ViewActions.click())
         Thread.sleep(10000)
+
+        Thread.sleep(10000)
+
+
     }
 }
+
+
