@@ -48,11 +48,11 @@ class ReportVehicleDetailBFragment : Fragment() {
         }
 
         option.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 category = adapter.getItem(position)
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>) {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
             }
         };
 
@@ -85,7 +85,7 @@ class ReportVehicleDetailBFragment : Fragment() {
             this.fragmentManager!!.beginTransaction()
                 .setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left,R.anim.enter_from_left,R.anim.exit_to_right)
                 .replace(R.id.container_main, fragment)
-                //.addToBackStack(null)
+                .addToBackStack(null)
                 .commit()
         }
     }

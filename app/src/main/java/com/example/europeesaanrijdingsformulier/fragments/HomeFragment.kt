@@ -11,10 +11,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.*
 import com.example.europeesaanrijdingsformulier.R
 import com.example.europeesaanrijdingsformulier.profile.ProfileSummaryFragment
-import com.example.europeesaanrijdingsformulier.profile.Vehicle
 import com.example.europeesaanrijdingsformulier.report.*
-import com.example.europeesaanrijdingsformulier.utils.PdfWriterManager
-import com.example.europeesaanrijdingsformulier.utils.PrefManager
 import kotlinx.android.synthetic.main.fragment_home.*
 
 
@@ -55,7 +52,7 @@ class HomeFragment : Fragment() {
             this.fragmentManager!!.beginTransaction()
                 .setCustomAnimations(R.anim.abc_fade_in,R.anim.abc_fade_out,R.anim.abc_fade_in,R.anim.abc_fade_out)
                 .replace(R.id.container_main, ReportCrashInformation())
-                .addToBackStack(null)
+                .addToBackStack("home_to_crashinformation")
                 .commit()
         }
 

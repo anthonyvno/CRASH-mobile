@@ -44,7 +44,10 @@ class ReportLicenseAFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        val option = spinnerManager.instantiateSpinner(activity!!,R.id.spinner_report_license_a_category,getResources().getStringArray(R.array.licenseCategory))
+        val option = spinnerManager.instantiateSpinner(
+            activity!!,
+            R.id.spinner_report_license_a_category,
+            getResources().getStringArray(R.array.licenseCategory))
         val adapter = option.adapter as ArrayAdapter<String>
 
         if (report?.profiles.first().license?.category != null) {
@@ -53,12 +56,13 @@ class ReportLicenseAFragment : Fragment() {
         }
 
         option.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                category = adapter.getItem(position)
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                category = adapter.getItem(position) as String
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>) {
-            }
+
         }
 
         datePickerManager.instantiateDatePicker(activity!!,R.id.textedit_report_license_a_expires)
@@ -76,7 +80,7 @@ class ReportLicenseAFragment : Fragment() {
             this.fragmentManager!!.beginTransaction()
                 .setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left,R.anim.enter_from_left,R.anim.exit_to_right)
                 .replace(R.id.container_main, reportVehicleDetailAFragment)
-                //.addToBackStack(null)
+                .addToBackStack(null)
                 .commit()
             reportVehicleDetailAFragment.addObject(report)
 

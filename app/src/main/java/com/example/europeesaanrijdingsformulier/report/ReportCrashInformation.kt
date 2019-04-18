@@ -18,6 +18,7 @@ import android.widget.Spinner
 import com.example.europeesaanrijdingsformulier.R
 import com.example.europeesaanrijdingsformulier.utils.DatePickerManager
 import com.example.europeesaanrijdingsformulier.utils.SpinnerManager
+import com.example.europeesaanrijdingsformulier.utils.Validator
 import kotlinx.android.synthetic.main.fragment_report_crash_information.*
 import java.util.*
 
@@ -28,6 +29,7 @@ class ReportCrashInformation : Fragment() {
     private lateinit var country: String
     private val spinnerManager = SpinnerManager()
     private val datePickerManager = DatePickerManager()
+    private val validator = Validator()
 
 
     override fun onCreateView(
@@ -43,11 +45,15 @@ class ReportCrashInformation : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        datePickerManager.instantiateDatePicker(activity!!,R.id.textedit_report_crash_information_date)
+        datePickerManager.instantiateDatePicker(activity!!, R.id.textedit_report_crash_information_date)
         instantiateTimePicker()
-        val optionCountries = spinnerManager.instantiateSpinner(activity!!,R.id.spinner_report_crash_information_country,getResources().getStringArray(R.array.countries_array))
+        val optionCountries = spinnerManager.instantiateSpinner(
+            activity!!,
+            R.id.spinner_report_crash_information_country,
+            getResources().getStringArray(R.array.countries_array)
+        )
 
-        optionCountries.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+        optionCountries.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
 
             }
@@ -58,29 +64,35 @@ class ReportCrashInformation : Fragment() {
 
         }
 
-        button_report_crash_information_confirm.setOnClickListener{
-            val date = textedit_report_crash_information_date.text.toString()
-            val time = textedit_report_crash_information_time.text.toString()
-            val dateSplit = date.split("/")
-            val timeSplit = time.split(":")
-            val dateReport = Date(dateSplit[2].toInt()-1900,dateSplit[1].toInt(),dateSplit[0].toInt()
-                ,timeSplit[0].toInt(),timeSplit[1].toInt())
+        button_report_crash_information_confirm.setOnClickListener {
+            if(isValidated()){
+                val date = textedit_report_crash_information_date.text.toString()
+                val time = textedit_report_crash_information_time.text.toString()
+                val dateSplit = date.split("/")
+                val timeSplit = time.split(":")
+                val dateReport = Date(
+                    dateSplit[2].toInt() - 1900, dateSplit[1].toInt(), dateSplit[0].toInt()
+                    , timeSplit[0].toInt(), timeSplit[1].toInt()
+                )
 
-            report = Report(1, emptyList(), dateReport,
-                textedit_report_crash_information_street.text.toString(),
-                textedit_report_crash_information_streetNumber.text.toString(),
-                textedit_report_crash_information_postalCode.text.toString(),
-                textedit_report_crash_information_city.text.toString(),
-                country
-            )
+                report = Report(
+                    1, emptyList(), dateReport,
+                    textedit_report_crash_information_street.text.toString(),
+                    textedit_report_crash_information_streetNumber.text.toString(),
+                    textedit_report_crash_information_postalCode.text.toString(),
+                    textedit_report_crash_information_city.text.toString(),
+                    country
+                )
 
 
-            val fragment = ReportStartAFragment()
-            fragment.addObject(report)
-            this.fragmentManager!!.beginTransaction()
-                .replace(R.id.container_main, fragment)
-               // .addToBackStack(null)
-                .commit()
+                val fragment = ReportStartAFragment()
+                fragment.addObject(report)
+                this.fragmentManager!!.beginTransaction()
+                    .replace(R.id.container_main, fragment)
+                     .addToBackStack(null)
+                    .commit()
+            }
+
         }
     }
 
@@ -91,16 +103,44 @@ class ReportCrashInformation : Fragment() {
 
         val timepicker = activity!!.findViewById<EditText>(R.id.textedit_report_crash_information_time)
 
-        timepicker.setOnClickListener(){
-            val dpd = TimePickerDialog(activity, TimePickerDialog.OnTimeSetListener { view,  hour, minute ->
+        timepicker.setOnClickListener() {
+            val dpd = TimePickerDialog(activity, TimePickerDialog.OnTimeSetListener { view, hour, minute ->
 
                 timepicker.setText("" + hour + ":" + minute)
 
-            }, hour, minute,true)
+            }, hour, minute, true)
 
             dpd.show()
         }
 
     }
 
+    fun isValidated(): Boolean {
+        if (validator.isNotEmpty(textedit_report_crash_information_date.text.toString())
+            && validator.isNotEmpty(textedit_report_crash_information_time.text.toString())
+            && validator.isNotEmpty(textedit_report_crash_information_city.text.toString())
+            && validator.isNotEmpty(textedit_report_crash_information_postalCode.text.toString())
+            && validator.isNotEmpty(textedit_report_crash_information_street.text.toString())
+        ){
+            return true
+        } else{
+            if(!validator.isNotEmpty(textedit_report_crash_information_date.text.toString())){
+                textedit_report_crash_information_date.setError("Datum moet ingevuld zijn.")
+            }
+            if(!validator.isNotEmpty(textedit_report_crash_information_time.text.toString())){
+                textedit_report_crash_information_time.setError("Tijdstip moet ingevuld zijn.")
+            }
+            if(!validator.isNotEmpty(textedit_report_crash_information_city.text.toString())){
+                textedit_report_crash_information_city.setError("Stad moet ingevuld zijn.")
+            }
+            if(!validator.isNotEmpty(textedit_report_crash_information_postalCode.text.toString())){
+                textedit_report_crash_information_postalCode.setError("Postcode moet ingevuld zijn.")
+            }
+            if(!validator.isNotEmpty(textedit_report_crash_information_street.text.toString())){
+                textedit_report_crash_information_street.setError("Straat moet ingevuld zijn.")
+            }
+        }
+        return false
     }
+
+}

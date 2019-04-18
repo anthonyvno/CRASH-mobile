@@ -9,6 +9,13 @@ import android.view.View
 import com.example.europeesaanrijdingsformulier.R
 import android.graphics.Bitmap
 
+import android.view.WindowManager
+
+
+
+
+
+
 class CustomDrawView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr),
@@ -31,17 +38,20 @@ class CustomDrawView @JvmOverloads constructor(
     var mStartX = 0f
     var mStartY = 0f
 
-    val carWidth = 200F
-    val carLength = 400F
 
 
-
-
-
-
-
+    val carWidth :Float
+    val carLength:Float
 
     init {
+        var wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        var dis = wm.defaultDisplay
+        val size = Point()
+        dis.getSize(size)
+        carWidth = size.x.toFloat()/8
+        carLength = size.y.toFloat()/6
+
+
         situationManager = SituationManager(rectA = MyRectangle(carWidth, carLength, PointF(-100F, -100F)),
             rectB = MyRectangle(carWidth, carLength, PointF(-100F, -100F)),
             drawableA = R.drawable.redcar,

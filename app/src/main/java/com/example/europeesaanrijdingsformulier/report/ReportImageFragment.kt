@@ -75,7 +75,7 @@ class ReportImageFragment : Fragment() {
                     R.anim.exit_to_right
                 )
                 .replace(R.id.container_main, fragment)
-                //.addToBackStack(null)
+                .addToBackStack(null)
                 .commit()
         }
     }

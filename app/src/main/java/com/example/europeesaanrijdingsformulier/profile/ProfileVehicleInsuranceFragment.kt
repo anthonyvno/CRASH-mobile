@@ -14,6 +14,7 @@ import com.example.europeesaanrijdingsformulier.insurer.Insurer
 import com.example.europeesaanrijdingsformulier.utils.DatePickerManager
 import com.example.europeesaanrijdingsformulier.utils.PrefManager
 import com.example.europeesaanrijdingsformulier.utils.SpinnerManager
+import com.example.europeesaanrijdingsformulier.utils.Validator
 import kotlinx.android.synthetic.main.fragment_profile_vehicle_insurance.*
 import java.util.*
 
@@ -25,6 +26,7 @@ class ProfileVehicleInsuranceFragment : Fragment() {
     private lateinit var insurerName: String
     private lateinit var viewModel: HubViewModel
     private val spinnerManager = SpinnerManager()
+    private val validator = Validator()
     private val datePickerManager = DatePickerManager()
 
 
@@ -67,47 +69,50 @@ class ProfileVehicleInsuranceFragment : Fragment() {
             fillInTextFields()
         }
         button_profile_vehicle_insurance_confirm.setOnClickListener {
-            val date = textedit_profile_vehicle_insurance_expires.text.toString()
-            val dateSplit = date.split("/")
-            val dateExpires = Date(
-                dateSplit[2].toInt() - 1900, dateSplit[1].toInt() - 1, dateSplit[0].toInt() + 1
-            )
-            val insurer4 = insurers.find { insurer -> insurer.name == insurerName }
-            var insurance = Insurance(
-                1,
-                textedit_profile_vehicle_insurance_insuranceNumber.text.toString(),
-                textedit_profile_vehicle_insurance_greenCard.text.toString(),
-                textedit_profile_vehicle_insurance_email.text.toString(),
-                dateExpires,
-                textedit_profile_vehicle_insurance_phone.text.toString(),
-                insurer4
-            )
+            if(isValidated()){
+                val date = textedit_profile_vehicle_insurance_expires.text.toString()
+                val dateSplit = date.split("/")
+                val dateExpires = Date(
+                    dateSplit[2].toInt() - 1900, dateSplit[1].toInt() - 1, dateSplit[0].toInt() + 1
+                )
+                val insurer4 = insurers.find { insurer -> insurer.name == insurerName }
+                var insurance = Insurance(
+                    1,
+                    textedit_profile_vehicle_insurance_insuranceNumber.text.toString(),
+                    textedit_profile_vehicle_insurance_greenCard.text.toString(),
+                    textedit_profile_vehicle_insurance_email.text.toString(),
+                    dateExpires,
+                    textedit_profile_vehicle_insurance_phone.text.toString(),
+                    insurer4
+                )
 
-            val profile = prefManager.getProfile()
+                val profile = prefManager.getProfile()
 
-            vehicle.insurance = insurance
-            var vehicles = prefManager.getVehicles()
-            if (vehicles != null) {
-                var comparevehicle = vehicles.find { it.id == vehicle.id }
-                if (comparevehicle == null) {
-                    vehicles.add(vehicle)
+                vehicle.insurance = insurance
+                var vehicles = prefManager.getVehicles()
+                if (vehicles != null) {
+                    var comparevehicle = vehicles.find { it.id == vehicle.id }
+                    if (comparevehicle == null) {
+                        vehicles.add(vehicle)
+                    } else {
+                        vehicles.remove(comparevehicle)
+                        vehicles.add(vehicle)
+                    }
                 } else {
-                    vehicles.remove(comparevehicle)
-                    vehicles.add(vehicle)
+                    vehicles = mutableListOf<Vehicle>(vehicle)
                 }
-            } else {
-                vehicles = mutableListOf<Vehicle>(vehicle)
+
+                prefManager.saveVehicles(vehicles)
+                profile!!.vehicles = vehicles
+                prefManager.saveProfile(profile)
+
+                this.fragmentManager!!.beginTransaction()
+                    .setCustomAnimations(R.anim.abc_fade_in, R.anim.abc_fade_out, R.anim.abc_fade_in, R.anim.abc_fade_out)
+                    .replace(R.id.container_main, ProfileSummaryFragment(), "summary")
+                    //.addToBackStack(null)
+                    .commit()
             }
 
-            prefManager.saveVehicles(vehicles)
-            profile!!.vehicles = vehicles
-            prefManager.saveProfile(profile)
-
-            this.fragmentManager!!.beginTransaction()
-                .setCustomAnimations(R.anim.abc_fade_in, R.anim.abc_fade_out, R.anim.abc_fade_in, R.anim.abc_fade_out)
-                .replace(R.id.container_main, ProfileSummaryFragment(), "summary")
-                //.addToBackStack(null)
-                .commit()
         }
 
 
@@ -131,6 +136,21 @@ class ProfileVehicleInsuranceFragment : Fragment() {
 
     fun addObject(item: Vehicle) {
         this.vehicle = item
+    }
+
+    fun isValidated():Boolean{
+        if(validator.isNotEmpty(textedit_profile_vehicle_insurance_expires.text.toString())
+            && validator.isValidEmail(textedit_profile_vehicle_insurance_email.text.toString())){
+            return true
+        } else {
+            if(!validator.isNotEmpty(textedit_profile_vehicle_insurance_expires.text.toString())){
+                textedit_profile_vehicle_insurance_expires.setError("Datum moet ingevuld zijn.")
+            }
+            if(!validator.isValidEmail(textedit_profile_vehicle_insurance_email.text.toString())){
+                textedit_profile_vehicle_insurance_email.setError("Geen geldig e-mailadres.")
+            }
+        }
+        return false
     }
 
 }

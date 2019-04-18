@@ -1,45 +1,26 @@
 package com.example.europeesaanrijdingsformulier
 
-import android.app.Activity
+import android.app.AlertDialog
 import android.app.FragmentManager.POP_BACK_STACK_INCLUSIVE
-import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.content.Context
-import android.content.Intent
-import android.content.SharedPreferences
+
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.support.design.widget.Snackbar
-import android.support.v4.app.FragmentManager
+
 import android.support.v7.app.AppCompatActivity;
-import android.text.Html
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import com.example.anthonyvannoppen.androidproject.ui.HubViewModel
 import com.example.europeesaanrijdingsformulier.fragments.HomeFragment
 import com.example.europeesaanrijdingsformulier.fragments.ReportListFragment
-import com.example.europeesaanrijdingsformulier.insurer.Insurer
-import com.example.europeesaanrijdingsformulier.profile.*
-import com.example.europeesaanrijdingsformulier.report.Report
-import com.example.europeesaanrijdingsformulier.report.ReportAlgemeenAFragment
 import com.example.europeesaanrijdingsformulier.utils.PrefManager
-import com.example.europeesaanrijdingsformulier.utils.QRManager
-import com.google.gson.Gson
-import com.google.zxing.integration.android.IntentIntegrator
-
 import kotlinx.android.synthetic.main.activity_main.*
-import org.json.JSONObject
-import java.util.logging.Logger
+import android.content.DialogInterface
+
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var prefManager: PrefManager
-    private val qrManager = QRManager()
     private lateinit var viewModel: HubViewModel
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,7 +58,12 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.action_formulieren -> {
                 supportFragmentManager.beginTransaction()
-                    .setCustomAnimations(R.anim.abc_fade_in,R.anim.abc_fade_out,R.anim.abc_fade_in,R.anim.abc_fade_out)
+                    .setCustomAnimations(
+                        R.anim.abc_fade_in,
+                        R.anim.abc_fade_out,
+                        R.anim.abc_fade_in,
+                        R.anim.abc_fade_out
+                    )
                     .replace(R.id.container_main, ReportListFragment())
                     .addToBackStack(null)
                     .commit()
@@ -94,18 +80,41 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         val fm = supportFragmentManager
-        if(fm.findFragmentByTag("summary")!=null && fm.findFragmentByTag("summary")!!.isVisible()){
-            fm.popBackStack("home_to_profileSummary",POP_BACK_STACK_INCLUSIVE)
+        if (fm.findFragmentByTag("summary") != null && fm.findFragmentByTag("summary")!!.isVisible()) {
+            fm.popBackStack("home_to_profileSummary", POP_BACK_STACK_INCLUSIVE)
         } else
-        if(fm.findFragmentByTag("insurance")!=null && fm.findFragmentByTag("insurance")!!.isVisible() ){
-            fm.popBackStack("list_to_detail", POP_BACK_STACK_INCLUSIVE)
-        } else {
-            super.onBackPressed()
-        }
+            if (fm.findFragmentByTag("insurance") != null && fm.findFragmentByTag("insurance")!!.isVisible()) {
+                fm.popBackStack("list_to_detail", POP_BACK_STACK_INCLUSIVE)
+            } else {
+                if (fm.findFragmentByTag("startB") != null && fm.findFragmentByTag("startB")!!.isVisible()) {
+                    AlertDialog.Builder(this)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle("Afsluiten formulier")
+                        .setMessage("Wilt u terug gaan naar het beginscherm? Ingevulde gegevens gaan verloren.")
+                        .setPositiveButton(
+                            "Ja",
+                            DialogInterface.OnClickListener { dialog, which -> fm.popBackStack("home_to_crashinformation", POP_BACK_STACK_INCLUSIVE) })
+                        .setNegativeButton("Nee", null)
+                        .show()
+                } else {
+                    if (fm.findFragmentByTag("circumstances") != null && fm.findFragmentByTag("circumstances")!!.isVisible()) {
+                        AlertDialog.Builder(this)
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setTitle("Afsluiten formulier")
+                            .setMessage("Wilt u terug gaan naar het beginscherm? Ingevulde gegevens gaan verloren.")
+                            .setPositiveButton(
+                                "Ja",
+                                DialogInterface.OnClickListener { dialog, which -> super.onBackPressed() })
+                            .setNegativeButton("Nee", null)
+                            .show()
+                    } else {
+                        super.onBackPressed()
+                    }
+                }
+
+
+            }
     }
-
-
-
 
 
 }

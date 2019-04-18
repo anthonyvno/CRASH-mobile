@@ -44,13 +44,13 @@ import java.util.*
 class ReportVehicleInsuranceBFragment : Fragment() {
 
     private lateinit var report: Report
-    private lateinit var pdfWriterManager: PdfWriterManager
     private lateinit var insurerName: String
     private lateinit var insurers: List<Insurer>
     private lateinit var viewModel: HubViewModel
     private lateinit var prefManager: PrefManager
     private val spinnerManager = SpinnerManager()
     private val datePickerManager = DatePickerManager()
+    private val validator= Validator()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -80,11 +80,11 @@ class ReportVehicleInsuranceBFragment : Fragment() {
         }
 
         option.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 insurerName = adapter.getItem(position)
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>) {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
             }
         }
         datePickerManager.instantiateDatePicker(activity!!, R.id.textedit_report_vehicle_insurance_b_expires)
@@ -92,43 +92,39 @@ class ReportVehicleInsuranceBFragment : Fragment() {
             fillInTextFields()
         }
         button_report_vehicle_insurance_b_confirm.setOnClickListener {
-            val date = textedit_report_vehicle_insurance_b_expires.text.toString()
-            val dateSplit = date.split("/")
-            val dateExpires = Date(
-                dateSplit[2].toInt() - 1900, dateSplit[1].toInt() - 1, dateSplit[0].toInt() + 1
-            )
-            val insurer4 = insurers.find { insurer -> insurer.name == insurerName }
-            var insurance = Insurance(
-                1,
-                textedit_report_vehicle_insurance_b_insuranceNumber.text.toString(),
-                textedit_report_vehicle_insurance_b_greenCard.text.toString(),
-                textedit_report_vehicle_insurance_b_email.text.toString(),
-                dateExpires,
-                textedit_report_vehicle_insurance_b_phone.text.toString(),
-                insurer4
-            )
-
-            report.profiles.last().vehicles?.first()?.insurance = insurance
-
-            //prefManager.saveReport(report)
-            //viewModel.postReport(report)
-            pdfWriterManager = PdfWriterManager()
-            /*report.imagePDF = pdfWriterManager.writePDF(report, activity)
-            val gson = Gson()
-            val log = gson.toJson(report.imagePDF)
-            Log.d("bytearray: ", log)*/
-            val fragment = ReportCircumstancesFragment()
-            fragment.addObject(report)
-            this.fragmentManager!!.beginTransaction()
-                .setCustomAnimations(
-                    R.anim.enter_from_right,
-                    R.anim.exit_to_left,
-                    R.anim.enter_from_left,
-                    R.anim.exit_to_right
+            if(isValidated()){
+                val date = textedit_report_vehicle_insurance_b_expires.text.toString()
+                val dateSplit = date.split("/")
+                val dateExpires = Date(
+                    dateSplit[2].toInt() - 1900, dateSplit[1].toInt() - 1, dateSplit[0].toInt() + 1
                 )
-                .replace(R.id.container_main, fragment)
-                //.addToBackStack(null)
-                .commit()
+                val insurer4 = insurers.find { insurer -> insurer.name == insurerName }
+                var insurance = Insurance(
+                    1,
+                    textedit_report_vehicle_insurance_b_insuranceNumber.text.toString(),
+                    textedit_report_vehicle_insurance_b_greenCard.text.toString(),
+                    textedit_report_vehicle_insurance_b_email.text.toString(),
+                    dateExpires,
+                    textedit_report_vehicle_insurance_b_phone.text.toString(),
+                    insurer4
+                )
+
+                report.profiles.last().vehicles?.first()?.insurance = insurance
+
+                val fragment = ReportCircumstancesFragment()
+                fragment.addObject(report)
+                this.fragmentManager!!.beginTransaction()
+                    .setCustomAnimations(
+                        R.anim.enter_from_right,
+                        R.anim.exit_to_left,
+                        R.anim.enter_from_left,
+                        R.anim.exit_to_right
+                    )
+                    .replace(R.id.container_main, fragment,"circumstances")
+                    //.addToBackStack(null)
+                    .commit()
+            }
+
 
         }
     }
@@ -151,6 +147,20 @@ class ReportVehicleInsuranceBFragment : Fragment() {
 
     fun addObject(item: Report) {
         this.report = item
+    }
+    fun isValidated():Boolean{
+        if(validator.isNotEmpty(textedit_report_vehicle_insurance_b_expires.text.toString())
+            && validator.isValidEmail(textedit_report_vehicle_insurance_b_email.text.toString())){
+            return true
+        } else {
+            if(!validator.isNotEmpty(textedit_report_vehicle_insurance_b_expires.text.toString())){
+                textedit_report_vehicle_insurance_b_expires.setError("Datum moet ingevuld zijn.")
+            }
+            if(!validator.isValidEmail(textedit_report_vehicle_insurance_b_email.text.toString())){
+                textedit_report_vehicle_insurance_b_email.setError("Geen geldig e-mailadres.")
+            }
+        }
+        return false
     }
 
 

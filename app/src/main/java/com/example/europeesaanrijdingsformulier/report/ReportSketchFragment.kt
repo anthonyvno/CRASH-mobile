@@ -34,6 +34,26 @@ class ReportSketchFragment : Fragment() {
 
     @SuppressLint("RestrictedApi")
     override fun onStart() {
+
+        var drawableA: Int
+        var drawableB: Int
+        when(report.profiles.get(0).vehicles?.get(0)?.type){
+            "Auto" -> drawableA = R.drawable.redcar
+            "Motorfiets" -> drawableA = R.drawable.redmotorcycle
+            "Bus" -> drawableA = R.drawable.redbus
+            "Vrachtwagen" -> drawableA = R.drawable.redtruck
+            else -> drawableA = R.drawable.redcar
+        }
+        when(report.profiles.get(1).vehicles?.get(0)?.type){
+            "Auto" -> drawableB = R.drawable.greencar
+            "Motorfiets" -> drawableB = R.drawable.greenmotorcycle
+            "Bus" -> drawableB = R.drawable.greenbus
+            "Vrachtwagen" -> drawableB = R.drawable.greentruck
+            else -> drawableB = R.drawable.greencar
+        }
+
+        drawview_report_sketch.setSituation(drawableA,drawableB)
+
         super.onStart()
 
 
@@ -88,7 +108,7 @@ class ReportSketchFragment : Fragment() {
                     R.anim.exit_to_right
                 )
                 .replace(R.id.container_main, fragment)
-                //.addToBackStack(null)
+                .addToBackStack(null)
                 .commit()
 
         }
@@ -96,24 +116,7 @@ class ReportSketchFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        var drawableA: Int
-        var drawableB: Int
-        when(report.profiles.get(0).vehicles?.get(0)?.type){
-            "Auto" -> drawableA = R.drawable.redcar
-            "Motorfiets" -> drawableA = R.drawable.redmotorcycle
-            "Bus" -> drawableA = R.drawable.redbus
-            "Vrachtwagen" -> drawableA = R.drawable.redtruck
-            else -> drawableA = R.drawable.redcar
-        }
-        when(report.profiles.get(1).vehicles?.get(0)?.type){
-            "Auto" -> drawableB = R.drawable.redcar
-            "Motorfiets" -> drawableB = R.drawable.greenmotorcycle
-            "Bus" -> drawableB = R.drawable.greenbus
-            "Vrachtwagen" -> drawableB = R.drawable.greentruck
-            else -> drawableB = R.drawable.redcar
-        }
 
-        drawview_report_sketch.setSituation(drawableA,drawableB)
         activity?.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
     }
 
