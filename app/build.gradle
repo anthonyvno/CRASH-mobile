@@ -18,6 +18,11 @@ android {
         experimental = true
     }
 
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
+
     defaultConfig {
         applicationId "com.example.europeesaanrijdingsformulier"
         minSdkVersion 19
@@ -132,6 +137,13 @@ dependencies {
 
     implementation "com.google.dagger:dagger:$versions.dagger"
     implementation "com.google.dagger:dagger-android-support:$versions.dagger"
+
+    //Mockito
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: '2.1.0'
+    testImplementation 'org.mockito:mockito-inline:2.13.0'
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0"
+    testImplementation "io.mockk:mockk:1.9.3"
+    testImplementation group: 'org.mockito', name: 'mockito-all', version: '1.8.4'
 
     // Adds the annotation processor dependency to the annotation processor classpath.
     //Android Studio by default will not allow you to navigate to generated Dagger 2
