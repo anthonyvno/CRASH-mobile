@@ -101,11 +101,15 @@ class ReportSketchFragment : Fragment() {
         when(report.profiles.get(0).vehicles?.get(0)?.type){
             "Auto" -> drawableA = R.drawable.redcar
             "Motorfiets" -> drawableA = R.drawable.redmotorcycle
+            "Bus" -> drawableA = R.drawable.redbus
+            "Vrachtwagen" -> drawableA = R.drawable.redtruck
             else -> drawableA = R.drawable.redcar
         }
         when(report.profiles.get(1).vehicles?.get(0)?.type){
             "Auto" -> drawableB = R.drawable.redcar
             "Motorfiets" -> drawableB = R.drawable.greenmotorcycle
+            "Bus" -> drawableB = R.drawable.greenbus
+            "Vrachtwagen" -> drawableB = R.drawable.greentruck
             else -> drawableB = R.drawable.redcar
         }
 
