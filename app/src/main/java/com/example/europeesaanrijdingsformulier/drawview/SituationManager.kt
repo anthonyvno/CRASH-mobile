@@ -49,7 +49,7 @@ class SituationManager(
         canvas.drawBitmap(
             bitmapA,
             rectA.center.x - bitmapA.width / 2,
-            rectA.center.y,
+            rectA.center.y - bitmapA.height / 2,
             paint
         )
 
@@ -61,7 +61,7 @@ class SituationManager(
         canvas.drawBitmap(
             bitmapB,
             rectB.center.x - bitmapB.width / 2,
-            rectB.center.y ,
+            rectB.center.y - bitmapB.height / 2,
             paint
         )
     }
@@ -186,7 +186,7 @@ class SituationManager(
                     rectA.carWidth - 30,
                     rectB.carLength - 30,
                     PointF(
-                        (canvas.width / 5).toFloat(), (canvas.height / 3).toFloat()
+                        (canvas.width / 5).toFloat(), (canvas.height / 2).toFloat()
                     )
                 )
             bitmapA = BitmapFactory.decodeResource(context.getResources(), drawableA)
@@ -202,7 +202,7 @@ class SituationManager(
             rectB = MyRectangle(
                 rectB.carWidth - 30,
                 rectB.carLength - 30,
-                PointF(((canvas.width / 5) * 3).toFloat(), (canvas.height / 3).toFloat())
+                PointF(((canvas.width / 5) * 3).toFloat(), (canvas.height / 2).toFloat())
             )
 
             bitmapB = BitmapFactory.decodeResource(context.getResources(), drawableB)

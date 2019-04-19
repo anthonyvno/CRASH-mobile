@@ -3,6 +3,7 @@ package com.example.europeesaanrijdingsformulier
 import android.app.AlertDialog
 import android.app.FragmentManager.POP_BACK_STACK_INCLUSIVE
 import android.arch.lifecycle.ViewModelProviders
+import android.content.*
 
 import android.os.Bundle
 
@@ -14,21 +15,30 @@ import com.example.europeesaanrijdingsformulier.fragments.HomeFragment
 import com.example.europeesaanrijdingsformulier.fragments.ReportListFragment
 import com.example.europeesaanrijdingsformulier.utils.PrefManager
 import kotlinx.android.synthetic.main.activity_main.*
-import android.content.DialogInterface
+import android.net.ConnectivityManager
+import android.widget.Toast
+import com.example.anthonyvannoppen.androidproject.utils.inReport
+import com.example.europeesaanrijdingsformulier.insurer.Insurer
+import com.example.europeesaanrijdingsformulier.utils.ConnectionManager
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var prefManager: PrefManager
     private lateinit var viewModel: HubViewModel
+    val connectionManager = ConnectionManager()
+    private lateinit var mConnReceiver: BroadcastReceiver
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
         setSupportActionBar(my_toolbar)
         prefManager = PrefManager(this)
 
         viewModel = ViewModelProviders.of(this).get(HubViewModel::class.java)
+
 
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
@@ -39,12 +49,39 @@ class MainActivity : AppCompatActivity() {
              var editor = sharedPref.edit()
              editor.clear().apply()
 */
-
+        mConnReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                if (connectionManager.checkConnection(context)) {
+                    if(inReport){
+                        Toast.makeText(applicationContext, "Verbonden met internet", Toast.LENGTH_LONG).show()
+                    }
+                } else {
+                    if (inReport) {
+                        Toast.makeText(applicationContext, "Geen internetverbinding!", Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+        }
         supportFragmentManager.beginTransaction()
             .add(R.id.container_main, HomeFragment())
             .addToBackStack("main")
             .commit()
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        this.registerReceiver(this.mConnReceiver,
+            IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+        )
+        if (connectionManager.checkConnection(this)) {
+            prefManager.saveInsurers(viewModel.getNogInsurers().blockingFirst() as MutableList<Insurer>)
+            println(prefManager.getInsurers())
+        }
+    }
+    override fun onPause() {
+        super.onPause()
+        this.unregisterReceiver(this.mConnReceiver)
     }
 
 

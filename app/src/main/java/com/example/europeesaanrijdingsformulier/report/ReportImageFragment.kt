@@ -1,6 +1,7 @@
 package com.example.europeesaanrijdingsformulier.report
 
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.opengl.Visibility
 import android.os.Build
@@ -19,7 +20,9 @@ import com.esafirm.imagepicker.model.Image
 import kotlinx.android.synthetic.main.fragment_report_image.*
 import android.view.Gravity
 import android.widget.GridLayout
+import android.widget.Toast
 import com.example.europeesaanrijdingsformulier.R
+import com.example.europeesaanrijdingsformulier.utils.ConnectionManager
 import java.io.File
 
 
@@ -27,6 +30,7 @@ class ReportImageFragment : Fragment() {
 
     private lateinit var report: Report
     private var images = mutableListOf<Image>()
+    private val connectionManager = ConnectionManager()
     private lateinit var image: Image
 
 
@@ -52,7 +56,8 @@ class ReportImageFragment : Fragment() {
         }
 
         button_report_image_confirm.setOnClickListener {
-            val temp = mutableListOf<String>()
+            if(connectionManager.checkConnection(activity!!)){
+                val temp = mutableListOf<String>()
 
                 var counter = 0
                 for (img in images) {
@@ -62,21 +67,31 @@ class ReportImageFragment : Fragment() {
                 }
 
 
-            report.pictures = temp.toTypedArray()
+                report.pictures = temp.toTypedArray()
 
 
-            val fragment = ReportOverviewFragment()
-            fragment.addObject(report)
-            this.fragmentManager!!.beginTransaction()
-                .setCustomAnimations(
-                    R.anim.enter_from_right,
-                    R.anim.exit_to_left,
-                    R.anim.enter_from_left,
-                    R.anim.exit_to_right
-                )
-                .replace(R.id.container_main, fragment)
-                .addToBackStack(null)
-                .commit()
+                val fragment = ReportOverviewFragment()
+                fragment.addObject(report)
+                this.fragmentManager!!.beginTransaction()
+                    .setCustomAnimations(
+                        R.anim.enter_from_right,
+                        R.anim.exit_to_left,
+                        R.anim.enter_from_left,
+                        R.anim.exit_to_right
+                    )
+                    .replace(R.id.container_main, fragment)
+                    .addToBackStack(null)
+                    .commit()
+            } else {
+                AlertDialog.Builder(activity)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setTitle("Waarschuwing")
+                    .setMessage("U heeft internetverbinding nodig om verder te gaan.")
+                    .setNegativeButton("Ok", null)
+                    .show()
+
+            }
+
         }
     }
 

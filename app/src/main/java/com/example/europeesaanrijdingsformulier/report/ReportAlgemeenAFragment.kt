@@ -115,7 +115,7 @@ class ReportAlgemeenAFragment : Fragment() {
         }
     }
 
-    fun isValidated(): Boolean {
+    private fun isValidated(): Boolean {
         if (validator.isNotEmpty(this.textedit_algemeen_a_firstname.text.toString()) ||
             validator.isNotEmpty(this.textedit_algemeen_a_lastname.text.toString())
         ) {

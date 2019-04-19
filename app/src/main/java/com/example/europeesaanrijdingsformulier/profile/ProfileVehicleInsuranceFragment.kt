@@ -24,7 +24,6 @@ class ProfileVehicleInsuranceFragment : Fragment() {
     private lateinit var prefManager: PrefManager
     private lateinit var vehicle: Vehicle
     private lateinit var insurerName: String
-    private lateinit var viewModel: HubViewModel
     private val spinnerManager = SpinnerManager()
     private val validator = Validator()
     private val datePickerManager = DatePickerManager()
@@ -35,7 +34,6 @@ class ProfileVehicleInsuranceFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         prefManager = PrefManager(activity)
-        viewModel = ViewModelProviders.of(activity!!).get(HubViewModel::class.java)
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_profile_vehicle_insurance, container, false)
     }
@@ -45,7 +43,7 @@ class ProfileVehicleInsuranceFragment : Fragment() {
         super.onStart()
         datePickerManager.instantiateDatePicker(activity!!, R.id.textedit_profile_vehicle_insurance_expires)
 
-        insurers = viewModel.getInsurers().value!!
+        insurers = prefManager.getInsurers()!!
         val option = spinnerManager.instantiateSpinner(activity!!, R.id.spinner_profile_vehicle_insurance_insurer,
             insurers.map { insurer -> insurer.name }.toTypedArray()
         )

@@ -75,12 +75,16 @@ class MainActivityTest{
     private var city = "Affligem"
 
 
+    // Clear local storage in mainactivity to run test.
 
     @Before
     fun setUp() {
+        /*
         val context = InstrumentationRegistry.getTargetContext()
+
         var sharedPreferences = context.getSharedPreferences(R.string.preferences_profile.toString(), Context.MODE_PRIVATE)
         sharedPreferences.edit().clear().commit()
+        */
 
         Espresso.onView(ViewMatchers.withId(R.id.button_home_toProfile)).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withId(R.id.cardview1_profile_summary)).perform(ViewActions.click())

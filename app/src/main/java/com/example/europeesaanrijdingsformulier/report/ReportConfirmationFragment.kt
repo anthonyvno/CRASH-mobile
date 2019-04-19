@@ -1,6 +1,7 @@
 package com.example.europeesaanrijdingsformulier.report
 
 
+import android.app.AlertDialog
 import android.arch.lifecycle.ViewModelProviders
 import android.graphics.Bitmap
 import android.os.Bundle
@@ -13,6 +14,7 @@ import com.example.anthonyvannoppen.androidproject.ui.HubViewModel
 
 import com.example.europeesaanrijdingsformulier.R
 import com.example.europeesaanrijdingsformulier.fragments.HomeFragment
+import com.example.europeesaanrijdingsformulier.utils.ConnectionManager
 import com.example.europeesaanrijdingsformulier.utils.PrefManager
 import com.github.gcacace.signaturepad.views.SignaturePad
 import kotlinx.android.synthetic.main.fragment_report_confirmation.*
@@ -24,6 +26,7 @@ class ReportConfirmationFragment : Fragment() {
 
     private lateinit var viewModel: HubViewModel
     private lateinit var prefManager: PrefManager
+    private val connectionManager = ConnectionManager()
     private lateinit var report: Report
 
 
@@ -65,38 +68,48 @@ class ReportConfirmationFragment : Fragment() {
             signaturePadB.clear()
         }
         button_report_confirmation_confirm.setOnClickListener{
+            if(connectionManager.checkConnection(activity!!)){
+                val bitmapA = signaturePadA.signatureBitmap
+                val streamA = ByteArrayOutputStream()
+                bitmapA.compress(Bitmap.CompressFormat.PNG,100,streamA)
+                val bytearrayA = streamA.toByteArray()
+                val encodedA = Base64.encodeToString(bytearrayA, Base64.DEFAULT)
 
-            val bitmapA = signaturePadA.signatureBitmap
-            val streamA = ByteArrayOutputStream()
-            bitmapA.compress(Bitmap.CompressFormat.PNG,100,streamA)
-            val bytearrayA = streamA.toByteArray()
-            val encodedA = Base64.encodeToString(bytearrayA, Base64.DEFAULT)
+                val bitmapB = signaturePadB.signatureBitmap
+                val streamB = ByteArrayOutputStream()
+                bitmapB.compress(Bitmap.CompressFormat.PNG,100,streamB)
+                val bytearrayB = streamB.toByteArray()
+                val encodedB = Base64.encodeToString(bytearrayB, Base64.DEFAULT)
 
-            val bitmapB = signaturePadB.signatureBitmap
-            val streamB = ByteArrayOutputStream()
-            bitmapB.compress(Bitmap.CompressFormat.PNG,100,streamB)
-            val bytearrayB = streamB.toByteArray()
-            val encodedB = Base64.encodeToString(bytearrayB, Base64.DEFAULT)
+                report.signatures = arrayOf(encodedA,encodedB)
 
-            report.signatures = arrayOf(encodedA,encodedB)
-
-            println("pdf: " + report.pdfReport)
-            println("sketch: " + report.sketch)
+                println("pdf: " + report.pdfReport)
+                println("sketch: " + report.sketch)
 
 
-            prefManager.saveReport(report)
-            viewModel.postReport(report)
-            val fragment = HomeFragment()
-            this.fragmentManager!!.beginTransaction()
-                .setCustomAnimations(
-                    R.anim.enter_from_right,
-                    R.anim.exit_to_left,
-                    R.anim.enter_from_left,
-                    R.anim.exit_to_right
-                )
-                .replace(R.id.container_main, fragment)
-                //.addToBackStack(null)
-                .commit()
+                prefManager.saveReport(report)
+                viewModel.postReport(report)
+                val fragment = HomeFragment()
+                this.fragmentManager!!.beginTransaction()
+                    .setCustomAnimations(
+                        R.anim.enter_from_right,
+                        R.anim.exit_to_left,
+                        R.anim.enter_from_left,
+                        R.anim.exit_to_right
+                    )
+                    .replace(R.id.container_main, fragment)
+                    //.addToBackStack(null)
+                    .commit()
+            } else {
+                AlertDialog.Builder(activity)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setTitle("Waarschuwing")
+                    .setMessage("U heeft internetverbinding nodig om het aanrijdingsformulier te verzenden.")
+                    .setNegativeButton("Ok", null)
+                    .show()
+            }
+
+
 
         }
     }

@@ -29,7 +29,6 @@ class ReportVehicleInsuranceAFragment : Fragment() {
 
     private lateinit var report: Report
     private lateinit var insurerName: String
-    private lateinit var viewModel: HubViewModel
     private lateinit var insurers: List<Insurer?>
     private val spinnerManager = SpinnerManager()
     private val datePickerManager = DatePickerManager()
@@ -45,15 +44,13 @@ class ReportVehicleInsuranceAFragment : Fragment() {
         prefManager = PrefManager(activity)
         setHasOptionsMenu(true)
 
-        viewModel = ViewModelProviders.of(activity!!).get(HubViewModel::class.java)
-
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_report_vehicle_insurance_a, container, false)
     }
 
     override fun onStart() {
         super.onStart()
-        insurers = viewModel.getInsurers().value!!
+        insurers = prefManager.getInsurers()!!
         val option = spinnerManager.instantiateSpinner(activity!!,R.id.spinner_report_vehicle_insurance_a_insurer,
             insurers.map { insurer -> insurer!!.name }.toTypedArray())
 

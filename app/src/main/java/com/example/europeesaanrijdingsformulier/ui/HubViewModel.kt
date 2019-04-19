@@ -81,6 +81,10 @@ class HubViewModel: InjectedViewModel(){
         return insurers
     }
 
+    fun getNogInsurers(): Observable<List<Insurer>>{
+        return hubApi.getAllInsurers()
+    }
+
 
     fun postLicense(license:License):Observable<License>{
         val returnedLicense = hubApi.addLicense(license)

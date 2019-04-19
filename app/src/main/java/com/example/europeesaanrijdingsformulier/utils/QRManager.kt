@@ -45,14 +45,14 @@ class QRManager {
         }
         while (keys2.hasNext()) {
             keys2.next()
-            emailAgency = insurance.optString("representativeEmail")
-            contractnumber = insurance.optString("contractNumber")
+            emailAgency = insurance.optString("representativeemail")
+            contractnumber = insurance.optString("contractnumber")
             expires = insurance.optString("valid_until")
         }
         while (keys3.hasNext()) {
             keys3.next()
             brand = vehicle.optString("brand")
-            licensePlate = vehicle.optString("licensePlate")
+            licensePlate = vehicle.optString("licenseplate")
             country = vehicle.optString("country")
         }
 
