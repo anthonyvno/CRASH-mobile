@@ -23,14 +23,10 @@ class MyRectangleUnitTest {
 
         @Mock
         val point1 = mock<PointF>()
-
         @Mock
         val point2 = mock<PointF>()
-
         @Mock
         val point3 = mock<PointF>()
-
-
 
     @Before
         fun setup() {
@@ -40,7 +36,6 @@ class MyRectangleUnitTest {
         Whitebox.setInternalState(point2, "y", 10F);
         Whitebox.setInternalState(point3, "x", -3F);
         Whitebox.setInternalState(point3, "y", -5F);
-
 
             rectangle1 = MyRectangle(4F, 2F, point1, 0F)
             rectangle2 = MyRectangle(7.07F,7.07F , point2, 45F)
@@ -75,7 +70,6 @@ class MyRectangleUnitTest {
             assertEquals(-8, Math.round(rectangle3.getBottomLeft().y))
             assertEquals(0, Math.round(rectangle3.getBottomRight().x))
             assertEquals(-4, Math.round(rectangle3.getBottomRight().y))
-
         }
 
 
