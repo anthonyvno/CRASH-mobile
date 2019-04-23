@@ -39,7 +39,7 @@ class MainActivityTest{
 
     private var firstName = "Sander"
     private var lastName = "Beazar"
-    private var email = "sander.beazar@realdolmen.com"
+    private var email = "Sander.beazar@realdolmen.com"
 
     private var firstName2 = "Anthony"
     private var lastName2 = "Van Noppen"

@@ -51,7 +51,7 @@ class QRManager {
         }
         while (keys3.hasNext()) {
             keys3.next()
-            brand = vehicle.optString("brand")
+            brand = vehicle.optString("type")
             licensePlate = vehicle.optString("licenseplate")
             country = vehicle.optString("country")
         }
