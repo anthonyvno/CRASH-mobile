@@ -27,6 +27,9 @@ class MyRectangleUnitTest {
         @Mock
         val point2 = mock<PointF>()
 
+        @Mock
+        val point3 = mock<PointF>()
+
 
 
     @Before
@@ -35,18 +38,17 @@ class MyRectangleUnitTest {
         Whitebox.setInternalState(point1, "y", 3F);
         Whitebox.setInternalState(point2, "x", 5F);
         Whitebox.setInternalState(point2, "y", 10F);
+        Whitebox.setInternalState(point3, "x", -3F);
+        Whitebox.setInternalState(point3, "y", -5F);
 
 
             rectangle1 = MyRectangle(4F, 2F, point1, 0F)
             rectangle2 = MyRectangle(7.07F,7.07F , point2, 45F)
-            rectangle3 = MyRectangle(4F, 2F, PointF(4F, 3F), 0F)
-            rectangle4 = MyRectangle(4F, 2F, PointF(4F, 3F), 0F)
-            rectangle5 = MyRectangle(4F, 2F, PointF(4F, 3F), 0F)
+            rectangle3 = MyRectangle(4.47F, 4.47F, point3, 64.87F)
         }
 
         @Test
         fun test() {
-
             assertEquals(2F, rectangle1.getTopLeft().x)
             assertEquals(4F, rectangle1.getTopLeft().y)
             assertEquals(6F, rectangle1.getTopRight().x)
@@ -64,7 +66,16 @@ class MyRectangleUnitTest {
             assertEquals(5, Math.round(rectangle2.getBottomLeft().y))
             assertEquals(10, Math.round(rectangle2.getBottomRight().x))
             assertEquals(10, Math.round(rectangle2.getBottomRight().y))
-            
+
+            assertEquals(-6, Math.round(rectangle3.getTopLeft().x))
+            assertEquals(-6, Math.round(rectangle3.getTopLeft().y))
+            assertEquals(-4, Math.round(rectangle3.getTopRight().x))
+            assertEquals(-2, Math.round(rectangle3.getTopRight().y))
+            assertEquals(-2, Math.round(rectangle3.getBottomLeft().x))
+            assertEquals(-8, Math.round(rectangle3.getBottomLeft().y))
+            assertEquals(0, Math.round(rectangle3.getBottomRight().x))
+            assertEquals(-4, Math.round(rectangle3.getBottomRight().y))
+
         }
 
 
