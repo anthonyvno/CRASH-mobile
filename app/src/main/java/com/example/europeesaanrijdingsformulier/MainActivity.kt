@@ -164,20 +164,4 @@ class MainActivity : AppCompatActivity() {
 
             }
     }
-/*
-    private fun findGeocoder(): List<Address>? {
-        val maxResults = 5
-        var addresses: List<Address>? = null
-        try {
-            addresses = geocoder.getFromLocation(geoLocator.lattitude, geoLocator.longitude, maxResults)
-        } catch (e: IOException) {
-            e.printStackTrace()
-        } catch (e: IllegalArgumentException) {
-            e.printStackTrace()
-        }
-
-        return addresses
-    }*/
-
-
 }

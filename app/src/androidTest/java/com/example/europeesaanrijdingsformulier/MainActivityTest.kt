@@ -79,17 +79,18 @@ class MainActivityTest{
 
     @Before
     fun setUp() {
-        /*
+/*
         val context = InstrumentationRegistry.getTargetContext()
 
         var sharedPreferences = context.getSharedPreferences(R.string.preferences_profile.toString(), Context.MODE_PRIVATE)
         sharedPreferences.edit().clear().commit()
-        */
+*/
 
         Espresso.onView(ViewMatchers.withId(R.id.button_home_toProfile)).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withId(R.id.cardview1_profile_summary)).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withId(R.id.textedit_profile_info_firstname)).perform(ViewActions.typeText(firstName))
         Espresso.onView(ViewMatchers.withId(R.id.textedit_profile_info_lastname)).perform(ViewActions.typeText(lastName))
+        Espresso.closeSoftKeyboard()
         Espresso.onView(ViewMatchers.withId(R.id.textedit_profile_info_email)).perform(ViewActions.typeText(email))
         Espresso.closeSoftKeyboard()
         Espresso.onView(ViewMatchers.withId(R.id.button_profile_info_confirm)).perform(ViewActions.click())
@@ -177,8 +178,11 @@ class MainActivityTest{
         Espresso.pressBack()
         Espresso.onView(ViewMatchers.withId(R.id.button_home_startReport)).perform(ViewActions.click())
 
+        Thread.sleep(1000)
+        Espresso.pressBack()
         Espresso.onView(ViewMatchers.withId(R.id.textedit_report_crash_information_street)).perform(ViewActions.typeText(street))
         Espresso.onView(ViewMatchers.withId(R.id.textedit_report_crash_information_streetNumber)).perform(ViewActions.typeText(streetNumber))
+        Espresso.closeSoftKeyboard()
         Espresso.onView(ViewMatchers.withId(R.id.textedit_report_crash_information_postalCode)).perform(ViewActions.typeText(postalCode))
         Espresso.closeSoftKeyboard()
         Espresso.onView(ViewMatchers.withId(R.id.textedit_report_crash_information_city)).perform(ViewActions.typeText(city))
@@ -222,6 +226,7 @@ class MainActivityTest{
         onData(anything()).atPosition(2).perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withId(R.id.textedit_report_vehicle_detail_a_brand)).perform(ViewActions.typeText(brand))
         Espresso.onView(ViewMatchers.withId(R.id.textedit_report_vehicle_detail_a_model)).perform(ViewActions.typeText(model))
+        Espresso.closeSoftKeyboard()
         Espresso.onView(ViewMatchers.withId(R.id.textedit_report_vehicle_detail_a_licensePlate)).perform(ViewActions.typeText(licensePlate))
         Espresso.onView(ViewMatchers.withId(R.id.spinner_report_vehicle_detail_a_country)).perform(ViewActions.click())
         onData(anything()).atPosition(20).perform(ViewActions.click());
@@ -243,6 +248,7 @@ class MainActivityTest{
         Espresso.onView(ViewMatchers.withId(R.id.textedit_report_vehicle_insurance_a_phone)).perform(ViewActions.typeText(agencyPhone))
         Espresso.closeSoftKeyboard()
         Espresso.onView(ViewMatchers.withId(R.id.button_report_vehicle_insurance_a_confirm)).perform(ViewActions.click())
+        Espresso.pressBack()
 
         Espresso.onView(ViewMatchers.withId(R.id.button_report_start_b_manual)).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withId(R.id.textedit_algemeen_b_firstname)).perform(ViewActions.typeText(firstName2))
