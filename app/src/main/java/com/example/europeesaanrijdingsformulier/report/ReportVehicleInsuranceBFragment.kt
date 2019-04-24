@@ -109,7 +109,7 @@ class ReportVehicleInsuranceBFragment : Fragment() {
 
                 report.profiles.last().vehicles?.first()?.insurance = insurance
 
-                val fragment = ReportCircumstancesFragment()
+                val fragment = ReportDamageBFragment()
                 fragment.addObject(report)
                 this.fragmentManager!!.beginTransaction()
                     .setCustomAnimations(
@@ -118,8 +118,8 @@ class ReportVehicleInsuranceBFragment : Fragment() {
                         R.anim.enter_from_left,
                         R.anim.exit_to_right
                     )
-                    .replace(R.id.container_main, fragment,"circumstances")
-                    //.addToBackStack(null)
+                    .replace(R.id.container_main, fragment)
+                    .addToBackStack(null)
                     .commit()
             }
 

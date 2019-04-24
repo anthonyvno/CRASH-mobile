@@ -56,11 +56,11 @@ class MainActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayShowHomeEnabled(true)
 
         //clear local
-
+/*
            val sharedPref = getSharedPreferences(R.string.preferences_profile.toString(), Context.MODE_PRIVATE)
              var editor = sharedPref.edit()
              editor.clear().apply()
-
+*/
         mConnReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
                 if (connectionManager.checkConnection(context)) {
@@ -153,7 +153,7 @@ class MainActivity : AppCompatActivity() {
                             .setMessage("Wilt u terug gaan naar het beginscherm? Ingevulde gegevens gaan verloren.")
                             .setPositiveButton(
                                 "Ja",
-                                DialogInterface.OnClickListener { dialog, which -> super.onBackPressed() })
+                                DialogInterface.OnClickListener { dialog, which -> fm.popBackStack("home_to_crashinformation", POP_BACK_STACK_INCLUSIVE) })
                             .setNegativeButton("Nee", null)
                             .show()
                     } else {

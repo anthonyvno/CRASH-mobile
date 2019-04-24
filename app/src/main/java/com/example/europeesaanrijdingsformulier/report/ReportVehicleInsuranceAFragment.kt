@@ -97,26 +97,12 @@ class ReportVehicleInsuranceAFragment : Fragment() {
 
                 report.profiles.first().vehicles?.first()?.insurance = insurance
 
-                AlertDialog.Builder(activity)
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .setTitle("Profiel opslaan")
-                    .setMessage("Wilt u dit profiel opslaan?\n Een nieuw profiel zal aangemaakt worden of uw oud profiel zal vervangen worden.")
-                    .setPositiveButton(
-                        "Ja",
-                        DialogInterface.OnClickListener { dialog, which ->
-                            prefManager.saveLicense(report.profiles[0].license!!)
-                            var vehicles = mutableListOf(report.profiles[0].vehicles!![0])
-                            prefManager.saveVehicles(vehicles)
-                            prefManager.saveProfile(report.profiles[0])
-                        })
-                    .setNegativeButton("Nee", null)
-                    .show()
-                val fragment = ReportStartBFragment()
+                val fragment = ReportDamageAFragment()
                 fragment.addObject(report)
                 this.fragmentManager!!.beginTransaction()
                     .setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left,R.anim.enter_from_left,R.anim.exit_to_right)
-                    .replace(R.id.container_main, fragment,"startB")
-                    //.addToBackStack(null)
+                    .replace(R.id.container_main, fragment)
+                    .addToBackStack(null)
                     .commit()
             }
 

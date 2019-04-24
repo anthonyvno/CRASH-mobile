@@ -1,23 +1,24 @@
 package com.example.europeesaanrijdingsformulier.report
 
 
+import android.Manifest
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.DialogInterface
+import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
+import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.Spinner
+import android.widget.*
 import com.example.anthonyvannoppen.androidproject.utils.inReport
 import com.example.europeesaanrijdingsformulier.MainActivity
 
@@ -55,8 +56,7 @@ class ReportCrashInformation : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        geoLocator = GeoLocator(activity!!.applicationContext, activity)
-        geocoder =  Geocoder(activity)
+
 
         AlertDialog.Builder(activity)
             .setIcon(android.R.drawable.ic_dialog_alert)
@@ -65,12 +65,12 @@ class ReportCrashInformation : Fragment() {
             .setPositiveButton(
                 "Ja",
                 DialogInterface.OnClickListener { dialog, which ->
-                    getLocation()
+                    useLocation()
+
                 })
 
             .setNegativeButton("Nee", null)
             .show()
-
 
 
 
@@ -124,6 +124,20 @@ class ReportCrashInformation : Fragment() {
             }
 
         }
+    }
+
+    private fun useLocation() {
+        if (ContextCompat.checkSelfPermission(activity!!, Manifest.permission.ACCESS_FINE_LOCATION)
+            != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(
+
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                PERMISSION_REQUEST_ACCESS_FINE_LOCATION)
+            return
+        }
+        geoLocator = GeoLocator(activity!!.applicationContext, activity)
+        geocoder =  Geocoder(activity)
+        getLocation()
     }
 
     private fun getLocation() {
@@ -196,6 +210,28 @@ class ReportCrashInformation : Fragment() {
         }
 
         return addresses
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        println("permission result")
+
+        if (requestCode == PERMISSION_REQUEST_ACCESS_FINE_LOCATION) {
+            when (grantResults[0]) {
+                PackageManager.PERMISSION_GRANTED -> {
+                    println("permission granted")
+                    geoLocator = GeoLocator(activity!!.applicationContext, activity)
+                    geocoder =  Geocoder(activity)
+                    getLocation()
+                }
+                PackageManager.PERMISSION_DENIED -> println("need perm")//Tell to user the need of grant permission
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+    }
+
+    companion object {
+        private const val PERMISSION_REQUEST_ACCESS_FINE_LOCATION = 100
     }
 
 }
