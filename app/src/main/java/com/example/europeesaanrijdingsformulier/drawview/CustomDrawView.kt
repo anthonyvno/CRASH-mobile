@@ -28,15 +28,7 @@ class CustomDrawView @JvmOverloads constructor(
     private var situationManager: SituationManager
 
     var isDrawing = false
-    var mPath = MyPath()
-    var drawPaint = Paint()
-    var mPaths = LinkedHashMap<MyPath, Paint>()
-    var mLastPaths = LinkedHashMap<MyPath, Paint>()
-    var mUndonePaths = LinkedHashMap<MyPath, Paint>()
-    var mCurX = 0f
-    var mCurY = 0f
-    var mStartX = 0f
-    var mStartY = 0f
+    var drawManager: DrawManager = DrawManager()
 
 
 
@@ -58,14 +50,7 @@ class CustomDrawView @JvmOverloads constructor(
             drawableB = R.drawable.greencar,
             context = context)
 
-        drawPaint.apply {
-            color = Color.BLACK
-            style = Paint.Style.STROKE
-            strokeJoin = Paint.Join.ROUND
-            strokeCap = Paint.Cap.ROUND
-            strokeWidth = 8f
-            isAntiAlias = true
-        }
+
 
         this.isDrawingCacheEnabled = true
 
@@ -84,10 +69,10 @@ class CustomDrawView @JvmOverloads constructor(
             MotionEvent.ACTION_DOWN -> {
 
                 if (isDrawing) {
-                    mStartX = event.x
-                    mStartY = event.y
+                    drawManager.mStartX = event.x
+                    drawManager.mStartY = event.y
                     actionDown(event.x, event.y)
-                    mUndonePaths.clear()
+                    drawManager.mUndonePaths.clear()
 
                 } else {
                     situationManager.onActionDown(event.x,event.y)
@@ -122,10 +107,7 @@ class CustomDrawView @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         situationManager.initiateCanvas(canvas)
 
-        for ((key, value) in mPaths) {
-            canvas.drawPath(key, value)
-        }
-        canvas.drawPath(mPath, drawPaint)
+        drawManager.drawOnCanvas(canvas)
 
         situationManager.drawOnCanvas(canvas)
 
@@ -142,73 +124,34 @@ class CustomDrawView @JvmOverloads constructor(
     }
 
     private fun actionDown(x: Float, y: Float) {
-        mPath.reset()
-        mPath.moveTo(x, y)
-        mCurX = x
-        mCurY = y
+        drawManager.actionDown(x,y)
 
     }
 
     private fun actionMove(x: Float, y: Float) {
-        mPath.quadTo(mCurX, mCurY, (x + mCurX) / 2, (y + mCurY) / 2)
-        mCurX = x
-        mCurY = y
+        drawManager.actionMove(x,y)
     }
 
     private fun actionUp() {
-        mPath.lineTo(mCurX, mCurY)
-
-        // draw a dot on click
-        if (mStartX == mCurX && mStartY == mCurY) {
-            mPath.lineTo(mCurX, mCurY + 2)
-            mPath.lineTo(mCurX + 1, mCurY + 2)
-            mPath.lineTo(mCurX + 1, mCurY)
-        }
-
-        mPaths[mPath] = drawPaint
-        mPath = MyPath()
-        //mPaintOptions = PaintOptions(mPaintOptions.color, mPaintOptions.strokeWidth, mPaintOptions.alpha, mPaintOptions.isEraserOn)
+        drawManager.actionUp()
     }
 
     fun addPath(path: MyPath, options: Paint) {
-        mPaths[path] = options
+        drawManager.addPath(path,options)
     }
 
     fun undo() {
-        if (mPaths.isEmpty() && mLastPaths.isNotEmpty()) {
-            mPaths = mLastPaths.clone() as LinkedHashMap<MyPath, Paint>
-            mLastPaths.clear()
-            invalidate()
-            return
-        }
-        if (mPaths.isEmpty()) {
-            return
-        }
-        val lastPath = mPaths.values.lastOrNull()
-        val lastKey = mPaths.keys.lastOrNull()
-
-        mPaths.remove(lastKey)
-        if (lastPath != null && lastKey != null) {
-            mUndonePaths[lastKey] = lastPath
-        }
+        drawManager.undo()
         invalidate()
     }
 
     fun redo() {
-        if (mUndonePaths.keys.isEmpty()) {
-            return
-        }
-
-        val lastKey = mUndonePaths.keys.last()
-        addPath(lastKey, mUndonePaths.values.last())
-        mUndonePaths.remove(lastKey)
+        drawManager.redo()
         invalidate()
     }
 
     fun clearCanvas() {
-        mLastPaths = mPaths.clone() as LinkedHashMap<MyPath, Paint>
-        mPath.reset()
-        mPaths.clear()
+        drawManager.clearCanvas()
         invalidate()
     }
 
