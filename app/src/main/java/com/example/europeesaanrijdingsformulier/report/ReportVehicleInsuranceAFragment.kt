@@ -1,8 +1,10 @@
 package com.example.europeesaanrijdingsformulier.report
 
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.arch.lifecycle.ViewModelProviders
+import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -18,6 +20,7 @@ import com.example.anthonyvannoppen.androidproject.ui.HubViewModel
 import com.example.europeesaanrijdingsformulier.R
 import com.example.europeesaanrijdingsformulier.insurer.Insurer
 import com.example.europeesaanrijdingsformulier.profile.Insurance
+import com.example.europeesaanrijdingsformulier.profile.Vehicle
 import com.example.europeesaanrijdingsformulier.utils.DatePickerManager
 import com.example.europeesaanrijdingsformulier.utils.PrefManager
 import com.example.europeesaanrijdingsformulier.utils.SpinnerManager
@@ -94,6 +97,20 @@ class ReportVehicleInsuranceAFragment : Fragment() {
 
                 report.profiles.first().vehicles?.first()?.insurance = insurance
 
+                AlertDialog.Builder(activity)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setTitle("Profiel opslaan")
+                    .setMessage("Wilt u dit profiel opslaan?\n Een nieuw profiel zal aangemaakt worden of uw oud profiel zal vervangen worden.")
+                    .setPositiveButton(
+                        "Ja",
+                        DialogInterface.OnClickListener { dialog, which ->
+                            prefManager.saveLicense(report.profiles[0].license!!)
+                            var vehicles = mutableListOf(report.profiles[0].vehicles!![0])
+                            prefManager.saveVehicles(vehicles)
+                            prefManager.saveProfile(report.profiles[0])
+                        })
+                    .setNegativeButton("Nee", null)
+                    .show()
                 val fragment = ReportStartBFragment()
                 fragment.addObject(report)
                 this.fragmentManager!!.beginTransaction()
