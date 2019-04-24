@@ -56,15 +56,6 @@ class ReportSketchFragment : Fragment() {
 
         super.onStart()
 
-
-/*
-        val bitmap = BitmapFactory.decodeResource(context!!.getResources(),
-            R.drawable.redcar)
-        val destBitmap = bitmap.copy(Bitmap.Config.ARGB_8888,true)
-        val canvas = Canvas(destBitmap)
-
-        drawview_report_sketch.
-*/
         button_sketch_draw.setOnClickListener{
             drawview_report_sketch.toggleDrawing()
             if(button_sketch_redo.visibility == View.INVISIBLE ){
