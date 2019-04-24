@@ -19,6 +19,12 @@ import com.example.europeesaanrijdingsformulier.profile.ProfileSummaryFragment
 import com.example.europeesaanrijdingsformulier.report.*
 import com.example.europeesaanrijdingsformulier.utils.ConnectionManager
 import kotlinx.android.synthetic.main.fragment_home.*
+import com.example.europeesaanrijdingsformulier.MainActivity
+import com.location.aravind.getlocation.GeoLocator
+
+
+
+
 
 
 class HomeFragment : Fragment() {

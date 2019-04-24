@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.app.FragmentManager.POP_BACK_STACK_INCLUSIVE
 import android.arch.lifecycle.ViewModelProviders
 import android.content.*
+import android.location.Address
 
 import android.os.Bundle
 
@@ -20,6 +21,10 @@ import android.widget.Toast
 import com.example.anthonyvannoppen.androidproject.utils.inReport
 import com.example.europeesaanrijdingsformulier.insurer.Insurer
 import com.example.europeesaanrijdingsformulier.utils.ConnectionManager
+import com.location.aravind.getlocation.GeoLocator
+import android.location.Geocoder
+import java.io.IOException
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -28,11 +33,18 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: HubViewModel
     val connectionManager = ConnectionManager()
     private lateinit var mConnReceiver: BroadcastReceiver
+    lateinit var geocoder: Geocoder
+    private lateinit var geoLocator: GeoLocator
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+       /*  geoLocator = GeoLocator(applicationContext, this@MainActivity)
+        geocoder =  Geocoder(this)
+        println("GEO: " + geoLocator.lattitude);
+        println("GEO: " + geoLocator.longitude);
+        println("GEO: " + findGeocoder())*/
         setContentView(R.layout.activity_main)
         setSupportActionBar(my_toolbar)
         prefManager = PrefManager(this)
@@ -152,6 +164,20 @@ class MainActivity : AppCompatActivity() {
 
             }
     }
+/*
+    private fun findGeocoder(): List<Address>? {
+        val maxResults = 5
+        var addresses: List<Address>? = null
+        try {
+            addresses = geocoder.getFromLocation(geoLocator.lattitude, geoLocator.longitude, maxResults)
+        } catch (e: IOException) {
+            e.printStackTrace()
+        } catch (e: IllegalArgumentException) {
+            e.printStackTrace()
+        }
+
+        return addresses
+    }*/
 
 
 }

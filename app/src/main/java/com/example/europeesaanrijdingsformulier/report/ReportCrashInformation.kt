@@ -1,8 +1,12 @@
 package com.example.europeesaanrijdingsformulier.report
 
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.DialogInterface
+import android.location.Address
+import android.location.Geocoder
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
@@ -14,12 +18,16 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Spinner
+import com.example.anthonyvannoppen.androidproject.utils.inReport
+import com.example.europeesaanrijdingsformulier.MainActivity
 
 import com.example.europeesaanrijdingsformulier.R
 import com.example.europeesaanrijdingsformulier.utils.DatePickerManager
 import com.example.europeesaanrijdingsformulier.utils.SpinnerManager
 import com.example.europeesaanrijdingsformulier.utils.Validator
+import com.location.aravind.getlocation.GeoLocator
 import kotlinx.android.synthetic.main.fragment_report_crash_information.*
+import java.io.IOException
 import java.util.*
 
 
@@ -30,6 +38,8 @@ class ReportCrashInformation : Fragment() {
     private val spinnerManager = SpinnerManager()
     private val datePickerManager = DatePickerManager()
     private val validator = Validator()
+    lateinit var geocoder: Geocoder
+    private lateinit var geoLocator: GeoLocator
 
 
     override fun onCreateView(
@@ -45,6 +55,26 @@ class ReportCrashInformation : Fragment() {
 
     override fun onStart() {
         super.onStart()
+        geoLocator = GeoLocator(activity!!.applicationContext, activity)
+        geocoder =  Geocoder(activity)
+
+        AlertDialog.Builder(activity)
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .setTitle("Huidige locatie gebruiken?")
+            .setMessage("Bent u momenteel op de plaats van het ongeval?")
+            .setPositiveButton(
+                "Ja",
+                DialogInterface.OnClickListener { dialog, which ->
+                    getLocation()
+                })
+
+            .setNegativeButton("Nee", null)
+            .show()
+
+
+
+
+
         datePickerManager.instantiateDatePicker(activity!!, R.id.textedit_report_crash_information_date)
         instantiateTimePicker()
         val optionCountries = spinnerManager.instantiateSpinner(
@@ -96,6 +126,15 @@ class ReportCrashInformation : Fragment() {
         }
     }
 
+    private fun getLocation() {
+        var address = findGeocoder()
+        textedit_report_crash_information_city.setText(address?.get(0)?.locality)
+        //textedit_report_crash_information_city.setText(geoLocator.city)
+        textedit_report_crash_information_street.setText(address?.get(0)?.thoroughfare)
+        textedit_report_crash_information_streetNumber.setText(address?.get(0)?.subThoroughfare)
+        textedit_report_crash_information_postalCode.setText(address?.get(0)?.postalCode)
+    }
+
     private fun instantiateTimePicker() {
         val c = Calendar.getInstance()
         val hour = c.get(Calendar.HOUR_OF_DAY)
@@ -141,6 +180,22 @@ class ReportCrashInformation : Fragment() {
             }
         }
         return false
+    }
+
+    private fun findGeocoder(): List<Address>? {
+        val maxResults = 1
+        println(geoLocator.lattitude)
+        println(geoLocator.longitude)
+        var addresses: List<Address>? = null
+        try {
+            addresses = geocoder.getFromLocation(geoLocator.lattitude, geoLocator.longitude, maxResults)
+        } catch (e: IOException) {
+            e.printStackTrace()
+        } catch (e: IllegalArgumentException) {
+            e.printStackTrace()
+        }
+
+        return addresses
     }
 
 }
