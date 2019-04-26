@@ -40,6 +40,7 @@ class ReportCrashInformation : Fragment() {
     private val datePickerManager = DatePickerManager()
     private val validator = Validator()
     lateinit var geocoder: Geocoder
+    private lateinit var optionCountries: Spinner
     private lateinit var geoLocator: GeoLocator
 
 
@@ -77,7 +78,7 @@ class ReportCrashInformation : Fragment() {
 
         datePickerManager.instantiateDatePicker(activity!!, R.id.textedit_report_crash_information_date)
         instantiateTimePicker()
-        val optionCountries = spinnerManager.instantiateSpinner(
+        optionCountries = spinnerManager.instantiateSpinner(
             activity!!,
             R.id.spinner_report_crash_information_country,
             getResources().getStringArray(R.array.countries_array)
@@ -147,6 +148,16 @@ class ReportCrashInformation : Fragment() {
         textedit_report_crash_information_street.setText(address?.get(0)?.thoroughfare)
         textedit_report_crash_information_streetNumber.setText(address?.get(0)?.subThoroughfare)
         textedit_report_crash_information_postalCode.setText(address?.get(0)?.postalCode)
+        textedit_report_crash_information_date.setText(Date().date.toString()+"/"+(Date().month+1).toString()+"/"+(Date().year+1900).toString())
+        textedit_report_crash_information_time.setText(Date().hours.toString()+":"+Date().minutes.toString())
+
+        println(address?.get(0)?.countryName)
+
+        val adapter = optionCountries.adapter as ArrayAdapter<String>
+        val spinnerPosition = adapter.getPosition(address?.get(0)?.countryName)
+        optionCountries.setSelection(spinnerPosition)
+
+
     }
 
     private fun instantiateTimePicker() {
@@ -203,6 +214,8 @@ class ReportCrashInformation : Fragment() {
         var addresses: List<Address>? = null
         try {
             addresses = geocoder.getFromLocation(geoLocator.lattitude, geoLocator.longitude, maxResults)
+            //addresses = geocoder.getFromLocation(50.387565000000000, 4.459637000000000, maxResults)
+
         } catch (e: IOException) {
             e.printStackTrace()
         } catch (e: IllegalArgumentException) {
