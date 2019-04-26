@@ -3,24 +3,19 @@ package com.example.europeesaanrijdingsformulier.report
 
 import android.Manifest
 import android.app.AlertDialog
-import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
-import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import com.example.anthonyvannoppen.androidproject.utils.inReport
-import com.example.europeesaanrijdingsformulier.MainActivity
 
 import com.example.europeesaanrijdingsformulier.R
 import com.example.europeesaanrijdingsformulier.utils.DatePickerManager
@@ -42,6 +37,8 @@ class ReportCrashInformation : Fragment() {
     lateinit var geocoder: Geocoder
     private lateinit var optionCountries: Spinner
     private lateinit var geoLocator: GeoLocator
+     //  var translate = TranslateOptions.getDefaultInstance().getService();
+
 
 
     override fun onCreateView(
@@ -153,11 +150,10 @@ class ReportCrashInformation : Fragment() {
 
         println(address?.get(0)?.countryName)
 
+
         val adapter = optionCountries.adapter as ArrayAdapter<String>
         val spinnerPosition = adapter.getPosition(address?.get(0)?.countryName)
         optionCountries.setSelection(spinnerPosition)
-
-
     }
 
     private fun instantiateTimePicker() {
