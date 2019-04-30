@@ -1,23 +1,16 @@
 package com.example.europeesaanrijdingsformulier.profile
 
 
-import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import com.example.europeesaanrijdingsformulier.R
 import com.example.europeesaanrijdingsformulier.utils.PrefManager
 import com.github.brnunes.swipeablerecyclerview.SwipeableRecyclerViewTouchListener
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.fragment_profile_vehicle_list.*
-import android.support.v7.widget.RecyclerView
-
-
 
 
 class ProfileVehicleListFragment : Fragment() {

@@ -12,22 +12,22 @@ class CustomDamageView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
-    var drawManager: DrawManager = DrawManager()
-    val carWidth: Float
-    val carLength: Float
-    var bitmapCar: Bitmap
+    private var drawManager: DrawManager = DrawManager()
+    private val carWidth: Float
+    private val carLength: Float
+    private var bitmapCar: Bitmap
     var drawable:Int = R.drawable.redcar
-    var size: Point
+    private var size: Point
 
     init {
-        var wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-        var dis = wm.defaultDisplay
+        val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        val dis = wm.defaultDisplay
         size = Point()
         dis.getSize(size)
         carWidth = size.x.toFloat() / 4
         carLength = (size.y / 3).toFloat()
 
-        bitmapCar = BitmapFactory.decodeResource(context.getResources(), drawable)
+        bitmapCar = BitmapFactory.decodeResource(context.resources, drawable)
         bitmapCar = Bitmap.createScaledBitmap(bitmapCar, carWidth.toInt(), carLength.toInt(), false)
 
         this.isDrawingCacheEnabled = true
@@ -37,7 +37,7 @@ class CustomDamageView @JvmOverloads constructor(
 
     fun setVehicle(drawab:Int){
         this.drawable = drawab
-        bitmapCar = BitmapFactory.decodeResource(context.getResources(), drawable)
+        bitmapCar = BitmapFactory.decodeResource(context.resources, drawable)
         bitmapCar = Bitmap.createScaledBitmap(bitmapCar, carWidth.toInt(), carLength.toInt(), false)
     }
 
@@ -76,17 +76,13 @@ class CustomDamageView @JvmOverloads constructor(
         drawManager.drawOnCanvas(canvas)
 
     }
-    fun initiateCanvas(canvas:Canvas){
+    private fun initiateCanvas(canvas:Canvas){
         canvas.drawBitmap(
             bitmapCar,
             canvas.width/2 - carWidth/2,
             canvas.height/2 - carLength/2,
             Paint()
         )
-    }
-
-    fun getBitmap(): Bitmap {
-        return this.drawingCache
     }
 
     private fun actionDown(x: Float, y: Float) {
@@ -100,10 +96,6 @@ class CustomDamageView @JvmOverloads constructor(
 
     private fun actionUp() {
         drawManager.actionUp()
-    }
-
-    fun addPath(path: MyPath, options: Paint) {
-        drawManager.addPath(path, options)
     }
 
     fun undo() {

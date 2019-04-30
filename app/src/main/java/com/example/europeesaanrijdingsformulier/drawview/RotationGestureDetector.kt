@@ -30,14 +30,10 @@ class RotationGestureDetector(private val mListener: OnRotationGestureListener?)
             }
             MotionEvent.ACTION_MOVE -> if (ptrID1 != INVALID_POINTER_ID && ptrID2 != INVALID_POINTER_ID) {
                 println("moving")
-                val nfX: Float
-                val nfY: Float
-                val nsX: Float
-                val nsY: Float
-                nsX = event.getX(event.findPointerIndex(ptrID1))
-                nsY = event.getY(event.findPointerIndex(ptrID1))
-                nfX = event.getX(event.findPointerIndex(ptrID2))
-                nfY = event.getY(event.findPointerIndex(ptrID2))
+                val nfX: Float = event.getX(event.findPointerIndex(ptrID2))
+                val nfY: Float = event.getY(event.findPointerIndex(ptrID2))
+                val nsX: Float = event.getX(event.findPointerIndex(ptrID1))
+                val nsY: Float = event.getY(event.findPointerIndex(ptrID1))
 
                 angle = angleBetweenLines(fX, fY, sX, sY, nfX, nfY, nsX, nsY)
 
@@ -81,6 +77,6 @@ class RotationGestureDetector(private val mListener: OnRotationGestureListener?)
     }
 
     companion object {
-        private val INVALID_POINTER_ID = -1
+        private const val INVALID_POINTER_ID = -1
     }
 }

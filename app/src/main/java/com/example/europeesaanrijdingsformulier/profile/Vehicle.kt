@@ -14,5 +14,4 @@ class Vehicle(
     @field:Json(name = "model") val model: String,
     @field:Json(name = "type") val type: String,
     @field:Json(name = "insurance") var insurance: Insurance? = null
-) : Serializable, Parcelable {
-}
+) : Serializable, Parcelable

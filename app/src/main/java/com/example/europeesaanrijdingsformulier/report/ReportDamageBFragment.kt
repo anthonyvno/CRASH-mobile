@@ -23,13 +23,12 @@ class ReportDamageBFragment : Fragment() {
     }
 
     override fun onStart() {
-        var drawable: Int
-        when (report.profiles.get(1).vehicles?.get(0)?.type) {
-            "Auto" -> drawable = R.drawable.greencar
-            "Motorfiets" -> drawable = R.drawable.greenmotorcycle
-            "Bus" -> drawable = R.drawable.greenbus
-            "Vrachtwagen" -> drawable = R.drawable.greentruck
-            else -> drawable = R.drawable.greencar
+        val drawable: Int = when (report.profiles[1].vehicles?.get(0)?.type) {
+            "Auto" -> R.drawable.greencar
+            "Motorfiets" -> R.drawable.greenmotorcycle
+            "Bus" -> R.drawable.greenbus
+            "Vrachtwagen" -> R.drawable.greentruck
+            else -> R.drawable.greencar
         }
         damageview_b.setVehicle(drawable)
         super.onStart()

@@ -7,14 +7,9 @@ import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import com.example.europeesaanrijdingsformulier.R
-import com.example.europeesaanrijdingsformulier.profile.ProfileVehicleDetailFragment
-import com.example.europeesaanrijdingsformulier.profile.Vehicle
-import com.example.europeesaanrijdingsformulier.profile.VehicleViewAdapter
 import com.example.europeesaanrijdingsformulier.report.Report
 import com.example.europeesaanrijdingsformulier.utils.PrefManager
-import kotlinx.android.synthetic.main.fragment_profile_vehicle_list.*
 import kotlinx.android.synthetic.main.fragment_report_list.*
 
 class ReportListFragment : Fragment() {

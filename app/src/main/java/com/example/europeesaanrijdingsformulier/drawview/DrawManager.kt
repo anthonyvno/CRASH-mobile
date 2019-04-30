@@ -6,13 +6,13 @@ import android.graphics.Paint
 
 class DrawManager {
 
-    var mPath = MyPath()
-    var drawPaint = Paint()
-    var mPaths = LinkedHashMap<MyPath, Paint>()
-    var mLastPaths = LinkedHashMap<MyPath, Paint>()
+    private var mPath = MyPath()
+    private var drawPaint = Paint()
+    private var mPaths = LinkedHashMap<MyPath, Paint>()
+    private var mLastPaths = LinkedHashMap<MyPath, Paint>()
     var mUndonePaths = LinkedHashMap<MyPath, Paint>()
-    var mCurX = 0f
-    var mCurY = 0f
+    private var mCurX = 0f
+    private var mCurY = 0f
     var mStartX = 0f
     var mStartY = 0f
 
@@ -62,7 +62,7 @@ class DrawManager {
         //mPaintOptions = PaintOptions(mPaintOptions.color, mPaintOptions.strokeWidth, mPaintOptions.alpha, mPaintOptions.isEraserOn)
     }
 
-    fun addPath(path: MyPath, options: Paint) {
+    private fun addPath(path: MyPath, options: Paint) {
         mPaths[path] = options
     }
 

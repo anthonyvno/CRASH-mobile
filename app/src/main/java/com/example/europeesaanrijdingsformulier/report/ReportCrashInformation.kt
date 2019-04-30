@@ -4,7 +4,6 @@ package com.example.europeesaanrijdingsformulier.report
 import android.Manifest
 import android.app.AlertDialog
 import android.app.TimePickerDialog
-import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
@@ -34,7 +33,7 @@ class ReportCrashInformation : Fragment() {
     private val spinnerManager = SpinnerManager()
     private val datePickerManager = DatePickerManager()
     private val validator = Validator()
-    lateinit var geocoder: Geocoder
+    private lateinit var geocoder: Geocoder
     private lateinit var optionCountries: Spinner
     private lateinit var geoLocator: GeoLocator
      //  var translate = TranslateOptions.getDefaultInstance().getService();
@@ -61,11 +60,11 @@ class ReportCrashInformation : Fragment() {
             .setTitle("Huidige locatie gebruiken?")
             .setMessage("Bent u momenteel op de plaats van het ongeval?")
             .setPositiveButton(
-                "Ja",
-                DialogInterface.OnClickListener { dialog, which ->
-                    useLocation()
+                "Ja"
+            ) { dialog, which ->
+                useLocation()
 
-                })
+            }
 
             .setNegativeButton("Nee", null)
             .show()
@@ -78,7 +77,7 @@ class ReportCrashInformation : Fragment() {
         optionCountries = spinnerManager.instantiateSpinner(
             activity!!,
             R.id.spinner_report_crash_information_country,
-            getResources().getStringArray(R.array.countries_array)
+            resources.getStringArray(R.array.countries_array)
         )
 
         optionCountries.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -105,8 +104,6 @@ class ReportCrashInformation : Fragment() {
 
                 report = Report(
                     1, emptyList(), dateReport,
-                    textedit_report_crash_information_street.text.toString(),
-                    textedit_report_crash_information_streetNumber.text.toString(),
                     textedit_report_crash_information_postalCode.text.toString(),
                     textedit_report_crash_information_city.text.toString(),
                     country
@@ -139,7 +136,7 @@ class ReportCrashInformation : Fragment() {
     }
 
     private fun getLocation() {
-        var address = findGeocoder()
+        val address = findGeocoder()
         textedit_report_crash_information_city.setText(address?.get(0)?.locality)
         //textedit_report_crash_information_city.setText(geoLocator.city)
         textedit_report_crash_information_street.setText(address?.get(0)?.thoroughfare)
@@ -163,10 +160,10 @@ class ReportCrashInformation : Fragment() {
 
         val timepicker = activity!!.findViewById<EditText>(R.id.textedit_report_crash_information_time)
 
-        timepicker.setOnClickListener() {
+        timepicker.setOnClickListener {
             val dpd = TimePickerDialog(activity, TimePickerDialog.OnTimeSetListener { view, hour, minute ->
 
-                timepicker.setText("" + hour + ":" + minute)
+                timepicker.setText("$hour:$minute")
 
             }, hour, minute, true)
 
@@ -175,7 +172,7 @@ class ReportCrashInformation : Fragment() {
 
     }
 
-    fun isValidated(): Boolean {
+    private fun isValidated(): Boolean {
         if (validator.isNotEmpty(textedit_report_crash_information_date.text.toString())
             && validator.isNotEmpty(textedit_report_crash_information_time.text.toString())
             && validator.isNotEmpty(textedit_report_crash_information_city.text.toString())
@@ -185,19 +182,19 @@ class ReportCrashInformation : Fragment() {
             return true
         } else{
             if(!validator.isNotEmpty(textedit_report_crash_information_date.text.toString())){
-                textedit_report_crash_information_date.setError("Datum moet ingevuld zijn.")
+                textedit_report_crash_information_date.error = "Datum moet ingevuld zijn."
             }
             if(!validator.isNotEmpty(textedit_report_crash_information_time.text.toString())){
-                textedit_report_crash_information_time.setError("Tijdstip moet ingevuld zijn.")
+                textedit_report_crash_information_time.error = "Tijdstip moet ingevuld zijn."
             }
             if(!validator.isNotEmpty(textedit_report_crash_information_city.text.toString())){
-                textedit_report_crash_information_city.setError("Stad moet ingevuld zijn.")
+                textedit_report_crash_information_city.error = "Stad moet ingevuld zijn."
             }
             if(!validator.isNotEmpty(textedit_report_crash_information_postalCode.text.toString())){
-                textedit_report_crash_information_postalCode.setError("Postcode moet ingevuld zijn.")
+                textedit_report_crash_information_postalCode.error = "Postcode moet ingevuld zijn."
             }
             if(!validator.isNotEmpty(textedit_report_crash_information_street.text.toString())){
-                textedit_report_crash_information_street.setError("Straat moet ingevuld zijn.")
+                textedit_report_crash_information_street.error = "Straat moet ingevuld zijn."
             }
         }
         return false

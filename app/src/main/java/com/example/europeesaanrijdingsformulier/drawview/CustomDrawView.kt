@@ -27,17 +27,17 @@ class CustomDrawView @JvmOverloads constructor(
 
     private var situationManager: SituationManager
 
-    var isDrawing = false
-    var drawManager: DrawManager = DrawManager()
+    private var isDrawing = false
+    private var drawManager: DrawManager = DrawManager()
 
 
 
-    val carWidth :Float
-    val carLength:Float
+    private val carWidth :Float
+    private val carLength:Float
 
     init {
-        var wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-        var dis = wm.defaultDisplay
+        val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        val dis = wm.defaultDisplay
         val size = Point()
         dis.getSize(size)
         carWidth = size.x.toFloat()/8
@@ -134,10 +134,6 @@ class CustomDrawView @JvmOverloads constructor(
 
     private fun actionUp() {
         drawManager.actionUp()
-    }
-
-    fun addPath(path: MyPath, options: Paint) {
-        drawManager.addPath(path,options)
     }
 
     fun undo() {

@@ -1,10 +1,10 @@
-package com.example.anthonyvannoppen.androidproject.base
+package com.example.europeesaanrijdingsformulier.base
 
 import android.arch.lifecycle.ViewModel
-import com.example.anthonyvannoppen.androidproject.injection.component.ViewModelComponent
-import com.example.anthonyvannoppen.androidproject.injection.component.DaggerViewModelComponent
-import com.example.anthonyvannoppen.androidproject.injection.module.NetworkModule
-import com.example.anthonyvannoppen.androidproject.ui.HubViewModel
+import com.example.europeesaanrijdingsformulier.injection.component.DaggerViewModelComponent
+import com.example.europeesaanrijdingsformulier.injection.component.ViewModelComponent
+import com.example.europeesaanrijdingsformulier.injection.module.NetworkModule
+import com.example.europeesaanrijdingsformulier.ui.HubViewModel
 
 abstract class InjectedViewModel : ViewModel() {
     /**

@@ -10,7 +10,7 @@ import java.util.*
 
 class QRManager {
 
-    val gson = Gson()
+    private val gson = Gson()
 
     fun handleGreenCardScan(scannedJson: String): Profile {
 

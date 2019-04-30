@@ -3,25 +3,19 @@ package com.example.europeesaanrijdingsformulier
 import android.graphics.PointF
 import com.example.europeesaanrijdingsformulier.drawview.MyRectangle
 import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.whenever
 import junit.framework.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.InjectMocks
 import org.mockito.Mock
-import org.mockito.Spy
 import org.mockito.internal.util.reflection.Whitebox
 
 class MyRectangleUnitTest {
 
-        lateinit var rectangle1: MyRectangle
-        lateinit var rectangle2: MyRectangle
-        lateinit var rectangle3: MyRectangle
-        lateinit var rectangle4: MyRectangle
-        lateinit var rectangle5: MyRectangle
+        private lateinit var rectangle1: MyRectangle
+        private lateinit var rectangle2: MyRectangle
+        private lateinit var rectangle3: MyRectangle
 
-        @Mock
+    @Mock
         val point1 = mock<PointF>()
         @Mock
         val point2 = mock<PointF>()
@@ -30,14 +24,14 @@ class MyRectangleUnitTest {
 
     @Before
         fun setup() {
-        Whitebox.setInternalState(point1, "x", 4F);
-        Whitebox.setInternalState(point1, "y", 3F);
-        Whitebox.setInternalState(point2, "x", 5F);
-        Whitebox.setInternalState(point2, "y", 10F);
-        Whitebox.setInternalState(point3, "x", -3F);
-        Whitebox.setInternalState(point3, "y", -5F);
+        Whitebox.setInternalState(point1, "x", 4F)
+        Whitebox.setInternalState(point1, "y", 3F)
+        Whitebox.setInternalState(point2, "x", 5F)
+        Whitebox.setInternalState(point2, "y", 10F)
+        Whitebox.setInternalState(point3, "x", -3F)
+        Whitebox.setInternalState(point3, "y", -5F)
 
-            rectangle1 = MyRectangle(4F, 2F, point1, 0F)
+        rectangle1 = MyRectangle(4F, 2F, point1, 0F)
             rectangle2 = MyRectangle(7.07F,7.07F , point2, 45F)
             rectangle3 = MyRectangle(4.47F, 4.47F, point3, 64.87F)
         }

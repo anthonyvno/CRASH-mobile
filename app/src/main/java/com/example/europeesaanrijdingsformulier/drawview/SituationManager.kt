@@ -11,30 +11,30 @@ class SituationManager(
     val context: Context
 ) {
 
-    var paint = Paint()
-    var collisionDetector = CollisionDetector()
+    private var paint = Paint()
+    private var collisionDetector = CollisionDetector()
 
-    var bitmapA: Bitmap
-    var bitmapB: Bitmap
-    var xDeltaFingerCenterA: Float = 0.toFloat()
-    var yDeltaFingerCenterA: Float = 0.toFloat()
-    var vehicleASelected: Boolean = false
+    private var bitmapA: Bitmap
+    private var bitmapB: Bitmap
+    private var xDeltaFingerCenterA: Float = 0.toFloat()
+    private var yDeltaFingerCenterA: Float = 0.toFloat()
+    private var vehicleASelected: Boolean = false
 
-    var xDeltaFingerCenterB: Float = 0.toFloat()
-    var yDeltaFingerCenterB: Float = 0.toFloat()
-    var vehicleBSelected: Boolean = false
+    private var xDeltaFingerCenterB: Float = 0.toFloat()
+    private var yDeltaFingerCenterB: Float = 0.toFloat()
+    private var vehicleBSelected: Boolean = false
 
-    var canvasH = 0F
-    var canvasW = 0F
+    private var canvasH = 0F
+    private var canvasW = 0F
 
     init {
-        paint.setStyle(Paint.Style.FILL)
-        paint.setColor(Color.CYAN)
+        paint.style = Paint.Style.FILL
+        paint.color = Color.CYAN
 
-        bitmapA = BitmapFactory.decodeResource(context.getResources(), drawableA)
+        bitmapA = BitmapFactory.decodeResource(context.resources, drawableA)
         bitmapA = Bitmap.createScaledBitmap(bitmapA, rectA.carWidth.toInt(), rectA.carLength.toInt(), false)
 
-        bitmapB = BitmapFactory.decodeResource(context.getResources(), drawableB)
+        bitmapB = BitmapFactory.decodeResource(context.resources, drawableB)
         bitmapB = Bitmap.createScaledBitmap(bitmapB, rectB.carWidth.toInt(), rectB.carLength.toInt(), false)
 
     }
@@ -149,7 +149,7 @@ class SituationManager(
 
             if (vehicleASelected && !collisionDetector.isRectanglesIntersecting(rectA.calculateRotate(angle), rectB)) {
                 rectA = rectA.calculateRotate(angle)
-                var bitmapA2 = BitmapFactory.decodeResource(context.getResources(), drawableA)
+                var bitmapA2 = BitmapFactory.decodeResource(context.resources, drawableA)
                 bitmapA2 = Bitmap.createScaledBitmap(
                     bitmapA2,
                     rectA.carWidth.toInt() + 30,
@@ -163,7 +163,7 @@ class SituationManager(
             }
             if (vehicleBSelected && !collisionDetector.isRectanglesIntersecting(rectB.calculateRotate(angle), rectA)) {
                 rectB = rectB.calculateRotate(angle)
-                var bitmapA2 = BitmapFactory.decodeResource(context.getResources(), drawableB)
+                var bitmapA2 = BitmapFactory.decodeResource(context.resources, drawableB)
                 bitmapA2 = Bitmap.createScaledBitmap(
                     bitmapA2,
                     rectB.carWidth.toInt() + 30,
@@ -189,7 +189,7 @@ class SituationManager(
                         (canvas.width / 5).toFloat(), (canvas.height / 2).toFloat()
                     )
                 )
-            bitmapA = BitmapFactory.decodeResource(context.getResources(), drawableA)
+            bitmapA = BitmapFactory.decodeResource(context.resources, drawableA)
             bitmapA =
                 Bitmap.createScaledBitmap(bitmapA, rectA.carWidth.toInt() + 30, rectA.carLength.toInt() + 30, false)
 
@@ -205,7 +205,7 @@ class SituationManager(
                 PointF(((canvas.width / 5) * 3).toFloat(), (canvas.height / 2).toFloat())
             )
 
-            bitmapB = BitmapFactory.decodeResource(context.getResources(), drawableB)
+            bitmapB = BitmapFactory.decodeResource(context.resources, drawableB)
             bitmapB =
                 Bitmap.createScaledBitmap(bitmapB, rectB.carWidth.toInt() + 30, rectB.carLength.toInt() + 30, false)
 
@@ -218,7 +218,7 @@ class SituationManager(
         this.drawableB = drawableB
     }
 
-    fun isOutOfBounds(rect: MyRectangle): Boolean {
+    private fun isOutOfBounds(rect: MyRectangle): Boolean {
         return (rect.getPoints().map { p -> p.x }.max()!! >= canvasW
                 || rect.getPoints().map { p -> p.y }.max()!! >= canvasH
                 || rect.getPoints().map { p -> p.x }.min()!! <= 0

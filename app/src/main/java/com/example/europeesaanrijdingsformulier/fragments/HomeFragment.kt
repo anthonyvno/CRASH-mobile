@@ -3,28 +3,21 @@ package com.example.europeesaanrijdingsformulier.fragments
 
 import android.Manifest
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
-import android.text.Html
-import android.view.*
-import android.widget.Toast
-import com.example.anthonyvannoppen.androidproject.utils.inReport
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import com.example.europeesaanrijdingsformulier.R
 import com.example.europeesaanrijdingsformulier.profile.ProfileSummaryFragment
-import com.example.europeesaanrijdingsformulier.report.*
+import com.example.europeesaanrijdingsformulier.report.ReportCrashInformation
 import com.example.europeesaanrijdingsformulier.utils.ConnectionManager
+import com.example.europeesaanrijdingsformulier.utils.inReport
 import kotlinx.android.synthetic.main.fragment_home.*
-import com.example.europeesaanrijdingsformulier.MainActivity
-import com.location.aravind.getlocation.GeoLocator
-
-
-
-
 
 
 class HomeFragment : Fragment() {
@@ -58,7 +51,7 @@ class HomeFragment : Fragment() {
                 //read_file()
             } else {
                 //request permission
-                ActivityCompat.requestPermissions(activity!!, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE) , 0);
+                ActivityCompat.requestPermissions(activity!!, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE) , 0)
             }
         }
 
@@ -76,15 +69,15 @@ class HomeFragment : Fragment() {
                     .setTitle("Waarschuwing")
                     .setMessage("U heeft internetverbinding nodig om het aanrijdingsformulier te verzenden.\nToch doorgaan?")
                     .setPositiveButton(
-                        "Ja",
-                        DialogInterface.OnClickListener { dialog, which ->
-                            inReport = true
-                            this.fragmentManager!!.beginTransaction()
-                                .setCustomAnimations(R.anim.abc_fade_in,R.anim.abc_fade_out,R.anim.abc_fade_in,R.anim.abc_fade_out)
-                                .replace(R.id.container_main, ReportCrashInformation())
-                                .addToBackStack("home_to_crashinformation")
-                                .commit()
-                        })
+                        "Ja"
+                    ) { dialog, which ->
+                        inReport = true
+                        this.fragmentManager!!.beginTransaction()
+                            .setCustomAnimations(R.anim.abc_fade_in,R.anim.abc_fade_out,R.anim.abc_fade_in,R.anim.abc_fade_out)
+                            .replace(R.id.container_main, ReportCrashInformation())
+                            .addToBackStack("home_to_crashinformation")
+                            .commit()
+                    }
 
                     .setNegativeButton("Nee", null)
                     .show()

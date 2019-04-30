@@ -3,7 +3,6 @@ package com.example.europeesaanrijdingsformulier.report
 
 import android.app.AlertDialog
 import android.content.Intent
-import android.opengl.Visibility
 import android.os.Build
 import android.os.Bundle
 import android.support.annotation.RequiresApi
@@ -12,17 +11,14 @@ import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.GridLayout
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.esafirm.imagepicker.features.ImagePicker
 import com.esafirm.imagepicker.model.Image
-
-import kotlinx.android.synthetic.main.fragment_report_image.*
-import android.view.Gravity
-import android.widget.GridLayout
-import android.widget.Toast
 import com.example.europeesaanrijdingsformulier.R
 import com.example.europeesaanrijdingsformulier.utils.ConnectionManager
+import kotlinx.android.synthetic.main.fragment_report_image.*
 import java.io.File
 
 
@@ -31,7 +27,6 @@ class ReportImageFragment : Fragment() {
     private lateinit var report: Report
     private var images = mutableListOf<Image>()
     private val connectionManager = ConnectionManager()
-    private lateinit var image: Image
 
 
     override fun onCreateView(
@@ -59,11 +54,9 @@ class ReportImageFragment : Fragment() {
             if(connectionManager.checkConnection(activity!!)){
                 val temp = mutableListOf<String>()
 
-                var counter = 0
-                for (img in images) {
+                for ((counter, img) in images.withIndex()) {
                     val file = File(images[counter].path)
                     temp.add(Base64.encodeToString(file.readBytes(), Base64.DEFAULT))
-                    counter++
                 }
 
 
@@ -110,7 +103,7 @@ class ReportImageFragment : Fragment() {
             }
             gridloller.rowCount = Math.ceil((images.size.toDouble() / 2)).toInt()
 
-            for ((counter, img) in images.withIndex()) {
+            for (img in images) {
 
                 //linearList[counter].removeAllViews()
                 val iv = ImageView(activity)

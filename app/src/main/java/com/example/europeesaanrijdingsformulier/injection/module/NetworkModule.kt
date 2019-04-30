@@ -1,7 +1,7 @@
-package com.example.anthonyvannoppen.androidproject.injection.module
+package com.example.europeesaanrijdingsformulier.injection.module
 
-import com.example.anthonyvannoppen.androidproject.network.HubApi
-import com.example.anthonyvannoppen.androidproject.utils.BASE_URL
+import com.example.europeesaanrijdingsformulier.network.HubApi
+import com.example.europeesaanrijdingsformulier.utils.BASE_URL
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.adapters.Rfc3339DateJsonAdapter
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -15,7 +15,6 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.*
 import javax.inject.Singleton
-
 /**
  * Module which provides all required dependencies for the network.
  *
@@ -29,8 +28,6 @@ import javax.inject.Singleton
  */
 @Module
 object NetworkModule {
-
-
     /**
      * @param retrofit the retrofit object used to instantiate the service
      */
@@ -39,8 +36,6 @@ object NetworkModule {
     internal fun provideHubApi(retrofit: Retrofit): HubApi {
         return retrofit.create(HubApi::class.java)
     }
-
-
     /**
      * Return the Retrofit object.
      * To fully configure Retrofit we require a HTTP client (okHTTP),
@@ -63,7 +58,6 @@ object NetworkModule {
             .addCallAdapterFactory(callAdapterFactory)
             .build()
     }
-
     /**
      * Returns the OkHttpClient.
      * RetroFit uses OkHTTP by default and we normally don't have to add the client explicitly
@@ -77,12 +71,10 @@ object NetworkModule {
         val interceptor: HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
             this.level = HttpLoggingInterceptor.Level.BODY
         }
-
         return OkHttpClient.Builder().apply {
             addInterceptor(interceptor)
         }.build()
     }
-
     /**
      * The return type specifies the Factory interface.
      * Currently we choose to use a MoshiConverterFactory,
@@ -97,7 +89,6 @@ object NetworkModule {
             .build()
         return MoshiConverterFactory.create(moshi).asLenient()
     }
-
     /**
      * Here the return type is the interface as well.
      * We choose to create an RxJavaCallAdapterFactory, but changing this is easily done

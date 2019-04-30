@@ -1,38 +1,27 @@
+@file:Suppress("Annotator")
+
 package com.example.europeesaanrijdingsformulier
 
-import android.app.DatePickerDialog
-import android.app.Instrumentation
-import android.content.Context
-import android.content.SharedPreferences
-import android.support.test.InstrumentationRegistry
 import android.support.test.espresso.Espresso
+import android.support.test.espresso.Espresso.onData
+import android.support.test.espresso.action.*
 import android.support.test.espresso.assertion.ViewAssertions.matches
+import android.support.test.espresso.contrib.PickerActions
+import android.support.test.espresso.contrib.RecyclerViewActions
 import android.support.test.espresso.matcher.ViewMatchers
+import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.test.rule.ActivityTestRule
-import org.junit.After
-import org.junit.Assert.*
+import android.support.v7.widget.RecyclerView
+import android.widget.DatePicker
+import android.widget.TimePicker
+import org.hamcrest.CoreMatchers.anything
+import org.hamcrest.Matchers
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import android.support.test.espresso.Espresso.onData
-import android.support.test.espresso.contrib.RecyclerViewActions
-import android.support.v7.widget.RecyclerView
-import org.hamcrest.CoreMatchers.anything
-import org.hamcrest.CoreMatchers.containsString
-import android.preference.PreferenceManager
-import android.support.test.InstrumentationRegistry.getInstrumentation
-import android.content.Intent
-import android.support.test.espresso.contrib.PickerActions
-import android.widget.DatePicker
-import org.hamcrest.Matchers
-import android.support.test.espresso.Espresso.onView
-import android.support.test.espresso.ViewAction
-import android.support.test.espresso.action.*
-import android.support.test.espresso.matcher.ViewMatchers.*
-import android.widget.TimePicker
-import kotlin.concurrent.thread
 
 
+@Suppress("Annotator")
 class MainActivityTest{
     @Rule @JvmField
     val mActivityRule = ActivityTestRule(MainActivity::class.java)
@@ -104,20 +93,22 @@ class MainActivityTest{
         Espresso.onView(ViewMatchers.withId(R.id.textedit_profile_info_email)).check(matches(withText(email)))
     }
 
+    @Suppress("Annotator")
     @Test
     fun testProfileLicense(){
         Espresso.onView(ViewMatchers.withId(R.id.cardview2_profile_summary)).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withId(R.id.spinner_profile_license_category)).perform(ViewActions.click())
-        onData(anything()).atPosition(4).perform(ViewActions.click());
-       // Espresso.onView(ViewMatchers.withId(R.id.textedit_profile_license_expires)).perform(DatePicker.setDate(2020,3,23)))
+        onData(anything()).atPosition(4).perform(ViewActions.click())
+        // Espresso.onView(ViewMatchers.withId(R.id.textedit_profile_license_expires)).perform(DatePicker.setDate(2020,3,23)))
         Espresso.onView(ViewMatchers.withId(R.id.textedit_profile_license_licenseNumber)).perform(ViewActions.typeText(licenseNumber))
         Espresso.closeSoftKeyboard()
         Espresso.onView(ViewMatchers.withId(R.id.button_profile_license_confirm)).perform(ViewActions.click())
 
         Espresso.onView(ViewMatchers.withId(R.id.cardview2_profile_summary)).perform(ViewActions.click())
+        @Suppress("Annotator")
         Espresso.onView(ViewMatchers.withId(R.id.spinner_profile_license_category)).check(matches(withSpinnerText(
             containsString(licenseType))))
-       // Espresso.onView(ViewMatchers.withId(R.id.textedit_profile_license_expires)).check(matches(withText(licenseExpiringDate)))
+        // Espresso.onView(ViewMatchers.withId(R.id.textedit_profile_license_expires)).check(matches(withText(licenseExpiringDate)))
         Espresso.onView(ViewMatchers.withId(R.id.textedit_profile_license_licenseNumber)).check(matches(withText(licenseNumber  )))
     }
 
@@ -126,18 +117,18 @@ class MainActivityTest{
         Espresso.onView(ViewMatchers.withId(R.id.cardview3_profile_summary)).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withId(R.id.button_vehicle_list_add)).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withId(R.id.spinner_vehicle_detail_type)).perform(ViewActions.click())
-        onData(anything()).atPosition(0).perform(ViewActions.click());
+        onData(anything()).atPosition(0).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withId(R.id.textedit_vehicle_detail_brand)).perform(ViewActions.typeText(brand))
         Espresso.onView(ViewMatchers.withId(R.id.textedit_vehicle_detail_model)).perform(ViewActions.typeText(model))
         Espresso.onView(ViewMatchers.withId(R.id.textedit_vehicle_detail_licensePlate)).perform(ViewActions.typeText(licensePlate))
         Espresso.onView(ViewMatchers.withId(R.id.spinner_vehicle_detail_country)).perform(ViewActions.click())
-        onData(anything()).atPosition(20).perform(ViewActions.click());
+        onData(anything()).atPosition(20).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withId(R.id.button_vehicle_detail_confirm)).perform(ViewActions.click())
 
         Espresso.onView(ViewMatchers.withId(R.id.textedit_profile_vehicle_insurance_greenCard)).perform(ViewActions.typeText(greenCardNumber))
         Espresso.onView(ViewMatchers.withId(R.id.textedit_profile_vehicle_insurance_insuranceNumber)).perform(ViewActions.typeText(insuranceNumber))
         Espresso.onView(ViewMatchers.withId(R.id.spinner_profile_vehicle_insurance_insurer)).perform(ViewActions.click())
-        onData(anything()).atPosition(3).perform(ViewActions.click());
+        onData(anything()).atPosition(3).perform(ViewActions.click())
         Espresso.closeSoftKeyboard()
         Espresso.onView(ViewMatchers.withId(R.id.edit_profile_vehicle_insurance_expires)).perform(ViewActions.click())
         Thread.sleep(1000)
@@ -155,7 +146,7 @@ class MainActivityTest{
 
         Espresso.onView(ViewMatchers.withId(R.id.cardview3_profile_summary)).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withId(R.id.fragment_profile_vehicle_list)).perform(
-            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, ViewActions.click()));
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, ViewActions.click()))
         Espresso.onView(ViewMatchers.withId(R.id.spinner_vehicle_detail_type)).check(matches(withSpinnerText(
             containsString(vehicleType))))
         Espresso.onView(ViewMatchers.withId(R.id.textedit_vehicle_detail_brand)).check(matches(withText(brand)))
@@ -188,7 +179,7 @@ class MainActivityTest{
         Espresso.onView(ViewMatchers.withId(R.id.textedit_report_crash_information_city)).perform(ViewActions.typeText(city))
         Espresso.closeSoftKeyboard()
         Espresso.onView(ViewMatchers.withId(R.id.spinner_report_crash_information_country)).perform(ViewActions.click())
-        onData(anything()).atPosition(20).perform(ViewActions.click());
+        onData(anything()).atPosition(20).perform(ViewActions.click())
         Espresso.closeSoftKeyboard()
         Espresso.onView(ViewMatchers.withId(R.id.edit_report_crash_information_date)).perform(ViewActions.click())
         Thread.sleep(1000)
@@ -211,7 +202,7 @@ class MainActivityTest{
         Espresso.onView(ViewMatchers.withId(R.id.button_algemeen_a_confirm)).perform(ViewActions.click())
 
         Espresso.onView(ViewMatchers.withId(R.id.spinner_report_license_a_category)).perform(ViewActions.click())
-        onData(anything()).atPosition(4).perform(ViewActions.click());
+        onData(anything()).atPosition(4).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withId(R.id.edit_report_license_a_expires)).perform(ViewActions.click())
         Thread.sleep(1000)
         Espresso.onView(withClassName(Matchers.equalTo(DatePicker::class.java.name)))
@@ -223,19 +214,19 @@ class MainActivityTest{
         Espresso.onView(ViewMatchers.withId(R.id.button_report_license_a_confirm)).perform(ViewActions.click())
 
         Espresso.onView(ViewMatchers.withId(R.id.spinner_report_vehicle_detail_a_type)).perform(ViewActions.click())
-        onData(anything()).atPosition(2).perform(ViewActions.click());
+        onData(anything()).atPosition(2).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withId(R.id.textedit_report_vehicle_detail_a_brand)).perform(ViewActions.typeText(brand))
         Espresso.onView(ViewMatchers.withId(R.id.textedit_report_vehicle_detail_a_model)).perform(ViewActions.typeText(model))
         Espresso.closeSoftKeyboard()
         Espresso.onView(ViewMatchers.withId(R.id.textedit_report_vehicle_detail_a_licensePlate)).perform(ViewActions.typeText(licensePlate))
         Espresso.onView(ViewMatchers.withId(R.id.spinner_report_vehicle_detail_a_country)).perform(ViewActions.click())
-        onData(anything()).atPosition(20).perform(ViewActions.click());
+        onData(anything()).atPosition(20).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withId(R.id.button_report_vehicle_detail_a_confirm)).perform(ViewActions.click())
 
         Espresso.onView(ViewMatchers.withId(R.id.textedit_report_vehicle_insurance_a_greenCard)).perform(ViewActions.typeText(greenCardNumber))
         Espresso.onView(ViewMatchers.withId(R.id.textedit_report_vehicle_insurance_a_insuranceNumber)).perform(ViewActions.typeText(insuranceNumber))
         Espresso.onView(ViewMatchers.withId(R.id.spinner_report_vehicle_insurance_a_insurer)).perform(ViewActions.click())
-        onData(anything()).atPosition(3).perform(ViewActions.click());
+        onData(anything()).atPosition(3).perform(ViewActions.click())
         Espresso.closeSoftKeyboard()
         Espresso.onView(ViewMatchers.withId(R.id.edit_report_vehicle_insurance_a_expires)).perform(ViewActions.click())
         Thread.sleep(1000)
@@ -257,7 +248,7 @@ class MainActivityTest{
         Espresso.onView(ViewMatchers.withId(R.id.button_algemeen_b_confirm)).perform(ViewActions.click())
 
         Espresso.onView(ViewMatchers.withId(R.id.spinner_report_license_b_category)).perform(ViewActions.click())
-        onData(anything()).atPosition(2).perform(ViewActions.click());
+        onData(anything()).atPosition(2).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withId(R.id.edit_report_license_b_expires)).perform(ViewActions.click())
         Thread.sleep(1000)
         Espresso.onView(withClassName(Matchers.equalTo(DatePicker::class.java.name)))
@@ -269,18 +260,18 @@ class MainActivityTest{
         Espresso.onView(ViewMatchers.withId(R.id.button_report_license_b_confirm)).perform(ViewActions.click())
 
         Espresso.onView(ViewMatchers.withId(R.id.spinner_report_vehicle_detail_b_type)).perform(ViewActions.click())
-        onData(anything()).atPosition(3).perform(ViewActions.click());
+        onData(anything()).atPosition(3).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withId(R.id.textedit_report_vehicle_detail_b_brand)).perform(ViewActions.typeText(brand2))
         Espresso.onView(ViewMatchers.withId(R.id.textedit_report_vehicle_detail_b_model)).perform(ViewActions.typeText(model2))
         Espresso.onView(ViewMatchers.withId(R.id.textedit_report_vehicle_detail_b_licensePlate)).perform(ViewActions.typeText(licensePlate2))
         Espresso.onView(ViewMatchers.withId(R.id.spinner_report_vehicle_detail_b_country)).perform(ViewActions.click())
-        onData(anything()).atPosition(20).perform(ViewActions.click());
+        onData(anything()).atPosition(20).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withId(R.id.button_report_vehicle_detail_b_confirm)).perform(ViewActions.click())
 
         Espresso.onView(ViewMatchers.withId(R.id.textedit_report_vehicle_insurance_b_greenCard)).perform(ViewActions.typeText(greenCardNumber2))
         Espresso.onView(ViewMatchers.withId(R.id.textedit_report_vehicle_insurance_b_insuranceNumber)).perform(ViewActions.typeText(insuranceNumber2))
         Espresso.onView(ViewMatchers.withId(R.id.spinner_report_vehicle_insurance_b_insurer)).perform(ViewActions.click())
-        onData(anything()).atPosition(1).perform(ViewActions.click());
+        onData(anything()).atPosition(1).perform(ViewActions.click())
         Espresso.closeSoftKeyboard()
         Espresso.onView(ViewMatchers.withId(R.id.edit_report_vehicle_insurance_b_expires)).perform(ViewActions.click())
         Thread.sleep(1000)

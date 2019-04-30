@@ -3,40 +3,37 @@ package com.example.europeesaanrijdingsformulier.profile
 
 import android.app.Activity
 import android.content.Context
-import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-
-import com.example.europeesaanrijdingsformulier.R
-import com.google.gson.Gson
-import kotlinx.android.synthetic.main.fragment_profile_summary.*
-import android.support.design.widget.BottomNavigationView
 import android.content.Context.LAYOUT_INFLATER_SERVICE
 import android.content.Intent
 import android.graphics.Bitmap
+import android.os.Bundle
+import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
 import android.text.Html
 import android.util.Log
 import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.PopupWindow
 import android.widget.LinearLayout
+import android.widget.PopupWindow
 import android.widget.Toast
+import com.example.europeesaanrijdingsformulier.R
 import com.example.europeesaanrijdingsformulier.utils.PrefManager
 import com.example.europeesaanrijdingsformulier.utils.QRManager
-import com.google.zxing.common.BitMatrix
+import com.google.gson.Gson
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
+import com.google.zxing.common.BitMatrix
 import com.google.zxing.integration.android.IntentIntegrator
-import kotlinx.android.synthetic.main.popup_profile_qr.*
+import kotlinx.android.synthetic.main.fragment_profile_summary.*
 
 
 class ProfileSummaryFragment : Fragment() {
 
     private lateinit var prefManager: PrefManager
-    val gson = Gson()
+    private val gson = Gson()
     private val qrManager = QRManager()
 
 
@@ -78,12 +75,12 @@ class ProfileSummaryFragment : Fragment() {
                     val popupWindow = PopupWindow(popupView, width, height, focusable)
                     popupWindow.contentView = linearLayout
 
-                    popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+                    popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)
 
-                    linearLayout.setOnTouchListener(View.OnTouchListener { v, event ->
+                    linearLayout.setOnTouchListener { v, event ->
                         popupWindow.dismiss()
                         true
-                    })
+                    }
                     true
                 }
             }
@@ -159,7 +156,7 @@ class ProfileSummaryFragment : Fragment() {
                             profile.license = prefManager.getLicense()
                             prefManager.saveProfile(profile)
                         }
-                        var vehicles = prefManager.getVehicles()
+                        val vehicles = prefManager.getVehicles()
                         if (vehicles != null) {
                             vehicles.add(profile.vehicles!!.first())
                             profile.vehicles = vehicles
@@ -185,7 +182,7 @@ class ProfileSummaryFragment : Fragment() {
                                 prefManager.saveProfile(profile)
                             }
                         }
-                        var vehicles = prefManager.getVehicles()
+                        val vehicles = prefManager.getVehicles()
                         if (vehicles != null) {
                             vehicles.add(profile.vehicles!!.first())
                             profile.vehicles = vehicles

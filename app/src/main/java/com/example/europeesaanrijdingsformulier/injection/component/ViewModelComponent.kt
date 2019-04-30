@@ -1,7 +1,7 @@
-package com.example.anthonyvannoppen.androidproject.injection.component
+package com.example.europeesaanrijdingsformulier.injection.component
 
-import com.example.anthonyvannoppen.androidproject.injection.module.NetworkModule
-import com.example.anthonyvannoppen.androidproject.ui.HubViewModel
+import com.example.europeesaanrijdingsformulier.injection.module.NetworkModule
+import com.example.europeesaanrijdingsformulier.ui.HubViewModel
 import dagger.Component
 import javax.inject.Singleton
 

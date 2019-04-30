@@ -15,7 +15,4 @@ class Insurance (@field:Json(name = "id")val id: Int,
                  @field:Json(name = "expires")val expires: Date?=null,
                  @field:Json(name = "phoneAgency")val phoneAgency: String,
                  @field:Json(name = "insurer")val insurer: Insurer? = null
-                 ) : Parcelable, Serializable{
-
-
-}
+                 ) : Parcelable, Serializable

@@ -1,13 +1,12 @@
-package com.example.anthonyvannoppen.androidproject.ui
+package com.example.europeesaanrijdingsformulier.ui
 
 import android.annotation.SuppressLint
 import android.arch.lifecycle.MutableLiveData
 import android.util.Log
-import com.example.anthonyvannoppen.androidproject.base.InjectedViewModel
-
-import com.example.anthonyvannoppen.androidproject.network.HubApi
-import com.example.europeesaanrijdingsformulier.profile.Insurance
+import com.example.europeesaanrijdingsformulier.base.InjectedViewModel
 import com.example.europeesaanrijdingsformulier.insurer.Insurer
+import com.example.europeesaanrijdingsformulier.network.HubApi
+import com.example.europeesaanrijdingsformulier.profile.Insurance
 import com.example.europeesaanrijdingsformulier.profile.License
 import com.example.europeesaanrijdingsformulier.profile.Profile
 import com.example.europeesaanrijdingsformulier.profile.Vehicle
@@ -29,7 +28,7 @@ class HubViewModel: InjectedViewModel(){
     /**
      * Indicates whether the loading view should be displayed.
      */
-    val loadingVisibility: MutableLiveData<Boolean> = MutableLiveData()
+    private val loadingVisibility: MutableLiveData<Boolean> = MutableLiveData()
 
     /**
      * Represents a disposable resources
@@ -76,40 +75,29 @@ class HubViewModel: InjectedViewModel(){
         subscription.dispose()
     }
 
-    fun getInsurers(): MutableLiveData<List<Insurer>> {
-        Log.d("robert", insurers.toString())
-        return insurers
-    }
-
     fun getNogInsurers(): Observable<List<Insurer>>{
         return hubApi.getAllInsurers()
     }
 
 
-    fun postLicense(license:License):Observable<License>{
+    private fun postLicense(license:License):Observable<License>{
         val returnedLicense = hubApi.addLicense(license)
         Log.d("license tag",license.category+license.licenseNumber)
 
         return returnedLicense
     }
 
-    fun postVehicle(vehicle:Vehicle):Observable<Vehicle>{
-        val returnedVehicle = hubApi.addVehicle(vehicle)
-        return returnedVehicle
-    }
-    fun deleteVehicle(vehicle:Vehicle):Observable<Vehicle>{
-        val returnedVehicle = hubApi.deleteVehicle(vehicle.id)
-        return returnedVehicle
+    private fun postVehicle(vehicle:Vehicle):Observable<Vehicle>{
+        return hubApi.addVehicle(vehicle)
     }
 
-    fun postProfile(profile: Profile): Observable<Profile> {
-        val returnedProfiel  = hubApi.addProfile(profile)
-        return returnedProfiel
+    private fun postProfile(profile: Profile): Observable<Profile> {
+        return hubApi.addProfile(profile)
     }
 
     fun postReport(report: Report){
 
-        var profiles2: MutableList<Profile> = emptyList<Profile>().toMutableList()
+        val profiles2: MutableList<Profile> = emptyList<Profile>().toMutableList()
         //var report2 = Report(1, emptyList(),report.dateCrash,report.street,report.streetNumber,report.postalCode,report.city,report.country)
         for (profile in report.profiles) {
             profile.vehicles!!.first().insurance = postInsurance(profile.vehicles!!.first().insurance!!).blockingFirst()
@@ -128,33 +116,11 @@ class HubViewModel: InjectedViewModel(){
                 { error -> Log.e("ERROR", error.message ) })
     }
     fun createPdf(report: Report):Observable<Report>{
-        val pdf  = hubApi.createPdf(report)
-        return pdf
+        return hubApi.createPdf(report)
     }
 
-    fun updateProfile(profile: Profile): Observable<Profile> {
-        val returnedProfiel  = hubApi.updateProfile(profile.id,profile)
-        return returnedProfiel
-    }
-
-    fun updateLicense(license: License): Observable<License> {
-        val returnedLicense  = hubApi.updateLicense(license.id,license)
-        return returnedLicense
-    }
-
-    fun updateVehicle(vehicle: Vehicle): Observable<Vehicle> {
-        val returnedVehicle  = hubApi.updateVehicle(vehicle.id,vehicle)
-        return returnedVehicle
-    }
-
-    fun postInsurance(insurance: Insurance): Observable<Insurance> {
-        val returnedInsurance  = hubApi.addInsurance(insurance)
-        return returnedInsurance
-    }
-
-    fun updateInsurance(insurance: Insurance): Observable<Insurance> {
-        val returnedInsurance  = hubApi.updateInsurance(insurance.id,insurance)
-        return returnedInsurance
+    private fun postInsurance(insurance: Insurance): Observable<Insurance> {
+        return hubApi.addInsurance(insurance)
     }
 
 }

@@ -8,11 +8,8 @@ import android.support.v4.app.Fragment
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Spinner
-
 import com.example.europeesaanrijdingsformulier.R
 import com.example.europeesaanrijdingsformulier.profile.Vehicle
-import com.example.europeesaanrijdingsformulier.utils.DatePickerManager
 import com.example.europeesaanrijdingsformulier.utils.PrefManager
 import com.example.europeesaanrijdingsformulier.utils.SpinnerManager
 import kotlinx.android.synthetic.main.fragment_report_vehicle_detail_a.*
@@ -41,8 +38,9 @@ class ReportVehicleDetailAFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        val optionCountries = spinnerManager.instantiateSpinner(activity!!,R.id.spinner_report_vehicle_detail_a_country,getResources().getStringArray(R.array.countries_array))
-        val option = spinnerManager.instantiateSpinner(activity!!,R.id.spinner_report_vehicle_detail_a_type,getResources().getStringArray(R.array.vehicleCategory))
+        val optionCountries = spinnerManager.instantiateSpinner(activity!!,R.id.spinner_report_vehicle_detail_a_country,
+            resources.getStringArray(R.array.countries_array))
+        val option = spinnerManager.instantiateSpinner(activity!!,R.id.spinner_report_vehicle_detail_a_type, resources.getStringArray(R.array.vehicleCategory))
         val adapter = option.adapter as ArrayAdapter<String>
         val countriesAdapter = optionCountries.adapter as ArrayAdapter<String>
         if (report.profiles.first().vehicles!!.isNotEmpty()  && report.profiles.first().vehicles?.first()?.type != null) {
@@ -61,7 +59,7 @@ class ReportVehicleDetailAFragment : Fragment() {
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
-        };
+        }
 
         optionCountries.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -115,7 +113,7 @@ class ReportVehicleDetailAFragment : Fragment() {
         //inflater!!.inflate(R.menu.menu_main,menu)
         super.onCreateOptionsMenu(menu, inflater)
 
-        var item = menu!!.findItem(R.id.action_belVerzekeraar)
+        val item = menu!!.findItem(R.id.action_belVerzekeraar)
         if(!prefManager.getVehicles().isNullOrEmpty()&&prefManager.getVehicles()?.first()?.insurance?.phoneAgency != ""){
             item.isVisible = true
         }

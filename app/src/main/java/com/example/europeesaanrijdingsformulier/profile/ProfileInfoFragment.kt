@@ -1,24 +1,17 @@
 package com.example.europeesaanrijdingsformulier.profile
 
 
-import android.arch.lifecycle.ViewModelProviders
-import android.content.Context
 import android.os.Bundle
-import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Spinner
 import android.widget.Toast
-import com.example.anthonyvannoppen.androidproject.ui.HubViewModel
-
 import com.example.europeesaanrijdingsformulier.R
 import com.example.europeesaanrijdingsformulier.utils.PrefManager
 import com.example.europeesaanrijdingsformulier.utils.Validator
-import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_profile_info.*
 
 class ProfileInfoFragment : Fragment() {
@@ -80,13 +73,13 @@ class ProfileInfoFragment : Fragment() {
         textedit_profile_info_lastname.setText(profileInput!!.lastName)
         textedit_profile_info_email.setText(profileInput!!.email)
     }
-    fun isValidated():Boolean{
+    private fun isValidated():Boolean{
         if(validator.isNotEmpty(this.textedit_profile_info_firstname.text.toString()) ||
             validator.isNotEmpty(this.textedit_profile_info_lastname.text.toString())){
             if(validator.isValidEmail(this.textedit_profile_info_email.text.toString())){
                 return true
             } else{
-                this.textedit_profile_info_email.setError("Geen geldig e-mail adres")
+                this.textedit_profile_info_email.error = "Geen geldig e-mail adres"
             }
         } else Toast.makeText(
             activity,

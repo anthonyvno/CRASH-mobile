@@ -1,26 +1,16 @@
 package com.example.europeesaanrijdingsformulier.report
 
 
-import android.app.AlertDialog
-import android.app.DatePickerDialog
-import android.arch.lifecycle.ViewModelProviders
-import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.Spinner
-import com.example.anthonyvannoppen.androidproject.ui.HubViewModel
-
 import com.example.europeesaanrijdingsformulier.R
 import com.example.europeesaanrijdingsformulier.insurer.Insurer
 import com.example.europeesaanrijdingsformulier.profile.Insurance
-import com.example.europeesaanrijdingsformulier.profile.Vehicle
 import com.example.europeesaanrijdingsformulier.utils.DatePickerManager
 import com.example.europeesaanrijdingsformulier.utils.PrefManager
 import com.example.europeesaanrijdingsformulier.utils.SpinnerManager
@@ -85,7 +75,7 @@ class ReportVehicleInsuranceAFragment : Fragment() {
                     dateSplit[2].toInt() - 1900, dateSplit[1].toInt() -1, dateSplit[0].toInt() +1
                 )
                 val insurer4 = insurers.find { insurer -> insurer!!.name == insurerName }
-                var insurance = Insurance(
+                val insurance = Insurance(
                     1,
                     textedit_report_vehicle_insurance_a_insuranceNumber.text.toString(),
                     textedit_report_vehicle_insurance_a_greenCard.text.toString(),
@@ -132,7 +122,7 @@ class ReportVehicleInsuranceAFragment : Fragment() {
         //inflater!!.inflate(R.menu.menu_main,menu)
         super.onCreateOptionsMenu(menu, inflater)
 
-        var item = menu!!.findItem(R.id.action_belVerzekeraar)
+        val item = menu!!.findItem(R.id.action_belVerzekeraar)
         if(!prefManager.getVehicles().isNullOrEmpty()&&prefManager.getVehicles()?.first()?.insurance?.phoneAgency != ""){
             item.isVisible = true
         }
@@ -152,16 +142,16 @@ class ReportVehicleInsuranceAFragment : Fragment() {
         }
     }
 
-    fun isValidated():Boolean{
+    private fun isValidated():Boolean{
         if(validator.isNotEmpty(textedit_report_vehicle_insurance_a_expires.text.toString())
             && validator.isValidEmail(textedit_report_vehicle_insurance_a_email.text.toString())){
             return true
         } else {
             if(!validator.isNotEmpty(textedit_report_vehicle_insurance_a_expires.text.toString())){
-                textedit_report_vehicle_insurance_a_expires.setError("Datum moet ingevuld zijn.")
+                textedit_report_vehicle_insurance_a_expires.error = "Datum moet ingevuld zijn."
             }
             if(!validator.isValidEmail(textedit_report_vehicle_insurance_a_email.text.toString())){
-                textedit_report_vehicle_insurance_a_email.setError("Geen geldig e-mailadres.")
+                textedit_report_vehicle_insurance_a_email.error = "Geen geldig e-mailadres."
             }
         }
         return false

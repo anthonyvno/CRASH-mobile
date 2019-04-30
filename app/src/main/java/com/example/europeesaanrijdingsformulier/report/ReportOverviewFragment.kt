@@ -2,25 +2,20 @@ package com.example.europeesaanrijdingsformulier.report
 
 
 import android.arch.lifecycle.ViewModelProviders
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.util.Base64
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.anthonyvannoppen.androidproject.ui.HubViewModel
+import com.example.europeesaanrijdingsformulier.ui.HubViewModel
 import com.example.europeesaanrijdingsformulier.R
-import com.itextpdf.text.Image
 import kotlinx.android.synthetic.main.fragment_report_overview.*
 
 
 class ReportOverviewFragment : Fragment() {
 
     private lateinit var report: Report
-    private lateinit var image:Image
     private lateinit var viewModel: HubViewModel
 
     override fun onCreateView(

@@ -1,8 +1,6 @@
 package com.example.europeesaanrijdingsformulier.report
 
 
-import android.annotation.SuppressLint
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.Html
@@ -10,11 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.example.anthonyvannoppen.androidproject.ui.HubViewModel
-
 import com.example.europeesaanrijdingsformulier.R
-import com.example.europeesaanrijdingsformulier.fragments.HomeFragment
-import com.example.europeesaanrijdingsformulier.profile.License
 import com.example.europeesaanrijdingsformulier.profile.Profile
 import com.example.europeesaanrijdingsformulier.utils.Validator
 import kotlinx.android.synthetic.main.fragment_report_algemeen_b.*
@@ -50,14 +44,14 @@ class ReportAlgemeenBFragment : Fragment() {
                 val email = this.textedit_algemeen_b_email.text.toString()
 
 
-                var profiles: List<Profile>
-                if (profile != null) {
-                    profiles = listOf(
+                val profiles: List<Profile>
+                profiles = if (profile != null) {
+                    listOf(
                         this.report.profiles.first(),
                         Profile(1, firstName, lastName, email, profile?.license, profile?.vehicles)
                     )
                 } else {
-                    profiles = listOf(this.report.profiles.first(), Profile(1, firstName, lastName, email))
+                    listOf(this.report.profiles.first(), Profile(1, firstName, lastName, email))
                 }
 
                 report.profiles = profiles
@@ -87,14 +81,14 @@ class ReportAlgemeenBFragment : Fragment() {
         this.profile = item
     }
 
-    fun isValidated(): Boolean {
+    private fun isValidated(): Boolean {
         if (validator.isNotEmpty(this.textedit_algemeen_b_firstname.text.toString()) ||
             validator.isNotEmpty(this.textedit_algemeen_b_lastname.text.toString())
         ) {
             if (validator.isValidEmail(this.textedit_algemeen_b_email.text.toString())) {
                 return true
             } else {
-                this.textedit_algemeen_b_email.setError("Geen geldig e-mail adres")
+                this.textedit_algemeen_b_email.error = "Geen geldig e-mail adres"
             }
         } else Toast.makeText(
             activity,

@@ -5,15 +5,12 @@ import android.annotation.SuppressLint
 import android.content.pm.ActivityInfo
 import android.content.res.ColorStateList
 import android.graphics.Bitmap
-
-import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import com.example.europeesaanrijdingsformulier.R
 import kotlinx.android.synthetic.main.fragment_report_sketch.*
 import java.io.ByteArrayOutputStream
@@ -35,21 +32,19 @@ class ReportSketchFragment : Fragment() {
     @SuppressLint("RestrictedApi")
     override fun onStart() {
 
-        var drawableA: Int
-        var drawableB: Int
-        when(report.profiles.get(0).vehicles?.get(0)?.type){
-            "Auto" -> drawableA = R.drawable.redcar
-            "Motorfiets" -> drawableA = R.drawable.redmotorcycle
-            "Bus" -> drawableA = R.drawable.redbus
-            "Vrachtwagen" -> drawableA = R.drawable.redtruck
-            else -> drawableA = R.drawable.redcar
+        val drawableA: Int = when(report.profiles[0].vehicles?.get(0)?.type){
+            "Auto" -> R.drawable.redcar
+            "Motorfiets" -> R.drawable.redmotorcycle
+            "Bus" -> R.drawable.redbus
+            "Vrachtwagen" -> R.drawable.redtruck
+            else -> R.drawable.redcar
         }
-        when(report.profiles.get(1).vehicles?.get(0)?.type){
-            "Auto" -> drawableB = R.drawable.greencar
-            "Motorfiets" -> drawableB = R.drawable.greenmotorcycle
-            "Bus" -> drawableB = R.drawable.greenbus
-            "Vrachtwagen" -> drawableB = R.drawable.greentruck
-            else -> drawableB = R.drawable.greencar
+        val drawableB: Int = when(report.profiles[1].vehicles?.get(0)?.type){
+            "Auto" -> R.drawable.greencar
+            "Motorfiets" -> R.drawable.greenmotorcycle
+            "Bus" -> R.drawable.greenbus
+            "Vrachtwagen" -> R.drawable.greentruck
+            else -> R.drawable.greencar
         }
 
         drawview_report_sketch.setSituation(drawableA,drawableB)
@@ -108,12 +103,12 @@ class ReportSketchFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        activity?.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
     }
 
     override fun onPause() {
         super.onPause()
-        activity?.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
+        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
     }
 
     fun addObject(item: Report) {

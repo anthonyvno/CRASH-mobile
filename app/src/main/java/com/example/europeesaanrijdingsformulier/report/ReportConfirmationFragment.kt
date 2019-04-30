@@ -10,15 +10,13 @@ import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.anthonyvannoppen.androidproject.ui.HubViewModel
-
+import com.example.europeesaanrijdingsformulier.ui.HubViewModel
 import com.example.europeesaanrijdingsformulier.R
 import com.example.europeesaanrijdingsformulier.fragments.HomeFragment
 import com.example.europeesaanrijdingsformulier.utils.ConnectionManager
 import com.example.europeesaanrijdingsformulier.utils.PrefManager
 import com.github.gcacace.signaturepad.views.SignaturePad
 import kotlinx.android.synthetic.main.fragment_report_confirmation.*
-import kotlinx.android.synthetic.main.fragment_report_sketch.*
 import java.io.ByteArrayOutputStream
 
 

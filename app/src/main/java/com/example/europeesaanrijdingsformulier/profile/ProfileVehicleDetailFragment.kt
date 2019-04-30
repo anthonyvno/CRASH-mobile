@@ -37,8 +37,9 @@ class ProfileVehicleDetailFragment : Fragment() {
             fillInTextFields()
         }
 
-        val optionCountries = spinnerManager.instantiateSpinner(activity!!,R.id.spinner_vehicle_detail_country,getResources().getStringArray(R.array.countries_array))
-        val option = spinnerManager.instantiateSpinner(activity!!,R.id.spinner_vehicle_detail_type,getResources().getStringArray(R.array.vehicleCategory))
+        val optionCountries = spinnerManager.instantiateSpinner(activity!!,R.id.spinner_vehicle_detail_country,
+            resources.getStringArray(R.array.countries_array))
+        val option = spinnerManager.instantiateSpinner(activity!!,R.id.spinner_vehicle_detail_type, resources.getStringArray(R.array.vehicleCategory))
         val adapter = option.adapter as ArrayAdapter<String>
         val countriesAdapter = optionCountries.adapter as ArrayAdapter<String>
         if (vehicle?.type != null) {
@@ -57,7 +58,7 @@ class ProfileVehicleDetailFragment : Fragment() {
 
             override fun onNothingSelected(parent: AdapterView<*>) {
             }
-        };
+        }
 
         optionCountries.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -72,15 +73,15 @@ class ProfileVehicleDetailFragment : Fragment() {
             val brand = textedit_vehicle_detail_brand.text.toString()
             val model = textedit_vehicle_detail_model.text.toString()
             val licensePlate = textedit_vehicle_detail_licensePlate.text.toString()
-            if (vehicle == null) {
+            vehicle = if (vehicle == null) {
                 if(prefManager.getVehicles()==null){
-                    vehicle = Vehicle(0, country, licensePlate, brand, model, category)
+                    Vehicle(0, country, licensePlate, brand, model, category)
 
                 } else {
-                    vehicle = Vehicle(prefManager.getVehicles()!!.size, country, licensePlate, brand, model, category)
+                    Vehicle(prefManager.getVehicles()!!.size, country, licensePlate, brand, model, category)
                 }
             } else {
-                vehicle = Vehicle(vehicle!!.id, country, licensePlate, brand, model, category,vehicle!!.insurance)
+                Vehicle(vehicle!!.id, country, licensePlate, brand, model, category,vehicle!!.insurance)
             }
 
 
@@ -105,13 +106,5 @@ class ProfileVehicleDetailFragment : Fragment() {
     }
 
     companion object {
-        const val ARG_VEHICLE = "item_id"
-        fun newInstance(veh: Vehicle): ProfileVehicleDetailFragment {
-            val args = Bundle()
-            args.putSerializable(ARG_VEHICLE, veh)
-            val fragment = ProfileVehicleDetailFragment()
-            fragment.arguments = args
-            return fragment
-        }
     }
 }

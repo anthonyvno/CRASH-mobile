@@ -4,27 +4,22 @@ import android.app.AlertDialog
 import android.app.FragmentManager.POP_BACK_STACK_INCLUSIVE
 import android.arch.lifecycle.ViewModelProviders
 import android.content.*
-import android.location.Address
 
 import android.os.Bundle
 
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import com.example.anthonyvannoppen.androidproject.ui.HubViewModel
+import com.example.europeesaanrijdingsformulier.ui.HubViewModel
 import com.example.europeesaanrijdingsformulier.fragments.HomeFragment
 import com.example.europeesaanrijdingsformulier.fragments.ReportListFragment
 import com.example.europeesaanrijdingsformulier.utils.PrefManager
 import kotlinx.android.synthetic.main.activity_main.*
 import android.net.ConnectivityManager
 import android.widget.Toast
-import com.example.anthonyvannoppen.androidproject.utils.inReport
+import com.example.europeesaanrijdingsformulier.utils.inReport
 import com.example.europeesaanrijdingsformulier.insurer.Insurer
 import com.example.europeesaanrijdingsformulier.utils.ConnectionManager
-import com.location.aravind.getlocation.GeoLocator
-import android.location.Geocoder
-import java.io.IOException
-import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -33,9 +28,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: HubViewModel
     val connectionManager = ConnectionManager()
     private lateinit var mConnReceiver: BroadcastReceiver
-    lateinit var geocoder: Geocoder
-    private lateinit var geoLocator: GeoLocator
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -129,31 +121,31 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         val fm = supportFragmentManager
-        if (fm.findFragmentByTag("summary") != null && fm.findFragmentByTag("summary")!!.isVisible()) {
+        if (fm.findFragmentByTag("summary") != null && fm.findFragmentByTag("summary")!!.isVisible) {
             fm.popBackStack("home_to_profileSummary", POP_BACK_STACK_INCLUSIVE)
         } else
-            if (fm.findFragmentByTag("insurance") != null && fm.findFragmentByTag("insurance")!!.isVisible()) {
+            if (fm.findFragmentByTag("insurance") != null && fm.findFragmentByTag("insurance")!!.isVisible) {
                 fm.popBackStack("list_to_detail", POP_BACK_STACK_INCLUSIVE)
             } else {
-                if (fm.findFragmentByTag("startB") != null && fm.findFragmentByTag("startB")!!.isVisible()) {
+                if (fm.findFragmentByTag("startB") != null && fm.findFragmentByTag("startB")!!.isVisible) {
                     AlertDialog.Builder(this)
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .setTitle("Afsluiten formulier")
                         .setMessage("Wilt u terug gaan naar het beginscherm? Ingevulde gegevens gaan verloren.")
                         .setPositiveButton(
-                            "Ja",
-                            DialogInterface.OnClickListener { dialog, which -> fm.popBackStack("home_to_crashinformation", POP_BACK_STACK_INCLUSIVE) })
+                            "Ja"
+                        ) { dialog, which -> fm.popBackStack("home_to_crashinformation", POP_BACK_STACK_INCLUSIVE) }
                         .setNegativeButton("Nee", null)
                         .show()
                 } else {
-                    if (fm.findFragmentByTag("circumstances") != null && fm.findFragmentByTag("circumstances")!!.isVisible()) {
+                    if (fm.findFragmentByTag("circumstances") != null && fm.findFragmentByTag("circumstances")!!.isVisible) {
                         AlertDialog.Builder(this)
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .setTitle("Afsluiten formulier")
                             .setMessage("Wilt u terug gaan naar het beginscherm? Ingevulde gegevens gaan verloren.")
                             .setPositiveButton(
-                                "Ja",
-                                DialogInterface.OnClickListener { dialog, which -> fm.popBackStack("home_to_crashinformation", POP_BACK_STACK_INCLUSIVE) })
+                                "Ja"
+                            ) { dialog, which -> fm.popBackStack("home_to_crashinformation", POP_BACK_STACK_INCLUSIVE) }
                             .setNegativeButton("Nee", null)
                             .show()
                     } else {

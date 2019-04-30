@@ -1,7 +1,6 @@
 package com.example.europeesaanrijdingsformulier.report
 
 
-import android.app.DatePickerDialog
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -9,15 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.Spinner
-
 import com.example.europeesaanrijdingsformulier.R
 import com.example.europeesaanrijdingsformulier.profile.License
 import com.example.europeesaanrijdingsformulier.utils.DatePickerManager
 import com.example.europeesaanrijdingsformulier.utils.SpinnerManager
 import kotlinx.android.synthetic.main.fragment_report_license_b.*
-import java.util.*
 
 
 class ReportLicenseBFragment : Fragment() {
@@ -37,10 +32,10 @@ class ReportLicenseBFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        val option = spinnerManager.instantiateSpinner(activity!!,R.id.spinner_report_license_b_category,getResources().getStringArray(R.array.licenseCategory))
+        val option = spinnerManager.instantiateSpinner(activity!!,R.id.spinner_report_license_b_category, resources.getStringArray(R.array.licenseCategory))
         val adapter = option.adapter as ArrayAdapter<String>
-        if (report?.profiles.last().license?.category != null) {
-            val spinnerPosition = adapter.getPosition(report?.profiles.last().license?.category)
+        if (report.profiles.last().license?.category != null) {
+            val spinnerPosition = adapter.getPosition(report.profiles.last().license?.category)
             option.setSelection(spinnerPosition)
         }
 

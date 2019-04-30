@@ -9,7 +9,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.example.europeesaanrijdingsformulier.R
 import com.example.europeesaanrijdingsformulier.report.Report
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_report.view.*
 
 class ReportViewAdapter(private val parentActivity: ReportListFragment,
@@ -40,7 +39,7 @@ class ReportViewAdapter(private val parentActivity: ReportListFragment,
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val report = reports[position]
         val year = report.dateCrash!!.year + 1900
-        holder.date.text = report.dateCrash!!.date.toString() + "/" + report.dateCrash!!.month.toString() + "/" + year.toString()
+        holder.date.text = report.dateCrash.date.toString() + "/" + report.dateCrash.month.toString() + "/" + year.toString()
         holder.location.text = report.postalCode + " " + report.city
         if(report.profiles.first().vehicles != null){
             holder.vehicle.text = report.profiles.first().vehicles!!.first().brand + " " + report.profiles.first().vehicles!!.first().model

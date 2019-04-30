@@ -22,9 +22,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
             <ImageView
+                    android:contentDescription="Afbeelding auto"
                     android:background="@drawable/icons8car80"
                     android:scaleType="centerCrop"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:id="@+id/imageView_vehicle"
                     android:layout_weight="1"
@@ -76,7 +77,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
             <ImageView
-                    android:layout_width="wrap_content"
+                    android:contentDescription="Icon user"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:id="@+id/imageViewProfile"
                     android:scaleType="centerCrop"
@@ -118,6 +120,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
             <ImageView
+                    android:contentDescription="Icon License"
                     android:background="@drawable/icons8certificate80"
                     android:layout_width="wrap_content"
                     android:scaleType="centerCrop"

@@ -5,7 +5,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.Html
-import android.util.Patterns
 import android.view.*
 import android.widget.Toast
 import com.example.europeesaanrijdingsformulier.R
@@ -52,11 +51,11 @@ class ReportAlgemeenAFragment : Fragment() {
                 val firstName = this.textedit_algemeen_a_firstname.text.toString()
                 val lastName = this.textedit_algemeen_a_lastname.text.toString()
                 val email = this.textedit_algemeen_a_email.text.toString()
-                var profiles: List<Profile>
-                if (profile != null) {
-                    profiles = listOf(Profile(1, firstName, lastName, email, profile?.license, profile?.vehicles))
+                val profiles: List<Profile>
+                profiles = if (profile != null) {
+                    listOf(Profile(1, firstName, lastName, email, profile?.license, profile?.vehicles))
                 } else {
-                    profiles = listOf(Profile(1, firstName, lastName, email))
+                    listOf(Profile(1, firstName, lastName, email))
 
                 }
 
@@ -95,7 +94,7 @@ class ReportAlgemeenAFragment : Fragment() {
         //inflater!!.inflate(R.menu.menu_main,menu)
         super.onCreateOptionsMenu(menu, inflater)
 
-        var item = menu!!.findItem(R.id.action_belVerzekeraar)
+        val item = menu!!.findItem(R.id.action_belVerzekeraar)
         if (!prefManager.getVehicles().isNullOrEmpty() && prefManager.getVehicles()?.first()?.insurance?.phoneAgency != "") {
             item.isVisible = true
         }
@@ -122,7 +121,7 @@ class ReportAlgemeenAFragment : Fragment() {
             if (validator.isValidEmail(this.textedit_algemeen_a_email.text.toString())) {
                 return true
             } else {
-                this.textedit_algemeen_a_email.setError("Geen geldig e-mail adres")
+                this.textedit_algemeen_a_email.error = "Geen geldig e-mail adres"
             }
         } else Toast.makeText(
             activity,

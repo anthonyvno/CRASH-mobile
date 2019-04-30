@@ -1,4 +1,4 @@
-package com.example.anthonyvannoppen.androidproject.utils
+package com.example.europeesaanrijdingsformulier.utils
 
 const val BASE_URL: String = "http://52.166.147.106:8080/"
 

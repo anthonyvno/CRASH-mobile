@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.example.europeesaanrijdingsformulier.R
-import kotlinx.android.synthetic.main.fragment_profile_license.*
 import com.example.europeesaanrijdingsformulier.utils.DatePickerManager
 import com.example.europeesaanrijdingsformulier.utils.PrefManager
 import com.example.europeesaanrijdingsformulier.utils.SpinnerManager
+import kotlinx.android.synthetic.main.fragment_profile_license.*
 
 
 class ProfileLicenseFragment : Fragment() {
@@ -37,7 +37,7 @@ class ProfileLicenseFragment : Fragment() {
         super.onStart()
         datePickerManager.instantiateDatePicker(activity!!,R.id.textedit_profile_license_expires)
 
-        val option = spinnerManager.instantiateSpinner(activity!!,R.id.spinner_profile_license_category,getResources().getStringArray(R.array.licenseCategory))
+        val option = spinnerManager.instantiateSpinner(activity!!,R.id.spinner_profile_license_category, resources.getStringArray(R.array.licenseCategory))
         val adapter = option.adapter as ArrayAdapter<String>
         licenseInput = prefManager.getLicense()
         if(licenseInput?.category != null){
@@ -64,10 +64,10 @@ class ProfileLicenseFragment : Fragment() {
 
 
             val license2 : License
-            if(licenseInput == null) {
-                license = License(id,category,licenseNumber,expires)
+            license = if(licenseInput == null) {
+                License(id,category,licenseNumber,expires)
             } else{
-                license = License(licenseInput!!.id,category,licenseNumber,expires)
+                License(licenseInput!!.id,category,licenseNumber,expires)
             }
 
             prefManager.saveLicense(license)

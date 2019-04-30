@@ -10,46 +10,46 @@ class MyRectangle(
     val carWidth: Float,
     val carLength: Float,
     val center: PointF,
-    val angle: Float? = 0F
+    private val angle: Float? = 0F
 ) {
 
     fun getTopLeft(): PointF {
 
-        var point = PointF()
+        val point = PointF()
         point.x =
-            (center.x + ((-carWidth / 2) * Math.cos(angle!! * Math.PI / 180)) - ((carLength / 2) * Math.sin(angle!! * Math.PI / 180))).toFloat()
+            (center.x + ((-carWidth / 2) * Math.cos(angle!! * Math.PI / 180)) - ((carLength / 2) * Math.sin(angle * Math.PI / 180))).toFloat()
         point.y =
-            (center.y + ((-carWidth / 2) * Math.sin(angle!! * Math.PI / 180)) + ((carLength / 2) * Math.cos(angle!! * Math.PI / 180))).toFloat()
+            (center.y + ((-carWidth / 2) * Math.sin(angle * Math.PI / 180)) + ((carLength / 2) * Math.cos(angle * Math.PI / 180))).toFloat()
         return point
     }
 
     fun getTopRight(): PointF {
 
-        var point = PointF()
+        val point = PointF()
         point.x =
-            (center.x + ((carWidth / 2) * Math.cos(angle!! * Math.PI / 180)) - ((carLength / 2) * Math.sin(angle!! * Math.PI / 180))).toFloat()
+            (center.x + ((carWidth / 2) * Math.cos(angle!! * Math.PI / 180)) - ((carLength / 2) * Math.sin(angle * Math.PI / 180))).toFloat()
         point.y =
-            (center.y + ((carWidth / 2) * Math.sin(angle!! * Math.PI / 180)) + ((carLength / 2) * Math.cos(angle!! * Math.PI / 180))).toFloat()
+            (center.y + ((carWidth / 2) * Math.sin(angle * Math.PI / 180)) + ((carLength / 2) * Math.cos(angle * Math.PI / 180))).toFloat()
         return point
     }
 
     fun getBottomLeft(): PointF {
 
-        var point = PointF()
+        val point = PointF()
         point.x =
-            (center.x + ((-carWidth / 2) * Math.cos(angle!! * Math.PI / 180)) - ((-carLength / 2) * Math.sin(angle!! * Math.PI / 180))).toFloat()
+            (center.x + ((-carWidth / 2) * Math.cos(angle!! * Math.PI / 180)) - ((-carLength / 2) * Math.sin(angle * Math.PI / 180))).toFloat()
         point.y =
-            (center.y + ((-carWidth / 2) * Math.sin(angle!! * Math.PI / 180)) + ((-carLength / 2) * Math.cos(angle!! * Math.PI / 180))).toFloat()
+            (center.y + ((-carWidth / 2) * Math.sin(angle * Math.PI / 180)) + ((-carLength / 2) * Math.cos(angle * Math.PI / 180))).toFloat()
         return point
     }
 
     fun getBottomRight(): PointF {
 
-        var point = PointF()
+        val point = PointF()
         point.x =
-            (center.x + ((carWidth / 2) * Math.cos(angle!! * Math.PI / 180)) - ((-carLength / 2) * Math.sin(angle!! * Math.PI / 180))).toFloat()
+            (center.x + ((carWidth / 2) * Math.cos(angle!! * Math.PI / 180)) - ((-carLength / 2) * Math.sin(angle * Math.PI / 180))).toFloat()
         point.y =
-            (center.y + ((carWidth / 2) * Math.sin(angle!! * Math.PI / 180)) + ((-carLength / 2) * Math.cos(angle!! * Math.PI / 180))).toFloat()
+            (center.y + ((carWidth / 2) * Math.sin(angle * Math.PI / 180)) + ((-carLength / 2) * Math.cos(angle * Math.PI / 180))).toFloat()
         return point
     }
 
@@ -66,26 +66,26 @@ class MyRectangle(
     }
 
     fun contains(point: PointF): Boolean {
-        var noAngleRect = MyRectangle(carWidth, carLength, center)
-        var tempRect = RectF(
+        val noAngleRect = MyRectangle(carWidth, carLength, center)
+        val tempRect = RectF(
             noAngleRect.getTopLeft().x,
             noAngleRect.getBottomRight().y,
             noAngleRect.getBottomRight().x,
             noAngleRect.getTopLeft().y
         )
-        var newPoint = PointF(
+        val newPoint = PointF(
             (center.x + ((point.x - center.x) * Math.cos(-angle!! * Math.PI / 180)) -
-                    ((point.y - center.y) * Math.sin(-angle!! * Math.PI / 180))).toFloat(),
-            (center.y + ((point.x - center.x) * Math.sin(-angle!! * Math.PI / 180)) +
-                    ((point.y - center.y) * Math.cos(-angle!! * Math.PI / 180))).toFloat()
+                    ((point.y - center.y) * Math.sin(-angle * Math.PI / 180))).toFloat(),
+            (center.y + ((point.x - center.x) * Math.sin(-angle * Math.PI / 180)) +
+                    ((point.y - center.y) * Math.cos(-angle * Math.PI / 180))).toFloat()
 
         )
         return tempRect.contains(newPoint.x.toInt().toFloat(),newPoint.y.toInt().toFloat())
        }
 
     fun drawOnCanvas(canvas: Canvas, paint: Paint) {
-        var noAngleRect = MyRectangle(carWidth, carLength, center)
-        var tempRect = RectF(
+        val noAngleRect = MyRectangle(carWidth, carLength, center)
+        val tempRect = RectF(
             noAngleRect.getTopLeft().x,
             noAngleRect.getBottomRight().y,
             noAngleRect.getBottomRight().x,

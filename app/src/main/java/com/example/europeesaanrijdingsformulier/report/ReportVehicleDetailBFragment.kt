@@ -8,8 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Spinner
-
 import com.example.europeesaanrijdingsformulier.R
 import com.example.europeesaanrijdingsformulier.profile.Vehicle
 import com.example.europeesaanrijdingsformulier.utils.SpinnerManager
@@ -34,8 +32,9 @@ class ReportVehicleDetailBFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        val optionCountries = spinnerManager.instantiateSpinner(activity!!,R.id.spinner_report_vehicle_detail_b_country,getResources().getStringArray(R.array.countries_array))
-        val option = spinnerManager.instantiateSpinner(activity!!,R.id.spinner_report_vehicle_detail_b_type,getResources().getStringArray(R.array.vehicleCategory))
+        val optionCountries = spinnerManager.instantiateSpinner(activity!!,R.id.spinner_report_vehicle_detail_b_country,
+            resources.getStringArray(R.array.countries_array))
+        val option = spinnerManager.instantiateSpinner(activity!!,R.id.spinner_report_vehicle_detail_b_type, resources.getStringArray(R.array.vehicleCategory))
         val adapter = option.adapter as ArrayAdapter<String>
         val countriesAdapter = optionCountries.adapter as ArrayAdapter<String>
         if (report.profiles.last().vehicles!!.isNotEmpty()  && report.profiles.last().vehicles?.first()?.type != null) {
@@ -54,7 +53,7 @@ class ReportVehicleDetailBFragment : Fragment() {
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
-        };
+        }
 
         optionCountries.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {

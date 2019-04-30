@@ -1,6 +1,5 @@
 package com.example.europeesaanrijdingsformulier.profile
 
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -8,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import com.example.anthonyvannoppen.androidproject.ui.HubViewModel
 import com.example.europeesaanrijdingsformulier.R
 import com.example.europeesaanrijdingsformulier.insurer.Insurer
 import com.example.europeesaanrijdingsformulier.utils.DatePickerManager
@@ -63,7 +61,7 @@ class ProfileVehicleInsuranceFragment : Fragment() {
             override fun onNothingSelected(parent: AdapterView<*>) {
             }
         }
-        if (vehicle!!.insurance != null) {
+        if (vehicle.insurance != null) {
             fillInTextFields()
         }
         button_profile_vehicle_insurance_confirm.setOnClickListener {
@@ -74,7 +72,7 @@ class ProfileVehicleInsuranceFragment : Fragment() {
                     dateSplit[2].toInt() - 1900, dateSplit[1].toInt() - 1, dateSplit[0].toInt() + 1
                 )
                 val insurer4 = insurers.find { insurer -> insurer.name == insurerName }
-                var insurance = Insurance(
+                val insurance = Insurance(
                     1,
                     textedit_profile_vehicle_insurance_insuranceNumber.text.toString(),
                     textedit_profile_vehicle_insurance_greenCard.text.toString(),
@@ -89,7 +87,7 @@ class ProfileVehicleInsuranceFragment : Fragment() {
                 vehicle.insurance = insurance
                 var vehicles = prefManager.getVehicles()
                 if (vehicles != null) {
-                    var comparevehicle = vehicles.find { it.id == vehicle.id }
+                    val comparevehicle = vehicles.find { it.id == vehicle.id }
                     if (comparevehicle == null) {
                         vehicles.add(vehicle)
                     } else {
@@ -97,7 +95,7 @@ class ProfileVehicleInsuranceFragment : Fragment() {
                         vehicles.add(vehicle)
                     }
                 } else {
-                    vehicles = mutableListOf<Vehicle>(vehicle)
+                    vehicles = mutableListOf(vehicle)
                 }
 
                 prefManager.saveVehicles(vehicles)
@@ -117,10 +115,10 @@ class ProfileVehicleInsuranceFragment : Fragment() {
     }
 
     private fun fillInTextFields() {
-        textedit_profile_vehicle_insurance_email.setText(vehicle!!.insurance!!.emailAgency)
-        textedit_profile_vehicle_insurance_phone.setText(vehicle!!.insurance!!.phoneAgency)
-        textedit_profile_vehicle_insurance_greenCard.setText(vehicle!!.insurance!!.greenCardNumber)
-        textedit_profile_vehicle_insurance_insuranceNumber.setText(vehicle!!.insurance!!.insuranceNumber)
+        textedit_profile_vehicle_insurance_email.setText(vehicle.insurance!!.emailAgency)
+        textedit_profile_vehicle_insurance_phone.setText(vehicle.insurance!!.phoneAgency)
+        textedit_profile_vehicle_insurance_greenCard.setText(vehicle.insurance!!.greenCardNumber)
+        textedit_profile_vehicle_insurance_insuranceNumber.setText(vehicle.insurance!!.insuranceNumber)
         if (vehicle.insurance!!.expires != null) {
             val expiresYear = vehicle.insurance!!.expires!!.year + 1900
             val expiresMonth = vehicle.insurance!!.expires!!.month + 1
@@ -136,16 +134,16 @@ class ProfileVehicleInsuranceFragment : Fragment() {
         this.vehicle = item
     }
 
-    fun isValidated():Boolean{
+    private fun isValidated():Boolean{
         if(validator.isNotEmpty(textedit_profile_vehicle_insurance_expires.text.toString())
             && validator.isValidEmail(textedit_profile_vehicle_insurance_email.text.toString())){
             return true
         } else {
             if(!validator.isNotEmpty(textedit_profile_vehicle_insurance_expires.text.toString())){
-                textedit_profile_vehicle_insurance_expires.setError("Datum moet ingevuld zijn.")
+                textedit_profile_vehicle_insurance_expires.error = "Datum moet ingevuld zijn."
             }
             if(!validator.isValidEmail(textedit_profile_vehicle_insurance_email.text.toString())){
-                textedit_profile_vehicle_insurance_email.setError("Geen geldig e-mailadres.")
+                textedit_profile_vehicle_insurance_email.error = "Geen geldig e-mailadres."
             }
         }
         return false

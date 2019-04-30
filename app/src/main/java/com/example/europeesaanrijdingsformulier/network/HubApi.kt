@@ -1,14 +1,13 @@
-package com.example.anthonyvannoppen.androidproject.network
+package com.example.europeesaanrijdingsformulier.network
 
-import com.example.europeesaanrijdingsformulier.profile.Insurance
 import com.example.europeesaanrijdingsformulier.insurer.Insurer
+import com.example.europeesaanrijdingsformulier.profile.Insurance
 import com.example.europeesaanrijdingsformulier.profile.License
 import com.example.europeesaanrijdingsformulier.profile.Profile
 import com.example.europeesaanrijdingsformulier.profile.Vehicle
 import com.example.europeesaanrijdingsformulier.report.Report
 import io.reactivex.Observable
 import retrofit2.http.*
-import retrofit2.http.DELETE
 
 
 
@@ -33,8 +32,6 @@ interface HubApi {
     @POST("/reports/pdf")
     fun createPdf(@Body report: Report): Observable<Report>
 
-    @PUT("/reports/{id}")
-    fun updateReport(@Path("id") id: Int, @Body report: Report): Observable<Report>
     @PUT("/profiles/{id}")
     fun updateProfile(@Path("id") id: Int, @Body profile: Profile): Observable<Profile>
     @PUT("/licenses/{id}")

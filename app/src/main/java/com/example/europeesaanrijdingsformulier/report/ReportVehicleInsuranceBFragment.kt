@@ -1,43 +1,21 @@
 package com.example.europeesaanrijdingsformulier.report
 
 
-import android.Manifest
-import android.app.DatePickerDialog
-import android.arch.lifecycle.ViewModelProviders
-import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
-import android.os.Build
 import android.os.Bundle
-import android.os.Environment
-import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.Spinner
-import com.example.anthonyvannoppen.androidproject.ui.HubViewModel
-
 import com.example.europeesaanrijdingsformulier.R
-import com.example.europeesaanrijdingsformulier.fragments.HomeFragment
 import com.example.europeesaanrijdingsformulier.insurer.Insurer
 import com.example.europeesaanrijdingsformulier.profile.Insurance
-import com.example.europeesaanrijdingsformulier.utils.*
-import com.google.gson.Gson
-import com.itextpdf.text.Document
-import com.itextpdf.text.Image
-import com.itextpdf.text.PageSize
-import com.itextpdf.text.Paragraph
-import com.itextpdf.text.pdf.PdfContentByte
-import com.itextpdf.text.pdf.PdfWriter
+import com.example.europeesaanrijdingsformulier.utils.DatePickerManager
+import com.example.europeesaanrijdingsformulier.utils.PrefManager
+import com.example.europeesaanrijdingsformulier.utils.SpinnerManager
+import com.example.europeesaanrijdingsformulier.utils.Validator
 import kotlinx.android.synthetic.main.fragment_report_vehicle_insurance_b.*
-import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.FileOutputStream
 import java.util.*
 
 
@@ -66,7 +44,7 @@ class ReportVehicleInsuranceBFragment : Fragment() {
         insurers = prefManager.getInsurers()!!
         val option = spinnerManager.instantiateSpinner(
             activity!!, R.id.spinner_report_vehicle_insurance_b_insurer,
-            insurers.map { insurer -> insurer!!.name }.toTypedArray()
+            insurers.map { insurer -> insurer.name }.toTypedArray()
         )
 
         val adapter = option.adapter as ArrayAdapter<String>
@@ -97,7 +75,7 @@ class ReportVehicleInsuranceBFragment : Fragment() {
                     dateSplit[2].toInt() - 1900, dateSplit[1].toInt() - 1, dateSplit[0].toInt() + 1
                 )
                 val insurer4 = insurers.find { insurer -> insurer.name == insurerName }
-                var insurance = Insurance(
+                val insurance = Insurance(
                     1,
                     textedit_report_vehicle_insurance_b_insuranceNumber.text.toString(),
                     textedit_report_vehicle_insurance_b_greenCard.text.toString(),
@@ -146,16 +124,16 @@ class ReportVehicleInsuranceBFragment : Fragment() {
     fun addObject(item: Report) {
         this.report = item
     }
-    fun isValidated():Boolean{
+    private fun isValidated():Boolean{
         if(validator.isNotEmpty(textedit_report_vehicle_insurance_b_expires.text.toString())
             && validator.isValidEmail(textedit_report_vehicle_insurance_b_email.text.toString())){
             return true
         } else {
             if(!validator.isNotEmpty(textedit_report_vehicle_insurance_b_expires.text.toString())){
-                textedit_report_vehicle_insurance_b_expires.setError("Datum moet ingevuld zijn.")
+                textedit_report_vehicle_insurance_b_expires.error = "Datum moet ingevuld zijn."
             }
             if(!validator.isValidEmail(textedit_report_vehicle_insurance_b_email.text.toString())){
-                textedit_report_vehicle_insurance_b_email.setError("Geen geldig e-mailadres.")
+                textedit_report_vehicle_insurance_b_email.error = "Geen geldig e-mailadres."
             }
         }
         return false
