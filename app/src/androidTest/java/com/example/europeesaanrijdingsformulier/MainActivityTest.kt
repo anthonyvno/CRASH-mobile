@@ -16,6 +16,7 @@ import android.widget.DatePicker
 import android.widget.TimePicker
 import org.hamcrest.CoreMatchers.anything
 import org.hamcrest.Matchers
+import org.hamcrest.Matchers.containsString
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -239,6 +240,10 @@ class MainActivityTest{
         Espresso.onView(ViewMatchers.withId(R.id.textedit_report_vehicle_insurance_a_phone)).perform(ViewActions.typeText(agencyPhone))
         Espresso.closeSoftKeyboard()
         Espresso.onView(ViewMatchers.withId(R.id.button_report_vehicle_insurance_a_confirm)).perform(ViewActions.click())
+
+        Espresso.onView(ViewMatchers.withId(R.id.button_report_damage_a_confirm)).perform(ViewActions.click())
+
+
         Espresso.pressBack()
 
         Espresso.onView(ViewMatchers.withId(R.id.button_report_start_b_manual)).perform(ViewActions.click())
@@ -284,6 +289,8 @@ class MainActivityTest{
         Espresso.onView(ViewMatchers.withId(R.id.textedit_report_vehicle_insurance_b_phone)).perform(ViewActions.typeText(agencyPhone2))
         Espresso.closeSoftKeyboard()
         Espresso.onView(ViewMatchers.withId(R.id.button_report_vehicle_insurance_b_confirm)).perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(R.id.button_report_damage_b_confirm)).perform(ViewActions.click())
+
 
         Espresso.onView(ViewMatchers.withId(R.id.switch_circ_1a)).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withId(R.id.switch_circ_3a)).perform(ViewActions.click())

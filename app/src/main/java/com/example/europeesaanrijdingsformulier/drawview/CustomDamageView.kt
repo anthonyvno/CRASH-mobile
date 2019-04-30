@@ -112,5 +112,8 @@ class CustomDamageView @JvmOverloads constructor(
         drawManager.clearCanvas()
         invalidate()
     }
+    fun getBitmap(): Bitmap {
+        return this.drawingCache
+    }
 
 }

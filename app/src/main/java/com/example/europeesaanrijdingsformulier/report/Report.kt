@@ -23,7 +23,10 @@ class Report(
     ),
     @field: Json(name = "sketch") var sketch: String? = "",
     @field: Json(name = "signatures") var signatures: Array<String>? = emptyArray(),
-    @field: Json(name = "pictures") var pictures: Array<String>? = emptyArray()
+    @field: Json(name = "pictures") var pictures: Array<String>? = emptyArray(),
+    @field: Json(name = "remarks") var remarks: Array<String>? = emptyArray(),
+    @field: Json(name = "damageIndications") var damageIndications: Array<String>? = emptyArray()
 
 
-) : Parcelable, Serializable
+
+    ) : Parcelable, Serializable

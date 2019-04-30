@@ -2,14 +2,18 @@ package com.example.europeesaanrijdingsformulier.report
 
 
 import android.app.AlertDialog
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.europeesaanrijdingsformulier.R
 import com.example.europeesaanrijdingsformulier.utils.PrefManager
 import kotlinx.android.synthetic.main.fragment_report_damage_a.*
+import kotlinx.android.synthetic.main.fragment_report_damage_b.*
+import java.io.ByteArrayOutputStream
 
 
 class ReportDamageAFragment : Fragment() {
@@ -49,6 +53,15 @@ class ReportDamageAFragment : Fragment() {
         }
 
         button_report_damage_a_confirm.setOnClickListener{
+
+            val bitmapA = damageview_a.getBitmap()
+            val streamA = ByteArrayOutputStream()
+            bitmapA.compress(Bitmap.CompressFormat.PNG,100,streamA)
+            val bytearrayA = streamA.toByteArray()
+            val encodedA = Base64.encodeToString(bytearrayA, Base64.DEFAULT)
+
+            report.damageIndications = arrayOf(encodedA)
+            report.remarks = arrayOf(text_report_damage_a_comment.text.toString())
 
             AlertDialog.Builder(activity)
                 .setIcon(android.R.drawable.ic_dialog_alert)

@@ -1,14 +1,17 @@
 package com.example.europeesaanrijdingsformulier.report
 
 
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
 import com.example.europeesaanrijdingsformulier.R
 import kotlinx.android.synthetic.main.fragment_report_damage_b.*
+import java.io.ByteArrayOutputStream
 
 class ReportDamageBFragment : Fragment() {
 
@@ -45,6 +48,14 @@ class ReportDamageBFragment : Fragment() {
         }
         button_report_damage_b_confirm.setOnClickListener {
 
+            val bitmapA = damageview_b.getBitmap()
+            val streamA = ByteArrayOutputStream()
+            bitmapA.compress(Bitmap.CompressFormat.PNG,100,streamA)
+            val bytearrayA = streamA.toByteArray()
+            val encodedA = Base64.encodeToString(bytearrayA, Base64.DEFAULT)
+
+            report.damageIndications = arrayOf(report.damageIndications!![0],encodedA)
+            report.remarks = arrayOf(report.remarks!![0],text_report_damage_b_comment.text.toString())
 
             val fragment = ReportCircumstancesFragment()
             fragment.addObject(report)
