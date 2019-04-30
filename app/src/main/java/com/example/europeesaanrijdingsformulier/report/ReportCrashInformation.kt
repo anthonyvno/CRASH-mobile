@@ -14,8 +14,10 @@ import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
-
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.EditText
+import android.widget.Spinner
 import com.example.europeesaanrijdingsformulier.R
 import com.example.europeesaanrijdingsformulier.utils.DatePickerManager
 import com.example.europeesaanrijdingsformulier.utils.SpinnerManager
@@ -130,9 +132,13 @@ class ReportCrashInformation : Fragment() {
                 PERMISSION_REQUEST_ACCESS_FINE_LOCATION)
             return
         }
-        geoLocator = GeoLocator(activity!!.applicationContext, activity)
-        geocoder =  Geocoder(activity)
-        getLocation()
+        try{
+            geoLocator = GeoLocator(context, activity)
+            geocoder =  Geocoder(activity)
+            getLocation()
+        }catch (e:Exception){
+            println(e.message)
+        }
     }
 
     private fun getLocation() {
@@ -224,10 +230,13 @@ class ReportCrashInformation : Fragment() {
         if (requestCode == PERMISSION_REQUEST_ACCESS_FINE_LOCATION) {
             when (grantResults[0]) {
                 PackageManager.PERMISSION_GRANTED -> {
-                    println("permission granted")
-                    geoLocator = GeoLocator(activity!!.applicationContext, activity)
-                    geocoder =  Geocoder(activity)
-                    getLocation()
+                    try{
+                        geoLocator = GeoLocator(context, activity)
+                        geocoder =  Geocoder(activity)
+                        getLocation()
+                    }catch (e:Exception){
+                        println(e.message)
+                    }
                 }
                 PackageManager.PERMISSION_DENIED -> println("need perm")//Tell to user the need of grant permission
             }

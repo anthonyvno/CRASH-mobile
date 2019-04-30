@@ -23,7 +23,10 @@
             android:thumb="@color/white"
     />
 
-    <Button
+    <android.support.v7.widget.AppCompatButton
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:backgroundTint="@color/colorPrimary"
             android:text="Volgende >"
             android:layout_width="0dp"
             android:layout_height="wrap_content" android:id="@+id/button_report_crash_information_confirm"
@@ -54,6 +57,7 @@
 
                 <android.support.design.widget.TextInputEditText
                         android:layout_width="wrap_content"
+                        android:textStyle="bold"
                         android:id="@+id/textedit_report_crash_information_street"
                         android:layout_height="wrap_content"
                         android:inputType="textPersonName"
