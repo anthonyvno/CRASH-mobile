@@ -11,18 +11,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
-import android.widget.Adapter
 import android.widget.Toast
 import com.example.europeesaanrijdingsformulier.R
 import com.example.europeesaanrijdingsformulier.profile.Profile
 import com.example.europeesaanrijdingsformulier.profile.Vehicle
-import com.example.europeesaanrijdingsformulier.profile.VehicleViewAdapter
 import com.example.europeesaanrijdingsformulier.utils.PrefManager
 import com.example.europeesaanrijdingsformulier.utils.QRManager
-import com.google.gson.Gson
 import com.google.zxing.integration.android.IntentIntegrator
-import kotlinx.android.synthetic.main.fragment_profile_vehicle_list.*
 import kotlinx.android.synthetic.main.fragment_report_start_a.*
 
 
@@ -62,12 +57,11 @@ class ReportStartAFragment : Fragment() {
 
             //voeg profile toe
 
-
             if(prefManager.getProfile()==null){
                 Toast.makeText(activity, Html.fromHtml("<font color='#FF0000' ><b>" + "Geen profiel gevonden" + "</b></font>")
                     , Toast.LENGTH_LONG).show()
 
-            } else if(profile.vehicles!!.size>1){
+            } else if(!prefManager.getProfile()?.vehicles.isNullOrEmpty() && prefManager.getProfile()?.vehicles?.size!!>1){
                 profile = prefManager.getProfile()!!
                 dialog  = Dialog(activity)
                 dialog.setContentView(R.layout.dialog_vehicle_list)
@@ -77,6 +71,7 @@ class ReportStartAFragment : Fragment() {
                 dialog.show()
 
             } else {
+                profile = prefManager.getProfile()!!
                 val fragment = ReportAlgemeenAFragment()
                 fragment.addReport(report)
                 fragment.addProfile(profile)
