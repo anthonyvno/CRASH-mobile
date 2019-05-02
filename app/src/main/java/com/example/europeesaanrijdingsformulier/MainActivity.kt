@@ -2,6 +2,7 @@ package com.example.europeesaanrijdingsformulier
 
 import android.app.AlertDialog
 import android.app.FragmentManager.POP_BACK_STACK_INCLUSIVE
+import android.app.ProgressDialog
 import android.arch.lifecycle.ViewModelProviders
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -31,11 +32,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: HubViewModel
     val connectionManager = ConnectionManager()
     private lateinit var mConnReceiver: BroadcastReceiver
+    private lateinit var progress: ProgressDialog
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        progress = ProgressDialog(this)
 
         setContentView(R.layout.activity_main)
         setSupportActionBar(my_toolbar)
@@ -50,11 +54,11 @@ class MainActivity : AppCompatActivity() {
 
 
         //clear local
-
+/*
            val sharedPref = getSharedPreferences(R.string.preferences_profile.toString(), Context.MODE_PRIVATE)
              var editor = sharedPref.edit()
              editor.clear().apply()
-
+*/
         //test
         mConnReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
@@ -96,6 +100,16 @@ class MainActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.menu_main, menu)
 
         return true
+    }
+
+    open fun showLoading(){
+        progress.setMessage("Laden..")
+        //progress.setIndeterminate(false)
+        //progress.setCancelable(true)
+        progress.show()
+    }
+    fun stopLoading(){
+        progress.dismiss()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
