@@ -79,7 +79,10 @@
         />
     </android.support.design.widget.TextInputLayout>
 
-    <Button
+    <android.support.v7.widget.AppCompatButton
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            app:backgroundTint="@color/colorPrimary"
             android:text="Volgende >"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
