@@ -67,22 +67,23 @@ class ReportStartAFragment : Fragment() {
                 Toast.makeText(activity, Html.fromHtml("<font color='#FF0000' ><b>" + "Geen profiel gevonden" + "</b></font>")
                     , Toast.LENGTH_LONG).show()
 
-            } else {
+            } else if(profile.vehicles!!.size>1){
                 profile = prefManager.getProfile()!!
-                //val fragment = ReportAlgemeenAFragment()
                 dialog  = Dialog(activity)
                 dialog.setContentView(R.layout.dialog_vehicle_list)
                 val mList = dialog.findViewById<RecyclerView>(R.id.fragment_dialog_list)
                 val adapter = DialogViewAdapter(this,profile.vehicles!!)
                 mList.adapter = adapter
                 dialog.show()
-/*
+
+            } else {
+                val fragment = ReportAlgemeenAFragment()
                 fragment.addReport(report)
                 fragment.addProfile(profile)
                 this.fragmentManager!!.beginTransaction()
                     .replace(R.id.container_main, fragment)
                     .addToBackStack(null)
-                    .commit()*/
+                    .commit()
             }
 
         }

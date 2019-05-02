@@ -36,13 +36,6 @@ class ReportDamageBFragment : Fragment() {
         damageview_b.setVehicle(drawable)
         super.onStart()
 
-
-        button_report_damage_b_undo.setOnClickListener{
-            damageview_b.undo()
-        }
-        button_report_damage_b_redo.setOnClickListener{
-            damageview_b.redo()
-        }
         button_report_damage_b_clear.setOnClickListener{
             damageview_b.clearCanvas()
         }
