@@ -3,23 +3,26 @@ package com.example.europeesaanrijdingsformulier
 import android.app.AlertDialog
 import android.app.FragmentManager.POP_BACK_STACK_INCLUSIVE
 import android.arch.lifecycle.ViewModelProviders
-import android.content.*
-
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.net.ConnectivityManager
 import android.os.Bundle
-
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import com.example.europeesaanrijdingsformulier.ui.HubViewModel
+import android.widget.Toast
 import com.example.europeesaanrijdingsformulier.fragments.HomeFragment
 import com.example.europeesaanrijdingsformulier.fragments.ReportListFragment
-import com.example.europeesaanrijdingsformulier.utils.PrefManager
-import kotlinx.android.synthetic.main.activity_main.*
-import android.net.ConnectivityManager
-import android.widget.Toast
-import com.example.europeesaanrijdingsformulier.utils.inReport
 import com.example.europeesaanrijdingsformulier.insurer.Insurer
+import com.example.europeesaanrijdingsformulier.ui.HubViewModel
 import com.example.europeesaanrijdingsformulier.utils.ConnectionManager
+import com.example.europeesaanrijdingsformulier.utils.PrefManager
+import com.example.europeesaanrijdingsformulier.utils.inReport
+import kotlinx.android.synthetic.main.activity_main.*
+
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -32,11 +35,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-       /*  geoLocator = GeoLocator(applicationContext, this@MainActivity)
-        geocoder =  Geocoder(this)
-        println("GEO: " + geoLocator.lattitude);
-        println("GEO: " + geoLocator.longitude);
-        println("GEO: " + findGeocoder())*/
+
+
         setContentView(R.layout.activity_main)
         setSupportActionBar(my_toolbar)
         prefManager = PrefManager(this)
@@ -46,6 +46,8 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
+
+
 
         //clear local
 /*
