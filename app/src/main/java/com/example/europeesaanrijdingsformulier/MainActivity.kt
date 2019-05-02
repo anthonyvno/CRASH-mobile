@@ -55,6 +55,7 @@ class MainActivity : AppCompatActivity() {
              var editor = sharedPref.edit()
              editor.clear().apply()
 */
+        //test
         mConnReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
                 if (connectionManager.checkConnection(context)) {
