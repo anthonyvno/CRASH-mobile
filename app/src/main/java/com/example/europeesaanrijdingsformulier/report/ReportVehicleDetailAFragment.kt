@@ -81,9 +81,11 @@ class ReportVehicleDetailAFragment : Fragment() {
             val licensePlate = textedit_report_vehicle_detail_a_licensePlate.text.toString()
 
             if(report.profiles.first().vehicles!!.isNotEmpty()){
-                report.profiles.first().vehicles = listOf(Vehicle(1,country,licensePlate,brand,model,category,report.profiles.first().vehicles?.first()?.insurance))
+                report.profiles.first().vehicles!!.first().licensePlate = licensePlate
+                report.profiles.first().vehicles!!.first().brand = brand
+                report.profiles.first().vehicles!!.first().model = model
             } else {
-                report.profiles.first().vehicles = listOf(Vehicle(1,country,licensePlate,brand,model,category))
+                report.profiles.first().vehicles = listOf(Vehicle(0,country,licensePlate,brand,model,category))
             }
 
             val fragment = ReportVehicleInsuranceAFragment()

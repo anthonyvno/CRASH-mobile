@@ -1,20 +1,28 @@
 package com.example.europeesaanrijdingsformulier.report
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.RecyclerView
 import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.widget.Adapter
 import android.widget.Toast
 import com.example.europeesaanrijdingsformulier.R
 import com.example.europeesaanrijdingsformulier.profile.Profile
+import com.example.europeesaanrijdingsformulier.profile.Vehicle
+import com.example.europeesaanrijdingsformulier.profile.VehicleViewAdapter
 import com.example.europeesaanrijdingsformulier.utils.PrefManager
 import com.example.europeesaanrijdingsformulier.utils.QRManager
+import com.google.gson.Gson
 import com.google.zxing.integration.android.IntentIntegrator
+import kotlinx.android.synthetic.main.fragment_profile_vehicle_list.*
 import kotlinx.android.synthetic.main.fragment_report_start_a.*
 
 
@@ -23,6 +31,7 @@ class ReportStartAFragment : Fragment() {
     private lateinit var report: Report
     private lateinit var prefManager: PrefManager
     private lateinit var profile: Profile
+    private lateinit var dialog: Dialog
     private val qrManager = QRManager()
 
 
@@ -60,13 +69,20 @@ class ReportStartAFragment : Fragment() {
 
             } else {
                 profile = prefManager.getProfile()!!
-                val fragment = ReportAlgemeenAFragment()
+                //val fragment = ReportAlgemeenAFragment()
+                dialog  = Dialog(activity)
+                dialog.setContentView(R.layout.dialog_vehicle_list)
+                val mList = dialog.findViewById<RecyclerView>(R.id.fragment_dialog_list)
+                val adapter = DialogViewAdapter(this,profile.vehicles!!)
+                mList.adapter = adapter
+                dialog.show()
+/*
                 fragment.addReport(report)
                 fragment.addProfile(profile)
                 this.fragmentManager!!.beginTransaction()
                     .replace(R.id.container_main, fragment)
                     .addToBackStack(null)
-                    .commit()
+                    .commit()*/
             }
 
         }
@@ -112,6 +128,30 @@ class ReportStartAFragment : Fragment() {
             }
 
         }
+    }
+
+    fun startNewFragmentForA(pos:Int){
+
+        if(pos !=0){
+            val mVehicles = profile.vehicles as MutableList<Vehicle>
+            mVehicles[pos].id = 0
+            val previousVehicle = mVehicles.set(0, mVehicles[pos])
+            previousVehicle.id = pos
+
+            mVehicles.removeAt(pos)
+            mVehicles.add(previousVehicle)
+            profile.vehicles = mVehicles
+        }
+
+        dialog.hide()
+
+        val fragment = ReportAlgemeenAFragment()
+        fragment.addReport(report)
+        fragment.addProfile(profile)
+        this.fragmentManager!!.beginTransaction()
+            .replace(R.id.container_main, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 
 

@@ -10,9 +10,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.europeesaanrijdingsformulier.R
+import com.example.europeesaanrijdingsformulier.profile.Vehicle
 import com.example.europeesaanrijdingsformulier.utils.PrefManager
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_report_damage_a.*
-import kotlinx.android.synthetic.main.fragment_report_damage_b.*
 import java.io.ByteArrayOutputStream
 
 
@@ -70,8 +71,11 @@ class ReportDamageAFragment : Fragment() {
                 .setPositiveButton(
                     "Ja"
                 ) { dialog, which ->
+                    val gson = Gson()
+                    println(gson.toJson(report.profiles))
+
                     prefManager.saveLicense(report.profiles[0].license!!)
-                    val vehicles = mutableListOf(report.profiles[0].vehicles!![0])
+                    val vehicles = report.profiles[0].vehicles!! as MutableList<Vehicle>
                     prefManager.saveVehicles(vehicles)
                     prefManager.saveProfile(report.profiles[0])
                 }
