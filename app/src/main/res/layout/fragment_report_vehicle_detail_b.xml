@@ -74,6 +74,7 @@
                         android:id="@+id/textedit_report_vehicle_detail_b_brand"
                         android:layout_height="wrap_content"
                         android:inputType="textPersonName"
+                        android:textStyle="bold"
                         android:hint="Merk"
                         android:ems="10"
                 />
@@ -92,6 +93,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="textPersonName"
                         android:hint="Model"
+                        android:textStyle="bold"
                         android:ems="10"
                 />
             </android.support.design.widget.TextInputLayout>
@@ -126,6 +128,7 @@
                         android:id="@+id/textedit_report_vehicle_detail_b_licensePlate"
                         android:layout_height="wrap_content"
                         android:inputType="textPersonName"
+                        android:textStyle="bold"
                         android:hint="Nummerplaat"
                         android:ems="10"
                 />

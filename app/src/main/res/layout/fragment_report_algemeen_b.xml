@@ -48,7 +48,8 @@
                 android:id="@+id/textedit_algemeen_b_firstname"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
-                android:hint="First Name"
+                android:hint="Voornaam"
+                android:textStyle="bold"
                 android:ems="10"
         />
     </android.support.design.widget.TextInputLayout>
@@ -66,7 +67,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/textedit_algemeen_b_lastname"
                 android:inputType="textPersonName"
-                android:hint="Last Name"
+                android:hint="Familienaam"
+                android:textStyle="bold"
                 android:ems="10"
         />
     </android.support.design.widget.TextInputLayout>
@@ -87,6 +89,7 @@
                 android:id="@+id/textedit_algemeen_b_email"
                 android:inputType="textPersonName"
                 android:hint="E-Mail"
+                android:textStyle="bold"
                 android:ems="10"
         />
     </android.support.design.widget.TextInputLayout>
