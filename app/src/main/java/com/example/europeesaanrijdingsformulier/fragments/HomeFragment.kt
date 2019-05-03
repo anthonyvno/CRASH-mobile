@@ -88,7 +88,7 @@ class HomeFragment : Fragment() {
         button_home_toProfile.setOnClickListener{
             this.fragmentManager!!.beginTransaction()
                 .setCustomAnimations(R.anim.abc_fade_in,R.anim.abc_fade_out,R.anim.abc_fade_in,R.anim.abc_fade_out)
-                .replace(R.id.container_main,ProfileSummaryFragment())
+                .replace(R.id.container_main,ProfileSummaryFragment(),"summary")
                 .addToBackStack("home_to_profileSummary")
                 .commit()
         }
