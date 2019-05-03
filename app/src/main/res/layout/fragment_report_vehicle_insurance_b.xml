@@ -59,6 +59,7 @@
                         android:id="@+id/textedit_report_vehicle_insurance_b_greenCard"
                         android:layout_height="wrap_content"
                         android:inputType="textPersonName"
+                        android:textStyle="bold"
                         android:hint="Nummer groene kaart"
                         android:ems="10"
                 />
@@ -79,6 +80,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="textPersonName"
                         android:hint="Verzekeringsnummer"
+                        android:textStyle="bold"
                         android:ems="10"
                 />
             </android.support.design.widget.TextInputLayout>
@@ -117,6 +119,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="textPersonName"
                         android:clickable="true"
+                        android:textStyle="bold"
                         android:editable="false"
                         android:focusable="false"
                         android:hint="Geldig tot"
@@ -139,6 +142,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="textPersonName"
                         android:hint="E-mail agentschap"
+                        android:textStyle="bold"
                         android:ems="10"
                 />
             </android.support.design.widget.TextInputLayout>
@@ -157,6 +161,7 @@
                         android:id="@+id/textedit_report_vehicle_insurance_b_phone"
                         android:layout_height="wrap_content"
                         android:inputType="textPersonName"
+                        android:textStyle="bold"
                         android:hint="Telefoon agentschap"
                         android:ems="10"
                 />

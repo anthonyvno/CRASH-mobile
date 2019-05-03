@@ -58,6 +58,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
                 android:hint="Geldig tot"
+                android:textStyle="bold"
                 android:ems="10"
         />
 
@@ -75,6 +76,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
                 android:hint="Rijbewijsnummer"
+                android:textStyle="bold"
                 android:ems="10"
         />
     </android.support.design.widget.TextInputLayout>

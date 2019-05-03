@@ -53,6 +53,7 @@
                 android:layout_width="wrap_content"
                 android:id="@+id/textedit_report_license_a_expires"
                 android:clickable="true"
+                android:textStyle="bold"
                 android:editable="false"
                 android:focusable="false"
                 android:layout_height="wrap_content"
@@ -75,6 +76,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
                 android:hint="Rijbewijsnummer"
+                android:textStyle="bold"
                 android:ems="10"
         />
     </android.support.design.widget.TextInputLayout>
