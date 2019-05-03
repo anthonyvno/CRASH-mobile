@@ -24,8 +24,6 @@ import com.example.europeesaanrijdingsformulier.utils.inReport
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-
-
 class MainActivity : AppCompatActivity() {
 
     private lateinit var prefManager: PrefManager
@@ -33,7 +31,6 @@ class MainActivity : AppCompatActivity() {
     val connectionManager = ConnectionManager()
     private lateinit var mConnReceiver: BroadcastReceiver
     private lateinit var progress: ProgressDialog
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,18 +50,17 @@ class MainActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayShowHomeEnabled(true)
 
 
-
         //clear local
-/*
-           val sharedPref = getSharedPreferences(R.string.preferences_profile.toString(), Context.MODE_PRIVATE)
-             var editor = sharedPref.edit()
-             editor.clear().apply()
-*/
+
+        val sharedPref = getSharedPreferences(R.string.preferences_profile.toString(), Context.MODE_PRIVATE)
+        var editor = sharedPref.edit()
+        editor.clear().apply()
+
         //test
         mConnReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
                 if (connectionManager.checkConnection(context)) {
-                    if(inReport){
+                    if (inReport) {
                         Toast.makeText(applicationContext, "Verbonden met internet", Toast.LENGTH_LONG).show()
                     }
                 } else {
@@ -75,7 +71,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
         supportFragmentManager.beginTransaction()
-            .add(R.id.container_main, HomeFragment())
+            .add(R.id.container_main, HomeFragment(), "home")
             .addToBackStack("main")
             .commit()
 
@@ -83,7 +79,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        this.registerReceiver(this.mConnReceiver,
+        this.registerReceiver(
+            this.mConnReceiver,
             IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
         )
         if (connectionManager.checkConnection(this)) {
@@ -91,6 +88,7 @@ class MainActivity : AppCompatActivity() {
             println(prefManager.getInsurers())
         }
     }
+
     override fun onPause() {
         super.onPause()
         this.unregisterReceiver(this.mConnReceiver)
@@ -103,13 +101,14 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    open fun showLoading(){
+    open fun showLoading() {
         progress.setMessage("Laden..")
         //progress.setIndeterminate(false)
         //progress.setCancelable(true)
         progress.show()
     }
-    fun stopLoading(){
+
+    fun stopLoading() {
         progress.dismiss()
     }
 
@@ -139,24 +138,17 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         val fm = supportFragmentManager
-        if (fm.findFragmentByTag("summary") != null && fm.findFragmentByTag("summary")!!.isVisible) {
-            fm.popBackStack("home_to_profileSummary", POP_BACK_STACK_INCLUSIVE)
+        if (fm.findFragmentByTag("home") != null && fm.findFragmentByTag("home")!!.isVisible) {
+            finish()
+            //System.exit(0)
         } else
-            if (fm.findFragmentByTag("insurance") != null && fm.findFragmentByTag("insurance")!!.isVisible) {
-                fm.popBackStack("list_to_detail", POP_BACK_STACK_INCLUSIVE)
-            } else {
-                if (fm.findFragmentByTag("startB") != null && fm.findFragmentByTag("startB")!!.isVisible) {
-                    AlertDialog.Builder(this)
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setTitle("Afsluiten formulier")
-                        .setMessage("Wilt u terug gaan naar het beginscherm? Ingevulde gegevens gaan verloren.")
-                        .setPositiveButton(
-                            "Ja"
-                        ) { dialog, which -> fm.popBackStack("home_to_crashinformation", POP_BACK_STACK_INCLUSIVE) }
-                        .setNegativeButton("Nee", null)
-                        .show()
+            if (fm.findFragmentByTag("summary") != null && fm.findFragmentByTag("summary")!!.isVisible) {
+                fm.popBackStack("home_to_profileSummary", POP_BACK_STACK_INCLUSIVE)
+            } else
+                if (fm.findFragmentByTag("insurance") != null && fm.findFragmentByTag("insurance")!!.isVisible) {
+                    fm.popBackStack("list_to_detail", POP_BACK_STACK_INCLUSIVE)
                 } else {
-                    if (fm.findFragmentByTag("circumstances") != null && fm.findFragmentByTag("circumstances")!!.isVisible) {
+                    if (fm.findFragmentByTag("startB") != null && fm.findFragmentByTag("startB")!!.isVisible) {
                         AlertDialog.Builder(this)
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .setTitle("Afsluiten formulier")
@@ -167,11 +159,27 @@ class MainActivity : AppCompatActivity() {
                             .setNegativeButton("Nee", null)
                             .show()
                     } else {
-                        super.onBackPressed()
+                        if (fm.findFragmentByTag("circumstances") != null && fm.findFragmentByTag("circumstances")!!.isVisible) {
+                            AlertDialog.Builder(this)
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .setTitle("Afsluiten formulier")
+                                .setMessage("Wilt u terug gaan naar het beginscherm? Ingevulde gegevens gaan verloren.")
+                                .setPositiveButton(
+                                    "Ja"
+                                ) { dialog, which ->
+                                    fm.popBackStack(
+                                        "home_to_crashinformation",
+                                        POP_BACK_STACK_INCLUSIVE
+                                    )
+                                }
+                                .setNegativeButton("Nee", null)
+                                .show()
+                        } else {
+                            super.onBackPressed()
+                        }
                     }
+
+
                 }
-
-
-            }
     }
 }
