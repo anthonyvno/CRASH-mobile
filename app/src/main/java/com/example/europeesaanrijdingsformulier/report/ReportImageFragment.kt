@@ -63,6 +63,7 @@ class ReportImageFragment : Fragment() {
                 report.pictures = temp.toTypedArray()
 
 
+                progress_bar2.visibility = View.VISIBLE
                 val fragment = ReportOverviewFragment()
                 fragment.addObject(report)
                 this.fragmentManager!!.beginTransaction()

@@ -149,8 +149,6 @@ dependencies {
     //Locationhelper
     implementation 'com.github.AravindVijay7:GeoLocator-Android:1.0.2'
 
-
-
     // Adds the annotation processor dependency to the annotation processor classpath.
     //Android Studio by default will not allow you to navigate to generated Dagger 2
     // code as legitimate classes because they are not normally added to the source path.
