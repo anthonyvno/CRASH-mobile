@@ -22,7 +22,9 @@ import android.widget.Toast
 import com.example.europeesaanrijdingsformulier.R
 import com.example.europeesaanrijdingsformulier.utils.PrefManager
 import com.example.europeesaanrijdingsformulier.utils.QRManager
+import com.example.europeesaanrijdingsformulier.utils.dateFormatValue
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.common.BitMatrix
@@ -33,7 +35,9 @@ import kotlinx.android.synthetic.main.fragment_profile_summary.*
 class ProfileSummaryFragment : Fragment() {
 
     private lateinit var prefManager: PrefManager
-    private val gson = Gson()
+    private val gson = GsonBuilder()
+        .setDateFormat(dateFormatValue)
+        .create()
     private val qrManager = QRManager()
 
 
@@ -185,7 +189,8 @@ class ProfileSummaryFragment : Fragment() {
                         }
                         val vehicles = prefManager.getVehicles()
                         if (vehicles != null) {
-                            vehicles.add(profile.vehicles!!.first())
+                            profile.vehicles!!.forEach { v->vehicles.add(v) }
+                            //vehicles.add(profile.vehicles!!.first())
                             profile.vehicles = vehicles
                             prefManager.saveProfile(profile)
                             prefManager.saveVehicles(vehicles)

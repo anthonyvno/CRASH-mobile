@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.GridLayout
 import android.widget.ImageView
+import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.esafirm.imagepicker.features.ImagePicker
 import com.esafirm.imagepicker.model.Image
@@ -44,10 +45,15 @@ class ReportImageFragment : Fragment() {
 
 
         button_report_image_camera.setOnClickListener {
-            ImagePicker.create(this)
-                .limit(4)
-                .start()
-
+            try{
+                ImagePicker.create(this)
+                    .limit(4)
+                    .start()
+            }catch (e:Exception){
+                e.printStackTrace()
+                Toast.makeText(activity, "Probeer nogmaals", Toast.LENGTH_LONG
+                )
+            }
         }
 
         button_report_image_confirm.setOnClickListener {
