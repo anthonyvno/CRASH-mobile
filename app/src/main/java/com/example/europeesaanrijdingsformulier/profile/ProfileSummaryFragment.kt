@@ -94,14 +94,14 @@ class ProfileSummaryFragment : Fragment() {
         val profile = gson.fromJson(json, Profile::class.java)
         val license = gson.fromJson(json2, License::class.java)
         if (profile != null) {
-            text_profile_summary_personal.text = profile.firstName + " " + profile.lastName + profile.id
+            text_profile_summary_personal.text = profile.firstName + " " + profile.lastName
         } else {
             cardview2_profile_summary.visibility = View.INVISIBLE
             cardview3_profile_summary.visibility = View.INVISIBLE
         }
 
         if (license != null)
-            text_profile_summary_license.text = license.category + " " + license.licenseNumber + license.id
+            text_profile_summary_license.text = license.category + " " + license.licenseNumber
 
 
         cardview1_profile_summary.setOnClickListener {
@@ -172,6 +172,7 @@ class ProfileSummaryFragment : Fragment() {
                             .attach(this)
                             .commitAllowingStateLoss()
                     } else if (result.contents.startsWith("{\"email\"")) {
+                        println(result.contents)
                         val profile = qrManager.handleProfileScan(result.contents)
                         prefManager.saveProfile(profile)
                         if (profile.license != null) {

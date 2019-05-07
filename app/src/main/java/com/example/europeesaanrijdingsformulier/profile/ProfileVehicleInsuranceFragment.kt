@@ -69,8 +69,10 @@ class ProfileVehicleInsuranceFragment : Fragment() {
                 val date = textedit_profile_vehicle_insurance_expires.text.toString()
                 val dateSplit = date.split("/")
                 val dateExpires = Date(
-                    dateSplit[2].toInt() - 1900, dateSplit[1].toInt() - 1, dateSplit[0].toInt() + 1
+                    dateSplit[2].toInt() - 1900, dateSplit[1].toInt() - 1, dateSplit[0].toInt()
                 )
+                println(date)
+                println(dateExpires)
                 val insurer4 = insurers.find { insurer -> insurer.name == insurerName }
                 val insurance = Insurance(
                     1,
@@ -122,7 +124,7 @@ class ProfileVehicleInsuranceFragment : Fragment() {
         if (vehicle.insurance!!.expires != null) {
             val expiresYear = vehicle.insurance!!.expires!!.year + 1900
             val expiresMonth = vehicle.insurance!!.expires!!.month + 1
-            val expiresDate = vehicle.insurance!!.expires!!.date - 1
+            val expiresDate = vehicle.insurance!!.expires!!.date
             val expiresvalue = ("" + expiresDate.toString() + "/" +
                     expiresMonth.toString() + "/" + expiresYear.toString())
             textedit_profile_vehicle_insurance_expires.setText(expiresvalue)
