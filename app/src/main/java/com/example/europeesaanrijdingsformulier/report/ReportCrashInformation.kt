@@ -106,6 +106,8 @@ class ReportCrashInformation : Fragment() {
 
                 report = Report(
                     1, emptyList(), dateReport,
+                    textedit_report_crash_information_street.text.toString(),
+                    textedit_report_crash_information_streetNumber.text.toString(),
                     textedit_report_crash_information_postalCode.text.toString(),
                     textedit_report_crash_information_city.text.toString(),
                     country
@@ -182,6 +184,8 @@ class ReportCrashInformation : Fragment() {
         if (validator.isNotEmpty(textedit_report_crash_information_date.text.toString())
             && validator.isNotEmpty(textedit_report_crash_information_time.text.toString())
             && validator.isNotEmpty(textedit_report_crash_information_city.text.toString())
+            && validator.isNotEmpty(textedit_report_crash_information_streetNumber.text.toString())
+            && validator.isNotEmpty(textedit_report_crash_information_street.text.toString())
             && validator.isNotEmpty(textedit_report_crash_information_postalCode.text.toString())
             && validator.isNotEmpty(textedit_report_crash_information_street.text.toString())
         ){
@@ -197,6 +201,12 @@ class ReportCrashInformation : Fragment() {
                 textedit_report_crash_information_city.error = "Stad moet ingevuld zijn."
             }
             if(!validator.isNotEmpty(textedit_report_crash_information_postalCode.text.toString())){
+                textedit_report_crash_information_postalCode.error = "Postcode moet ingevuld zijn."
+            }
+            if(!validator.isNotEmpty(textedit_report_crash_information_street.text.toString())){
+                textedit_report_crash_information_postalCode.error = "Postcode moet ingevuld zijn."
+            }
+            if(!validator.isNotEmpty(textedit_report_crash_information_streetNumber.text.toString())){
                 textedit_report_crash_information_postalCode.error = "Postcode moet ingevuld zijn."
             }
             if(!validator.isNotEmpty(textedit_report_crash_information_street.text.toString())){

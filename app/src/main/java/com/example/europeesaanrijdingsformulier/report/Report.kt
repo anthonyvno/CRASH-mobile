@@ -13,6 +13,8 @@ class Report(
     // @field:Json(name = "dateReportReceived")val dateReportReceived: Date,
     @field:Json(name = "profiles") var profiles: List<Profile> = emptyList(),
     @field:Json(name = "dateCrash") val dateCrash: Date? = null,
+    @field:Json(name = "street") val street: String? = "",
+    @field:Json(name = "streetNumber") val streetNumber: String? = "",
     @field:Json(name = "postalCode") val postalCode: String? = "",
     @field:Json(name = "city") val city: String? = "",
     @field:Json(name = "country") val country: String? = "",
