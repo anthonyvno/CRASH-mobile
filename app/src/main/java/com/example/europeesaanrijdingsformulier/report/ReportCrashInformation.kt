@@ -100,7 +100,7 @@ class ReportCrashInformation : Fragment() {
                 val dateSplit = date.split("/")
                 val timeSplit = time.split(":")
                 val dateReport = Date(
-                    dateSplit[2].toInt() - 1900, dateSplit[1].toInt(), dateSplit[0].toInt()
+                    dateSplit[2].toInt() - 1900, dateSplit[1].toInt()-1, dateSplit[0].toInt()
                     , timeSplit[0].toInt(), timeSplit[1].toInt()
                 )
 
