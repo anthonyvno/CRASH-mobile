@@ -8,10 +8,10 @@ import java.io.Serializable
 @Parcelize
 class Vehicle(
     @field:Json(name = "id") var id: Int,
-    @field:Json(name = "country") val country: String,
+    @field:Json(name = "country") var country: String,
     @field:Json(name = "licensePlate") var licensePlate: String,
     @field:Json(name = "brand") var brand: String,
     @field:Json(name = "model") var model: String,
-    @field:Json(name = "type") val type: String,
+    @field:Json(name = "type") var type: String,
     @field:Json(name = "insurance") var insurance: Insurance? = null
 ) : Serializable, Parcelable

@@ -84,6 +84,8 @@ class ReportVehicleDetailAFragment : Fragment() {
                 report.profiles.first().vehicles!!.first().licensePlate = licensePlate
                 report.profiles.first().vehicles!!.first().brand = brand
                 report.profiles.first().vehicles!!.first().model = model
+                report.profiles.first().vehicles!!.first().type = category
+                report.profiles.first().vehicles!!.first().country = country
             } else {
                 report.profiles.first().vehicles = listOf(Vehicle(0,country,licensePlate,brand,model,category))
             }
